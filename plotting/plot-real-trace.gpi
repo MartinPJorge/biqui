@@ -1,0 +1,200 @@
+set term pdf
+load 'palette.pal'
+
+set linestyle  1 lw 25
+set linestyle  2 lw 10
+set linestyle  3 lw 25
+set linestyle  4 lw 10
+set linestyle  5 lw 10
+set linestyle  6 lw 10
+set linestyle  7 lw 5 pt 7 ps 1.5
+set linestyle  8 lw 5 pt 7 ps 1.5
+set linestyle  9 lw 10 pt 6 ps 1
+set linestyle 10 lw 1 pt 6 ps 2
+
+
+
+set out '/tmp/trace-lambda.pdf'
+
+trace_results='BiQui-aggregated_traffic-torino_v08.csv'
+set datafile separator ','
+
+set ylabel 'Torino Jan 1^{st} 2022 - {/Symbol l} [pkt/ms]' font ',30' offset -3,0
+set xlabel 'time [hour]' font ',30' offset 0,-1
+set lmargin 13
+set bmargin 4.75
+
+## Morning rysh
+#Set style rect fc ls 7 fs transparent noborder
+#Set object 1 rectangle from first 60,0 to first 110,3
+#Set label 'Morning Rush Hour' at first 85,.1 rotate by 90
+#
+## Morning rysh
+#Set object 2 rectangle from first 180,0 to first 230,3
+#Set label 'Afternoon Rush Hour' at first 205,.1 rotate by 90
+
+set grid
+
+#set xrange [0:280]
+#set xtics ("00:00" 0, "03:00" 35, "06:00" 70, "09:00" 105, "12:00" 140, "15:00" 175, "18:00" 210, "21:00" 245, "00:00" 280)
+set xtics ("03:00" 35, "09:00" 105, "15:00" 175, "21:00" 245)
+set tics out nomirror font ',20'
+
+set key bottom maxrows 1 font ',20'
+
+plot trace_results u 1 smooth acsplines ls 8 notitle
+
+
+
+
+
+# ###########################
+# ####### Plot DELAY #########
+# ###########################
+# 
+# set out '/tmp/trace-delay.pdf'
+# 
+# set ylabel 'delay [ms]'
+# 
+# maximo(x,y)=(x>y) ? x:y
+# minimo(x,y)=(x<y) ? x:y
+# set yrange [0:]
+# set key top left
+# 
+# unset label
+# 
+# 
+# 
+# #set y2label 'percentile' font ',30' offset 5,0
+# #set y2tics nomirror tc lt 1
+# #set y2range [.999990:1]
+# #set y2tics (0.999990, .999992, .999994, .999996, 0.999998, 1.000000)
+# #set rmargin 20
+# set multiplot
+# 
+# set xrange [0:280]
+# set yrange [40:]
+# set key maxrows 2 samplen 1 at first 20,75
+# 
+# plot trace_results u 0:(maximo($7,$8)) w l ls 6 axis x1y1 t '99.999',\
+#      trace_results u 0:11 w l ls 5 axis x1y1 t 'avg',\
+#      #trace_results u 0:(minimo($5,$6)) w p ls 9 axis x1y2 t 'reliab',\
+#      #trace_results u 0:((1-$4)*$9+$4*$10) w l ls 5 axis x1y1 t 'avg',\
+# 
+# set origin .6,.5
+# set size .3,.3
+# 
+# unset key
+# unset xlabel
+# unset ylabel
+# unset margin
+# set yrange [75:85]
+# set xrange [150:220]
+# set tics font ',10'
+# unset xtics
+# set xtics ('15:00' 175, '18:00' 210)
+# 
+# plot trace_results u 0:(maximo($7,$8)) w l ls 6 lw 3 t '99.999'
+# 
+# 
+# set origin .25,.3
+# set size .3,.3
+# set yrange [43.5:45.4]
+# set xrange [70:120]
+# set xtics ("09:00" 105)
+# set ytics (43.5, 44, 44.5, 45, 45.4)
+# 
+# plot trace_results u 0:11 w l ls 5 lw 3 t 'avg'
+# 
+# unset multiplot
+
+
+##############################
+######## PLOT OFFLOADING #####
+##############################
+
+set out '/tmp/trace-offload.pdf'
+
+unset y2label 
+unset y2tics 
+unset y2range
+unset rmargin
+
+set ylabel 'z'
+set yrange [.6:]
+
+set label 'rush hours' at first 150,0.65 center font ',25'
+set arrow from first 180,.68 to first 200,.75 fill lw 2
+set arrow from first 100,.65 to first 85,.7 fill lw 2
+
+plot trace_results u 0:4 w l ls 6 notitle,\
+
+
+
+#################
+### PLOT CPUS ###
+#################
+
+set out '/tmp/trace-cpus.pdf'
+
+set key top left nobox noopaque
+
+plot trace_results u 0:3 w l ls 6 t 'Cloud',\
+     trace_results u 0:2 w l ls 5 t 'Edge',\
+
+
+
+#########################
+# PLOT EACH ROAD TAFFIC #
+#########################
+
+reset
+set out '/tmp/trace-roads.pdf'
+set datafile separator ','
+set ylabel '{/Symbol l} [pkt/ms]'
+unset key
+
+
+load 'palette.pal'
+
+set linestyle  1 lw 25
+set linestyle  2 lw 10
+set linestyle  3 lw 25
+set linestyle  4 lw 10
+set linestyle  5 lw 10
+set linestyle  6 lw 10
+set linestyle  7 lw 5 pt 7 ps 1.5
+set linestyle  8 lw 5 pt 7 ps 1.5
+set linestyle  9 lw 2.5 pt 6
+set linestyle 10 lw 1 pt 6 ps 2
+
+set xrange [0:280]
+#set xtics ("00:00" 0, "03:00" 35, "06:00" 70, "09:00" 105, "12:00" 140, "15:00" 175, "18:00" 210, "21:00" 245, "00:00" 280)
+set xtics ("03:00" 35, "09:00" 105, "15:00" 175, "21:00" 245)
+set tics out nomirror font ',20'
+
+set key bottom maxrows 1 font ',20'
+
+
+set ylabel '{/Symbol l} [pkt/ms]' font ',30' offset -3,0
+set xlabel 'time [hour]' font ',30' offset 0,-1
+set lmargin 13
+set bmargin 4.75
+set grid
+set tics out nomirror
+
+set key top maxcols 4 maxrows 2 samplen .5 #width -4
+set arrow from first 90,.25 to first 90,1.3 head lw 4 front
+set arrow from first 200,.25 to first 200,1.3 head lw 4 front
+set label at 140,.8 center 'aggregated' front font ',20'
+
+set yrange [0:2.4]
+
+plot 'traffic_torino.csv' u 0:1 w l ls 1 t 'agnelli',\
+     'traffic_torino.csv' u 0:2 w l ls 2 t 'belfio',\
+     'traffic_torino.csv' u 0:3 w l ls 3 t 'einaudi',\
+     'traffic_torino.csv' u 0:4 w l ls 4 t 'francia',\
+     'traffic_torino.csv' u 0:5 w l ls 7 t 'ferraris',\
+     'traffic_torino.csv' u 0:6 w l ls 8 t 'cesar',\
+     'traffic_torino.csv' u 0:($1+$2+$3+$4+$5+$6) w l ls 10 lw 10 notitle,\
+

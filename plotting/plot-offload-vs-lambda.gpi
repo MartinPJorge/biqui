@@ -1,0 +1,381 @@
+set term pdf
+set out '/tmp/offload-vs-lambda.pdf'
+
+#set term tikz scale .5,.5
+#set out '/tmp/offload-vs-lambda.tex'
+
+set xlabel '{/Symbol l} [pkt/ms]' enhanced
+set ylabel 'z'
+
+set key autotitle columnheader
+
+set key bottom right maxrows 2
+set tics out nomirror
+set grid lw .25
+
+#set xrange [1.5:]
+set ytics format '%.2f'
+
+
+
+load 'palette.pal'
+
+set linestyle  1 lw 25
+set linestyle  2 lw 10
+set linestyle  3 lw 25
+set linestyle  4 lw 10
+set linestyle  5 lw 25
+set linestyle  6 lw 10
+set linestyle  7 lw 25
+set linestyle  8 lw 10
+set linestyle  9 lw 2.5 pt 6
+set linestyle 10 lw 2.5 pt 6 
+
+
+
+
+# Normalization command
+norma(f)="<python3 normalize.py --csv ".f." --value 1.001"
+
+
+
+# Results CSV for dedicated AWS
+exhaus_dedi='exhaustive-targetd_100-reliab_0.99999-mode_dedicatedhour-1690446766.csv'
+biqui_dedi='biqui-targetd_100-reliab_0.99999-mode_dedicatedhour-1690475918.csv'
+cloud_dedi='cloud_exhaust-targetd_100-reliab_0.99999-mode_dedicatedhour-1690464322-.csv'
+edge_dedi='edge_exhaust-targetd_100-reliab_0.99999-mode_dedicatedhour-1690476889.csv'
+
+# Results CSV for dedicated AWS +5% edge
+exhaus_dedi5p='exhaustive-targetd_100-reliab_0.99999-mode_dedicatedhour5p-1690476288.csv'
+biqui_dedi5p='biqui-targetd_100-reliab_0.99999-mode_dedicatedhour5p-1690476264.csv'
+cloud_dedi5p='cloud_exhaust-targetd_100-reliab_0.99999-mode_dedicatedhour5p-1690476277-.csv'
+edge_dedi5p='edge_exhaust-targetd_100-reliab_0.99999-mode_dedicatedhour5p-1690476272.csv'
+
+
+# Results CSV for dedicated AWS +5% edge @9.05[ms]
+exhaus_dediN5p='exhaustive-targetd_100-reliab_0.99999-mode_dedicatedNear5p-1690479167.csv'
+biqui_dediN5p='biqui-targetd_100-reliab_0.99999-mode_dedicatedNear5p-1690479179.csv'
+cloud_dediN5p='cloud_exhaust-targetd_100-reliab_0.99999-mode_dedicatedNear5p-1690479190-.csv'
+edge_dediN5p='edge_exhaust-targetd_100-reliab_0.99999-mode_dedicatedNear5p-1690479185.csv'
+
+
+# Results CSV for dedicated AWS +0% edge
+exhaus_dedi0p='exhaustive-targetd_100-reliab_0.99999-mode_dedicatedhour0p-1690456454.csv'
+biqui_dedi0p='biqui-targetd_100-reliab_0.99999-mode_dedicatedhour0p-1690475919.csv'
+cloud_dedi0p='cloud_exhaust-targetd_100-reliab_0.99999-mode_dedicatedhour0p-1690464324-.csv'
+edge_dedi0p='edge_exhaust-targetd_100-reliab_0.99999-mode_dedicatedhour0p-1690477254.csv'
+
+
+
+#plot norma(cloud_dedi)    u 5:3 w l ls 2  t 'OffAll ToD',\
+#     norma(edge_dedi)     u 5:3 w l ls 4  t 'LocAll ToD',\
+#     norma(biqui_dedi)    u 5:3 w l ls 6  t 'BiQui ToD +34\%',\
+#     norma(exhaus_dedi)   u 5:3 w p ls 10 t 'OPT ToD +34\%',\
+#     norma(biqui_dedi0p)  u 5:3 w l ls 5  t 'BiQui ToD +0\%',\
+#     norma(exhaus_dedi0p) u 5:3 w p ls 9  t 'OPT ToD +0\%',\
+
+
+#plot norma(cloud_dedi)    u 5:3 w l ls 2  t 'OffAll ToD',\
+#     norma(edge_dedi)     u 5:3 w l ls 4  t 'LocAll ToD',\
+#     norma(biqui_dediN5p)    u 5:3 w l ls 6  t 'BiQui ToD +34\% nE',\
+#     norma(exhaus_dediN5p)   u 5:3 w p ls 10 t 'OPT ToD +34\% nE',\
+
+
+
+
+
+
+
+
+# INFOCOM results
+# 18-22-x2-0
+biqui_18_22_x2_0='biqui-targetd_100-reliab_0.99999-mode_18-22-x2-0-1690568775.csv'
+exhau_18_22_x2_0='exhaustive-targetd_100-reliab_0.99999-mode_18-22-x2-0-1690568562.csv'
+locAl_18_22_x2_0='edge_exhaust-targetd_100-reliab_0.99999-mode_18-22-x2-0-1690569101.csv'
+offAl_18_22_x2_0='cloud_exhaust-targetd_100-reliab_0.99999-mode_18-22-x2-0-1690568951-.csv'
+
+# 18-22-x1-0
+biqui_18_22_x1_0='biqui-targetd_100-reliab_0.99999-mode_18-22-x1-0-1690568799.csv'
+exhau_18_22_x1_0='exhaustive-targetd_100-reliab_0.99999-mode_18-22-x1-0-1690568570.csv'
+locAl_18_22_x1_0='edge_exhaust-targetd_100-reliab_0.99999-mode_18-22-x1-0-1690569116.csv'
+offAl_18_22_x1_0='cloud_exhaust-targetd_100-reliab_0.99999-mode_18-22-x1-0-1690568973-.csv'
+
+# 18-22-0-x1.34
+biqui_18_22_0_x134='biqui-targetd_100-reliab_0.99999-mode_18-22-0-x1.34-1690568823.csv'
+exhau_18_22_0_x134='exhaustive-targetd_100-reliab_0.99999-mode_18-22-0-x1.34-1690568576.csv'
+locAl_18_22_0_x134='edge_exhaust-targetd_100-reliab_0.99999-mode_18-22-0-x1.34-1690569147.csv'
+offAl_18_22_0_x134='cloud_exhaust-targetd_100-reliab_0.99999-mode_18-22-0-x1.34-1690568995-.csv'
+
+# 18-22-x2-x1.34
+biqui_18_22_x2_x134='biqui-targetd_100-reliab_0.99999-mode_18-22-x2-x1.34-1690568865.csv'
+exhau_18_22_x2_x134='exhaustive-targetd_100-reliab_0.99999-mode_18-22-x2-x1.34-1690568683.csv'
+locAl_18_22_x2_x134='edge_exhaust-targetd_100-reliab_0.99999-mode_18-22-x2-x1.34-1690569165.csv'
+offAl_18_22_x2_x134='cloud_exhaust-targetd_100-reliab_0.99999-mode_18-22-x2-x1.34-1690569015-.csv'
+
+# 18-22-x1-x1.34
+biqui_18_22_x1_x134='biqui-targetd_100-reliab_0.99999-mode_18-22-x1-x1.34-1690568900.csv'
+exhau_18_22_x1_x134='exhaustive-targetd_100-reliab_0.99999-mode_18-22-x1-x1.34-1690568706.csv'
+locAl_18_22_x1_x134='edge_exhaust-targetd_100-reliab_0.99999-mode_18-22-x1-x1.34-1690569187.csv'
+offAl_18_22_x1_x134='cloud_exhaust-targetd_100-reliab_0.99999-mode_18-22-x1-x1.34-1690569039-.csv'
+
+
+
+# TOPO 2
+
+# 15-30-x2-0
+biqui_15_30_x2_0='biqui-targetd_100-reliab_0.99999-mode_15-30-x2-0-1690575204.csv'
+exhau_15_30_x2_0='exhaustive-targetd_100-reliab_0.99999-mode_15-30-x2-0-1690575008.csv'
+locAl_15_30_x2_0='edge_exhaust-targetd_100-reliab_0.99999-mode_15-30-x2-0-1690575665.csv'
+offAl_15_30_x2_0='cloud_exhaust-targetd_100-reliab_0.99999-mode_15-30-x2-0-1690575343-.csv'
+
+
+# 15-30-x1-0
+biqui_15_30_x1_0='biqui-targetd_100-reliab_0.99999-mode_15-30-x1-0-1690575214.csv'
+exhau_15_30_x1_0='exhaustive-targetd_100-reliab_0.99999-mode_15-30-x1-0-1690575022.csv'
+locAl_15_30_x1_0='edge_exhaust-targetd_100-reliab_0.99999-mode_15-30-x1-0-1690575678.csv'
+offAl_15_30_x1_0='cloud_exhaust-targetd_100-reliab_0.99999-mode_15-30-x1-0-1690575416-.csv'
+
+# 15-30-0-x134
+biqui_15_30_0_x134='biqui-targetd_100-reliab_0.99999-mode_15-30-0-x1.34-1690575224.csv'
+exhau_15_30_0_x134='exhaustive-targetd_100-reliab_0.99999-mode_15-30-0-x1.34-1690575044.csv'
+locAl_15_30_0_x134='edge_exhaust-targetd_100-reliab_0.99999-mode_15-30-0-x1.34-1690575688.csv'
+offAl_15_30_0_x134='cloud_exhaust-targetd_100-reliab_0.99999-mode_15-30-0-x1.34-1690575428-.csv'
+
+# 15-30-x2-x134
+biqui_15_30_x2_x134='biqui-targetd_100-reliab_0.99999-mode_15-30-x2-x1.34-1690575236.csv'
+exhau_15_30_x2_x134='exhaustive-targetd_100-reliab_0.99999-mode_15-30-x2-x1.34-1690575056.csv'
+locAl_15_30_x2_x134='edge_exhaust-targetd_100-reliab_0.99999-mode_15-30-x2-x1.34-1690575717.csv'
+offAl_15_30_x2_x134='cloud_exhaust-targetd_100-reliab_0.99999-mode_15-30-x2-x1.34-1690575442-.csv'
+
+# 15-30-x1-x134
+biqui_15_30_x1_x134='biqui-targetd_100-reliab_0.99999-mode_15-30-x1-x1.34-1690575501.csv'
+exhau_15_30_x1_x134='exhaustive-targetd_100-reliab_0.99999-mode_15-30-x1-x1.34-1690575071.csv'
+locAl_15_30_x1_x134='edge_exhaust-targetd_100-reliab_0.99999-mode_15-30-x1-x1.34-1690575733.csv'
+offAl_15_30_x1_x134='cloud_exhaust-targetd_100-reliab_0.99999-mode_15-30-x1-x1.34-1690575530-.csv'
+
+
+# set term pdf
+# set out '/tmp/offload-vs-lambda-18-22-x2-0.pdf'
+# plot norma(offAl_18_22_x2_0)  u 5:3 w l ls 2  t 'OffAll',\
+#      norma(locAl_18_22_x2_0)  u 5:3 w l ls 4  t 'LocAll',\
+#      norma(biqui_18_22_x2_0)  u 5:3 w l ls 6  t 'BiQui',\
+#      norma(exhau_18_22_x2_0)  u 5:3 w p ls 10 t 'OPT',\
+# 
+# 
+# set term pdf
+# set out '/tmp/offload-vs-lambda-18-22-x1-0.pdf'
+# plot norma(offAl_18_22_x1_0)  u 5:3 w l ls 2  t 'OffAll',\
+#      norma(locAl_18_22_x1_0)  u 5:3 w l ls 4  t 'LocAll',\
+#      norma(biqui_18_22_x1_0)  u 5:3 w l ls 6  t 'BiQui',\
+#      norma(exhau_18_22_x1_0)  u 5:3 w p ls 10 t 'OPT',\
+# 
+# 
+# set term pdf
+# set out '/tmp/offload-vs-lambda-18-22-0-x1.34.pdf'
+# plot norma(offAl_18_22_0_x134)  u 5:3 w l ls 2  t 'OffAll',\
+#      norma(locAl_18_22_0_x134)  u 5:3 w l ls 4  t 'LocAll',\
+#      norma(biqui_18_22_0_x134)  u 5:3 w l ls 6  t 'BiQui',\
+#      norma(exhau_18_22_0_x134)  u 5:3 w p ls 10 t 'OPT',\
+# 
+
+# set term pdf
+# set out '/tmp/offload-vs-lambda-18-22-0-x1.34.pdf'
+# 
+# 
+# set tics font ',20'
+# set xlabel font ',30' offset 0,-2
+# set ylabel "z" font ',30' offset -3,0
+# set lmargin 12
+# set key bottom right maxrows 4 font ',20'
+# set arrow from first 0.71,0 to first 0.71,4.5 nohead lw 2 front
+# set label 'Edge Exhausted' at 0.60,.2 rotate by 90 font ', 20' front
+# 
+# plot norma(offAl_18_22_0_x134)  u 5:3 w l ls 1  t 'OffAll',\
+#      norma(locAl_18_22_0_x134)  u 5:3 w l ls 3  t 'LocAll',\
+#      norma(biqui_18_22_0_x134)  u 5:3 w l ls 6  t 'BiQui',\
+#      norma(exhau_18_22_0_x134)  u 5:3 w p ls 10 t 'OPT',\
+# # 
+# # 
+# # 
+# set term pdf
+# set out '/tmp/offload-vs-lambda-18-22-x2-x1.34.pdf'
+
+
+# unset label
+# unset arrow
+# set arrow from first 1.64,0 to first 1.64,9 nohead lw 2 front
+# set label "Cloud Exhausted" at 1.5,.1 rotate by 90 font ', 20' front
+# set key center left
+# 
+# plot norma(offAl_18_22_x2_x134)  u 5:3 w l ls 1  t 'OffAll',\
+#      norma(locAl_18_22_x2_x134)  u 5:3 w l ls 3  t 'LocAll',\
+#      norma(biqui_18_22_x2_x134)  u 5:3 w l ls 6  t 'BiQui',\
+#      norma(exhau_18_22_x2_x134)  u 5:3 w p ls 10 t 'OPT',\
+# 
+# 
+# 
+# set term pdf
+# set out '/tmp/offload-vs-lambda-18-22-x1-x1.34.pdf'
+# plot norma(offAl_18_22_x1_x134)  u 5:3 w l ls 2  t 'OffAll',\
+#      norma(locAl_18_22_x1_x134)  u 5:3 w l ls 4  t 'LocAll',\
+#      norma(biqui_18_22_x1_x134)  u 5:3 w l ls 6  t 'BiQui',\
+#      norma(exhau_18_22_x1_x134)  u 5:3 w p ls 10 t 'OPT',\
+# 
+# # TOPO 2
+# 
+# set term pdf
+# set out '/tmp/offload-vs-lambda-15-30-x2-0.pdf'
+# plot norma(offAl_15_30_x2_0)  u 5:3 w l ls 2  t 'OffAll',\
+#      norma(locAl_15_30_x2_0)  u 5:3 w l ls 4  t 'LocAll',\
+#      norma(biqui_15_30_x2_0)  u 5:3 w l ls 6  t 'BiQui',\
+#      norma(exhau_15_30_x2_0)  u 5:3 w p ls 10 t 'OPT',\
+# 
+# 
+# set term pdf
+# set out '/tmp/offload-vs-lambda-15-30-x1-0.pdf'
+# plot norma(offAl_15_30_x1_0)  u 5:3 w l ls 2  t 'OffAll',\
+#      norma(locAl_15_30_x1_0)  u 5:3 w l ls 4  t 'LocAll',\
+#      norma(biqui_15_30_x1_0)  u 5:3 w l ls 6  t 'BiQui',\
+#      norma(exhau_15_30_x1_0)  u 5:3 w p ls 10 t 'OPT',\
+# 
+# 
+# 
+# set term pdf
+# set out '/tmp/offload-vs-lambda-15-30-0-x134.pdf'
+# plot norma(offAl_15_30_0_x134)  u 5:3 w l ls 2  t 'OffAll',\
+#      norma(locAl_15_30_0_x134)  u 5:3 w l ls 4  t 'LocAll',\
+#      norma(biqui_15_30_0_x134)  u 5:3 w l ls 6  t 'BiQui',\
+#      norma(exhau_15_30_0_x134)  u 5:3 w p ls 10 t 'OPT',\
+# 
+# 
+# set term pdf
+# set out '/tmp/offload-vs-lambda-15-30-x2-x134.pdf'
+# plot norma(offAl_15_30_x2_x134)  u 5:3 w l ls 2  t 'OffAll',\
+#      norma(locAl_15_30_x2_x134)  u 5:3 w l ls 4  t 'LocAll',\
+#      norma(biqui_15_30_x2_x134)  u 5:3 w l ls 6  t 'BiQui',\
+#      norma(exhau_15_30_x2_x134)  u 5:3 w p ls 10 t 'OPT',\
+# 
+# set term pdf
+# set out '/tmp/offload-vs-lambda-15-30-x1-x134.pdf'
+# plot norma(offAl_15_30_x1_x134)  u 5:3 w l ls 2  t 'OffAll',\
+#      norma(locAl_15_30_x1_x134)  u 5:3 w l ls 4  t 'LocAll',\
+#      norma(biqui_15_30_x1_x134)  u 5:3 w l ls 6  t 'BiQui',\
+#      norma(exhau_15_30_x1_x134)  u 5:3 w p ls 10 t 'OPT',\
+
+
+# 18-22-0-x1.45
+biqui_18_22_0_x145='biqui-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690737649.csv'
+exhau_18_22_0_x145='exhaustive-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690737537.csv'
+locAl_18_22_0_x145='edge_exhaust-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690740013.csv'
+offAl_18_22_0_x145='cloud_exhaust-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690739760-.csv'
+
+# # set term pdf
+# set out '/tmp/offload-vs-lambda-18-22-0-x1.45.pdf'
+# unset arrow
+# unset label
+# set arrow from first 1.68,0 to first 1.68,1 nohead lw 2 front
+# set label "Cloud\nExhausted" at 1.8,.05 rotate by 90 font ', 20' front
+# plot norma(offAl_18_22_0_x145)  u 5:3 w l ls 1  t 'OffAll',\
+#      norma(locAl_18_22_0_x145)  u 5:3 w l ls 3  t 'LocAll',\
+#      norma(biqui_18_22_0_x145)  u 5:3 w l ls 6  t 'BiQui',\
+#      norma(exhau_18_22_0_x145)  u 5:3 w p ls 10 t 'OPT',\
+
+
+
+## #####################
+## # Plot stress shift #
+## #####################
+## biqui_18_22_0_x134_77ms='biqui-targetd_77-reliab_0.99999-mode_18-22-0-x1.34-1690635023.csv'
+## biqui_18_22_0_x145_77ms='biqui-targetd_77-reliab_0.99999-mode_18-22-0-x1.45-1690742783.csv'
+## 
+## set key top left
+## 
+## 
+## set term pdf
+## set out '/tmp/shift-offload.pdf'
+## set multiplot
+## 
+## 
+## 
+## set tics font ',20'
+## set xlabel font ',30' offset 0,-2
+## set ylabel "z" font ',30' offset -3,0
+## set lmargin 12
+## set key font ',20' samplen 1
+## 
+## 
+## 
+## set arrow from first 2.08,.65 to first 2.08,1 nohead lc 'black' lw 2
+## set style rect fc ls 5 fs transparent noborder
+## set object 1 rectangle from first 2.08,0 to first 2.44,4.5
+## set arrow from first 1,.8 to first 1.4,.9 fill lw 2
+## 
+## 
+## plot norma(biqui_18_22_0_x145)      u 5:3 w l ls 6 t 'BiQui 100[ms]',\
+##      norma(biqui_18_22_0_x145_77ms) u 5:3 w l ls 5 lw 10 dt 2 t 'BiQui  77[ms]',\
+## 
+## set origin .1,.25
+## set size .4,.5
+## #set object 2 rect from first 0.1,0.65 to first .5,0.8 back
+## #set object 2 rect fc rgb 'white' fillstyle solid 0.0 noborder
+## #set arrow from first 0.8,0.65 to first 0.8,1 fill lw 2
+## 
+## unset arrow
+## set xrange [1.4:1.9]
+## unset key
+## unset xlabel
+## unset ylabel
+## set tics front
+## set grid front
+## set xtics 1.4,.2,1.9 font ',10'
+## set ytics 0.8,.1,1 font ',10'
+## set grid
+## set title 'early Edge' font ',20'
+## plot norma(biqui_18_22_0_x145)      u 5:3 w l ls 6 t 'BiQui 100[ms]',\
+##      norma(biqui_18_22_0_x145_77ms) u 5:3 w l ls 5 lw 10 dt 2 t 'BiQui  77[ms]',\
+## 
+## 
+## unset multiplot
+
+
+
+
+
+
+
+
+
+# 18-49-0-x1.45
+biqui_18_49_0_x145='biqui-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690750906.csv'
+exhau_18_49_0_x145='exhaustive-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748917.csv'
+locAl_18_49_0_x145='edge_exhaust-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748928.csv'
+offAl_18_49_0_x145='cloud_exhaust-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748753-.csv'
+
+set term pdf
+set out '/tmp/offload-vs-lambda-15-49-0-x145.pdf'
+set xrange [:2.5]
+set yrange [0:.25]
+set key top left maxrows 3
+set style rectangle fc ls 5 fs transparent noborder
+set object 1 rectangle from first .75,0 to first 2.5,8 
+
+set label "Cannot offload\nto far cloud" center at first 1.625,.125 font ',20'
+
+
+set tics font ',20'
+set xlabel font ',30' offset 0,-2
+set ylabel "z" font ',30' offset -2,0
+set tics font ',20'
+set xlabel font ',30' offset 0,-2
+set lmargin 12
+set key font ',20'
+
+plot norma(offAl_18_49_0_x145)  u 5:3 w l ls 1  notitle,\
+     norma(locAl_18_49_0_x145)  u 5:3 w l ls 3  t 'LocAll',\
+     norma(biqui_18_49_0_x145)  u 5:3 w l ls 6  t 'BiQui',\
+     norma(exhau_18_49_0_x145)  u 5:3 w p ls 10 t 'OPT',\
+
+
+
+
+

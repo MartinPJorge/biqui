@@ -1,0 +1,75 @@
+set term pdf
+set out '/tmp/pareto-bound.pdf'
+
+#set term tikz scale .7,.5
+#set out '/tmp/cost-vs-lambda.tex'
+
+set xlabel 'z'
+set ylabel 'K(V,x,y,z)'
+
+load 'palette.pal'
+
+
+set key autotitle columnheader
+
+set key bottom right maxrows 2
+set tics out nomirror
+set grid front
+
+#set xrange [:4.4]
+#set xrange [2:2.5]
+
+
+set linestyle  1 lw 5
+set linestyle  2 lw 5 pi 2
+set linestyle  3 lw 5
+set linestyle  4 lw 5
+set linestyle  5 lw 5
+set linestyle  6 lw 5
+set linestyle  7 lw 5
+set linestyle  8 lw 5
+set linestyle  9 lw 5
+set linestyle 10 lw 5 
+
+
+set arrow 1 from screen .9,.5 to screen .9,.85 front filled lw 3
+set label "more CPUs" at screen .87,.55 rotate by 90 front font ',15'
+
+set label "(x_1,y_1,z_1)=(16,31,.672)" at first 0.686,1010 right front
+#16 31 0.676 1056.4146
+#set object ellipse at first 0.676,1056.4146 size first 0.02,15 front fs transparent border lc 'black' lw 2
+set arrow from first 0.66,1020 to first 0.672,1048.4146 filled lw 2
+set style rect fillcolor ls 5 fs transparent noborder
+set object 3 rect from first .67,1055 to first .674,1060 front
+
+
+set label "(x_2,y_2,z_2)=(16,32,.685)" at first 0.69,1100.80 left front
+#16 32 0.686 1070.5731
+#set object ellipse at first 0.686,1070.5731 size first 0.02,15 front fs transparent border lc 'black' lw 2
+set arrow from first 0.689,1095.80 to first 0.685,1078.5731 filled lw 2 front
+#set style circle ls 1
+set style rect fillcolor ls 5 fs transparent noborder
+set object 1 rect from first .6825,1068 to first .687,1075 front
+
+
+
+set label "(x_3,y_3,z_3)=(15,32,.692)" at first 0.69,980.395 center front
+#15 32 0.7000000000000001 1039.395
+#set object ellipse at first 0.686,1070.5731 size first 0.02,15 front fs transparent border lc 'black' lw 2
+set arrow from first 0.69,989.395 to first 0.692,1032.395 filled lw 2 front
+set object 2 rect from first .69,1037 to first .695,1045 front
+
+set xrange [0.576:0.906]
+
+set tics font ',15'
+set xlabel font ',20'
+set ylabel font ',20' offset -2,0
+set lmargin 12
+set key Left width -4 font ',15' 
+
+set key bottom left
+
+plot 'pareto-bound-lam_1.87.csv' u 3:4 w filledcurves y1=1150 ls 9 t 'Feasibility Region',\
+     'pareto-bound-lam_1.87.csv' u 3:4 w lp ls 10 t 'Feasibility Boundary'
+
+

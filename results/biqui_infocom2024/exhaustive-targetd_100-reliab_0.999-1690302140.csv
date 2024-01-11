@@ -1,0 +1,101 @@
+ce cc z cost lambda mu edge_d cloud_d target_d percentile cost_ratio
+0 3 1.0 47.0 0.0444444444 0.0444444444 18.1 22.8 100.0 0.999 2
+0 4 1.0 64.0 0.0888888888 0.0444444444 18.1 22.8 100.0 0.999 2
+0 5 1.0 81.0 0.1333333332 0.0444444444 18.1 22.8 100.0 0.999 2
+0 6 1.0 98.0 0.1777777776 0.0444444444 18.1 22.8 100.0 0.999 2
+0 7 1.0 115.0 0.222222222 0.0444444444 18.1 22.8 100.0 0.999 2
+0 8 1.0 132.0 0.2666666664 0.0444444444 18.1 22.8 100.0 0.999 2
+0 9 1.0 149.0 0.3111111108 0.0444444444 18.1 22.8 100.0 0.999 2
+0 10 1.0 166.0 0.3555555552 0.0444444444 18.1 22.8 100.0 0.999 2
+0 11 1.0 183.0 0.3999999996 0.0444444444 18.1 22.8 100.0 0.999 2
+0 12 1.0 200.0 0.444444444 0.0444444444 18.1 22.8 100.0 0.999 2
+0 13 1.0 217.0 0.4888888884 0.0444444444 18.1 22.8 100.0 0.999 2
+0 14 1.0 234.0 0.5333333328 0.0444444444 18.1 22.8 100.0 0.999 2
+0 15 1.0 251.0 0.5777777772 0.0444444444 18.1 22.8 100.0 0.999 2
+0 16 1.0 268.0 0.6222222216 0.0444444444 18.1 22.8 100.0 0.999 2
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+FileNotFoundError: [Errno 2] No such file or directory: 'cdf-sweep/.rho-0.02_c-20.csv.swp'
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+FileNotFoundError: [Errno 2] No such file or directory: 'cdf-sweep/.rho-0.02_c-40.csv.swp'
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+FileNotFoundError: [Errno 2] No such file or directory: 'cdf-sweep/.rho-0.02_c-20.csv.swp'
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+FileNotFoundError: [Errno 2] No such file or directory: 'cdf-sweep/.rho-0.02_c-20.csv.swp'
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb5 in position 18: invalid start byte

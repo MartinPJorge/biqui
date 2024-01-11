@@ -1,0 +1,35 @@
+set term pdf  size 5,3
+set out '/tmp/gamma.pdf'
+set datafile separator ','
+set key autotitle columnheader
+
+load 'palette.pal'
+
+set grid
+
+set xlabel 's_i [ms]'
+set ylabel 'PDF'
+
+set tics font ',30'
+set xtics offset 0,-.5
+set xlabel font ',40' offset 0,-3
+set ylabel font ',40' offset -6,0
+
+set lmargin 16
+
+set linestyle  1 lw 5
+set linestyle  2 lw 5
+set linestyle  3 lw 5
+set linestyle  4 lw 5
+set linestyle  5 lw 5
+set linestyle  6 lw 5
+set linestyle  7 lw 5
+set linestyle  8 lw 15
+set linestyle  9 lw 2.5 pt 6
+set linestyle 10 lw 2.5 pt 6 
+set linestyle 12 lw 15
+
+set yrange [0:.08]
+set ytics 0,.04,.08
+plot 'gamma.csv' u 1:2 smooth csplines ls 8 notitle
+

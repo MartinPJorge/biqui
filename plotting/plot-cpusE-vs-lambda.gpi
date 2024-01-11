@@ -1,0 +1,349 @@
+set term pdf
+set out '/tmp/cpusE-vs-lambda.pdf'
+
+# set term tikz scale .5,.5
+# set out '/tmp/cpusE-vs-lambda.tex'
+
+set xlabel '{/Symbol l} [pkt/ms]' enhanced
+set ylabel 'CPUs\@Edge'
+
+set key autotitle columnheader
+
+#set key center maxrows 3
+set tics out nomirror
+set grid lw .25
+
+
+load 'palette.pal'
+
+# Normalization command
+norma(f)="<python3 normalize.py --csv ".f." --value 1.001"
+
+
+
+
+set linestyle  1 lw 25
+set linestyle  2 lw 10
+set linestyle  3 lw 25
+set linestyle  4 lw 10
+set linestyle  5 lw 25
+set linestyle  6 lw 10
+set linestyle  7 lw 25
+set linestyle  8 lw 10
+set linestyle  9 lw 2.5 pt 6
+set linestyle 10 lw 2.5 pt 6 
+
+
+# Results CSV for dedicated AWS
+exhaus_dedi='exhaustive-targetd_100-reliab_0.99999-mode_dedicatedhour-1690446766.csv'
+biqui_dedi='biqui-targetd_100-reliab_0.99999-mode_dedicatedhour-1690475918.csv'
+cloud_dedi='cloud_exhaust-targetd_100-reliab_0.99999-mode_dedicatedhour-1690464322-.csv'
+edge_dedi='edge_exhaust-targetd_100-reliab_0.99999-mode_dedicatedhour-1690476889.csv'
+
+# Results CSV for dedicated AWS +5% edge
+exhaus_dedi5p='exhaustive-targetd_100-reliab_0.99999-mode_dedicatedhour5p-1690476288.csv'
+biqui_dedi5p='biqui-targetd_100-reliab_0.99999-mode_dedicatedhour5p-1690476264.csv'
+cloud_dedi5p='cloud_exhaust-targetd_100-reliab_0.99999-mode_dedicatedhour5p-1690476277-.csv'
+edge_dedi5p='edge_exhaust-targetd_100-reliab_0.99999-mode_dedicatedhour5p-1690476272.csv'
+
+
+# Results CSV for dedicated AWS +0% edge
+exhaus_dedi0p='exhaustive-targetd_100-reliab_0.99999-mode_dedicatedhour0p-1690456454.csv'
+biqui_dedi0p='biqui-targetd_100-reliab_0.99999-mode_dedicatedhour0p-1690475919.csv'
+cloud_dedi0p='cloud_exhaust-targetd_100-reliab_0.99999-mode_dedicatedhour0p-1690464324-.csv'
+edge_dedi0p='edge_exhaust-targetd_100-reliab_0.99999-mode_dedicatedhour0p-1690477254.csv'
+
+
+
+
+
+
+
+# INFOCOM results
+# 18-22-x2-0
+biqui_18_22_x2_0='biqui-targetd_100-reliab_0.99999-mode_18-22-x2-0-1690568775.csv'
+exhau_18_22_x2_0='exhaustive-targetd_100-reliab_0.99999-mode_18-22-x2-0-1690568562.csv'
+locAl_18_22_x2_0='edge_exhaust-targetd_100-reliab_0.99999-mode_18-22-x2-0-1690569101.csv'
+offAl_18_22_x2_0='cloud_exhaust-targetd_100-reliab_0.99999-mode_18-22-x2-0-1690568951-.csv'
+
+# 18-22-x1-0
+biqui_18_22_x1_0='biqui-targetd_100-reliab_0.99999-mode_18-22-x1-0-1690568799.csv'
+exhau_18_22_x1_0='exhaustive-targetd_100-reliab_0.99999-mode_18-22-x1-0-1690568570.csv'
+locAl_18_22_x1_0='edge_exhaust-targetd_100-reliab_0.99999-mode_18-22-x1-0-1690569116.csv'
+offAl_18_22_x1_0='cloud_exhaust-targetd_100-reliab_0.99999-mode_18-22-x1-0-1690568973-.csv'
+
+# 18-22-0-x1.34
+biqui_18_22_0_x134='biqui-targetd_100-reliab_0.99999-mode_18-22-0-x1.34-1690568823.csv'
+exhau_18_22_0_x134='exhaustive-targetd_100-reliab_0.99999-mode_18-22-0-x1.34-1690568576.csv'
+locAl_18_22_0_x134='edge_exhaust-targetd_100-reliab_0.99999-mode_18-22-0-x1.34-1690569147.csv'
+offAl_18_22_0_x134='cloud_exhaust-targetd_100-reliab_0.99999-mode_18-22-0-x1.34-1690568995-.csv'
+
+# 18-22-x2-x1.34
+biqui_18_22_x2_x134='biqui-targetd_100-reliab_0.99999-mode_18-22-x2-x1.34-1690568865.csv'
+exhau_18_22_x2_x134='exhaustive-targetd_100-reliab_0.99999-mode_18-22-x2-x1.34-1690568683.csv'
+locAl_18_22_x2_x134='edge_exhaust-targetd_100-reliab_0.99999-mode_18-22-x2-x1.34-1690569165.csv'
+offAl_18_22_x2_x134='cloud_exhaust-targetd_100-reliab_0.99999-mode_18-22-x2-x1.34-1690569015-.csv'
+
+# 18-22-x1-x1.34
+biqui_18_22_x1_x134='biqui-targetd_100-reliab_0.99999-mode_18-22-x1-x1.34-1690568900.csv'
+exhau_18_22_x1_x134='exhaustive-targetd_100-reliab_0.99999-mode_18-22-x1-x1.34-1690568706.csv'
+locAl_18_22_x1_x134='edge_exhaust-targetd_100-reliab_0.99999-mode_18-22-x1-x1.34-1690569187.csv'
+offAl_18_22_x1_x134='cloud_exhaust-targetd_100-reliab_0.99999-mode_18-22-x1-x1.34-1690569039-.csv'
+
+
+# TOPO 2
+
+# 15-30-x2-0
+biqui_15_30_x2_0='biqui-targetd_100-reliab_0.99999-mode_15-30-x2-0-1690575204.csv'
+exhau_15_30_x2_0='exhaustive-targetd_100-reliab_0.99999-mode_15-30-x2-0-1690575008.csv'
+locAl_15_30_x2_0='edge_exhaust-targetd_100-reliab_0.99999-mode_15-30-x2-0-1690575665.csv'
+offAl_15_30_x2_0='cloud_exhaust-targetd_100-reliab_0.99999-mode_15-30-x2-0-1690575343-.csv'
+
+
+# 15-30-x1-0
+biqui_15_30_x1_0='biqui-targetd_100-reliab_0.99999-mode_15-30-x1-0-1690575214.csv'
+exhau_15_30_x1_0='exhaustive-targetd_100-reliab_0.99999-mode_15-30-x1-0-1690575022.csv'
+locAl_15_30_x1_0='edge_exhaust-targetd_100-reliab_0.99999-mode_15-30-x1-0-1690575678.csv'
+offAl_15_30_x1_0='cloud_exhaust-targetd_100-reliab_0.99999-mode_15-30-x1-0-1690575416-.csv'
+
+# 15-30-0-x134
+biqui_15_30_0_x134='biqui-targetd_100-reliab_0.99999-mode_15-30-0-x1.34-1690575224.csv'
+exhau_15_30_0_x134='exhaustive-targetd_100-reliab_0.99999-mode_15-30-0-x1.34-1690575044.csv'
+locAl_15_30_0_x134='edge_exhaust-targetd_100-reliab_0.99999-mode_15-30-0-x1.34-1690575688.csv'
+offAl_15_30_0_x134='cloud_exhaust-targetd_100-reliab_0.99999-mode_15-30-0-x1.34-1690575428-.csv'
+
+# 15-30-x2-x134
+biqui_15_30_x2_x134='biqui-targetd_100-reliab_0.99999-mode_15-30-x2-x1.34-1690575236.csv'
+exhau_15_30_x2_x134='exhaustive-targetd_100-reliab_0.99999-mode_15-30-x2-x1.34-1690575056.csv'
+locAl_15_30_x2_x134='edge_exhaust-targetd_100-reliab_0.99999-mode_15-30-x2-x1.34-1690575717.csv'
+offAl_15_30_x2_x134='cloud_exhaust-targetd_100-reliab_0.99999-mode_15-30-x2-x1.34-1690575442-.csv'
+
+# 15-30-x1-x134
+biqui_15_30_x1_x134='biqui-targetd_100-reliab_0.99999-mode_15-30-x1-x1.34-1690575501.csv'
+exhau_15_30_x1_x134='exhaustive-targetd_100-reliab_0.99999-mode_15-30-x1-x1.34-1690575071.csv'
+locAl_15_30_x1_x134='edge_exhaust-targetd_100-reliab_0.99999-mode_15-30-x1-x1.34-1690575733.csv'
+offAl_15_30_x1_x134='cloud_exhaust-targetd_100-reliab_0.99999-mode_15-30-x1-x1.34-1690575530-.csv'
+
+
+
+# set term pdf
+# set out '/tmp/cpusE-vs-lambda-18-22-x2-0.pdf'
+# plot norma(offAl_18_22_x2_0)  u 5:1 w l ls 2  t 'OffAll',\
+#      norma(locAl_18_22_x2_0)  u 5:1 w l ls 4  t 'LocAll',\
+#      norma(biqui_18_22_x2_0)  u 5:1 w l ls 6  t 'BiQui',\
+#      norma(exhau_18_22_x2_0)  u 5:1 w p ls 10 t 'OPT',\
+# 
+# 
+# set term pdf
+# set out '/tmp/cpusE-vs-lambda-18-22-x1-0.pdf'
+# plot norma(offAl_18_22_x1_0)  u 5:1 w l ls 2  t 'OffAll',\
+#      norma(locAl_18_22_x1_0)  u 5:1 w l ls 4  t 'LocAll',\
+#      norma(biqui_18_22_x1_0)  u 5:1 w l ls 6  t 'BiQui',\
+#      norma(exhau_18_22_x1_0)  u 5:1 w p ls 10 t 'OPT',\
+# 
+# 
+# set term pdf
+# set out '/tmp/cpusE-vs-lambda-18-22-0-x1.34.pdf'
+# 
+# 
+# set tics font ',20'
+# set xlabel font ',30' offset 0,-2
+# set ylabel "Edge CPUs" font ',30' offset -3,0
+# set lmargin 12
+# set key center maxrows 4 font ',20'
+# set arrow from first 0.71,0 to first 0.71,20 nohead lw 2 front
+# set label 'Edge Exhausted' at 0.60,0 rotate by 90 font ', 20' front
+# 
+# plot norma(offAl_18_22_0_x134)  u 5:1 w l ls 1  t 'OffAll',\
+#      norma(locAl_18_22_0_x134)  u 5:1 w l ls 3  t 'LocAll',\
+#      norma(biqui_18_22_0_x134)  u 5:1 w l ls 6  t 'BiQui',\
+#      norma(exhau_18_22_0_x134)  u 5:1 w p ls 10 t 'OPT',\
+# 
+# set term pdf
+# set out '/tmp/cpusE-vs-lambda-18-22-0-x1.34.pdf'
+# plot norma(offAl_18_22_0_x134)  u 5:1 w l ls 2  t 'OffAll',\
+#      norma(locAl_18_22_0_x134)  u 5:1 w l ls 4  t 'LocAll',\
+#      norma(biqui_18_22_0_x134)  u 5:1 w l ls 6  t 'BiQui',\
+#      norma(exhau_18_22_0_x134)  u 5:1 w p ls 10 t 'OPT',\
+# 
+# 
+# 
+# set term pdf
+# set out '/tmp/cpusE-vs-lambda-18-22-x2-x1.34.pdf'
+# unset label
+# unset arrow
+# set key at first .8,5
+# set arrow from first 1.64,0 to first 1.64,20 nohead lw 2 front
+# set label 'Cloud Exhausted' at 1.5,2 rotate by 90 font ', 20' front
+# 
+# plot norma(offAl_18_22_x2_x134)  u 5:1 w l ls 1  t 'OffAll',\
+#      norma(locAl_18_22_x2_x134)  u 5:1 w l ls 3  t 'LocAll',\
+#      norma(biqui_18_22_x2_x134)  u 5:1 w l ls 6  t 'BiQui',\
+#      norma(exhau_18_22_x2_x134)  u 5:1 w p ls 10 t 'OPT',\
+# 
+# 
+# 
+# set term pdf
+# set out '/tmp/cpusE-vs-lambda-18-22-x1-x1.34.pdf'
+# plot norma(offAl_18_22_x1_x134)  u 5:1 w l ls 2  t 'OffAll',\
+#      norma(locAl_18_22_x1_x134)  u 5:1 w l ls 4  t 'LocAll',\
+#      norma(biqui_18_22_x1_x134)  u 5:1 w l ls 6  t 'BiQui',\
+#      norma(exhau_18_22_x1_x134)  u 5:1 w p ls 10 t 'OPT',\
+# 
+# 
+# # TOPO 2
+# 
+# set term pdf
+# set out '/tmp/cpusE-vs-lambda-15-30-x2-0.pdf'
+# plot norma(offAl_15_30_x2_0)  u 5:1 w l ls 2  t 'OffAll',\
+#      norma(locAl_15_30_x2_0)  u 5:1 w l ls 4  t 'LocAll',\
+#      norma(biqui_15_30_x2_0)  u 5:1 w l ls 6  t 'BiQui',\
+#      norma(exhau_15_30_x2_0)  u 5:1 w p ls 10 t 'OPT',\
+# 
+# 
+# set term pdf
+# set out '/tmp/cpusE-vs-lambda-15-30-x1-0.pdf'
+# plot norma(offAl_15_30_x1_0)  u 5:1 w l ls 2  t 'OffAll',\
+#      norma(locAl_15_30_x1_0)  u 5:1 w l ls 4  t 'LocAll',\
+#      norma(biqui_15_30_x1_0)  u 5:1 w l ls 6  t 'BiQui',\
+#      norma(exhau_15_30_x1_0)  u 5:1 w p ls 10 t 'OPT',\
+# 
+# 
+# 
+# set term pdf
+# set out '/tmp/cpusE-vs-lambda-15-30-0-x134.pdf'
+# plot norma(offAl_15_30_0_x134)  u 5:1 w l ls 2  t 'OffAll',\
+#      norma(locAl_15_30_0_x134)  u 5:1 w l ls 4  t 'LocAll',\
+#      norma(biqui_15_30_0_x134)  u 5:1 w l ls 6  t 'BiQui',\
+#      norma(exhau_15_30_0_x134)  u 5:1 w p ls 10 t 'OPT',\
+# 
+# 
+# set term pdf
+# set out '/tmp/cpusE-vs-lambda-15-30-x2-x134.pdf'
+# plot norma(offAl_15_30_x2_x134)  u 5:1 w l ls 2  t 'OffAll',\
+#      norma(locAl_15_30_x2_x134)  u 5:1 w l ls 4  t 'LocAll',\
+#      norma(biqui_15_30_x2_x134)  u 5:1 w l ls 6  t 'BiQui',\
+#      norma(exhau_15_30_x2_x134)  u 5:1 w p ls 10 t 'OPT',\
+# 
+# set term pdf
+# set out '/tmp/cpusE-vs-lambda-15-30-x1-x134.pdf'
+# plot norma(offAl_15_30_x1_x134)  u 5:1 w l ls 2  t 'OffAll',\
+#      norma(locAl_15_30_x1_x134)  u 5:1 w l ls 4  t 'LocAll',\
+#      norma(biqui_15_30_x1_x134)  u 5:1 w l ls 6  t 'BiQui',\
+#      norma(exhau_15_30_x1_x134)  u 5:1 w p ls 10 t 'OPT',\
+
+
+# 18-22-0-x1.45
+biqui_18_22_0_x145='biqui-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690737649.csv'
+exhau_18_22_0_x145='exhaustive-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690737537.csv'
+locAl_18_22_0_x145='edge_exhaust-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690740013.csv'
+offAl_18_22_0_x145='cloud_exhaust-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690739760-.csv'
+
+# # set term pdf
+# set out '/tmp/cpusE-vs-lambda-18-22-0-x1.45.pdf'
+# unset arrow
+# unset label
+# set arrow from first 1.68,0 to first 1.68,20 nohead lw 2 front
+# set label "Cloud Exhausted" at 1.6,3 rotate by 90 font ', 20' front
+# plot norma(offAl_18_22_0_x145)  u 5:1 w l ls 1  t 'OffAll',\
+#      norma(locAl_18_22_0_x145)  u 5:1 w l ls 3  t 'LocAll',\
+#      norma(biqui_18_22_0_x145)  u 5:1 w l ls 6  t 'BiQui',\
+#      norma(exhau_18_22_0_x145)  u 5:1 w p ls 10 t 'OPT',\
+
+
+
+
+
+## #####################
+## # Plot stress shift #
+## #####################
+## biqui_18_22_0_x134_77ms='biqui-targetd_77-reliab_0.99999-mode_18-22-0-x1.34-1690635023.csv'
+## biqui_18_22_0_x145_77ms='biqui-targetd_77-reliab_0.99999-mode_18-22-0-x1.45-1690742783.csv'
+## 
+## unset key
+## unset label
+## unset arrow
+## set term pdf
+## set out '/tmp/shift-cpusE.pdf'
+## set multiplot
+## 
+## set tics font ',20'
+## set xlabel font ',30' offset 0,-2
+## set ylabel "Edge CPUs" font ',30' offset -3,0
+## set lmargin 12
+## set key bottom left font ',20' samplen 1.5
+## 
+## 
+## set arrow from first 2.08,0 to first 2.08,20 nohead lc 'black' lw 2
+## set style rect fc ls 5 fs transparent noborder
+## set object 1 rectangle from first 2.08,0 to first 2.44,20
+## 
+## 
+## set object 2 rectangle from first .45,7 to first 1.45,19
+## set object 2 rectangle fc rgb 'white' fillstyle solid 1.0 noborder
+## 
+## 
+## 
+## plot norma(biqui_18_22_0_x145)      u 5:1 w l ls 6 t 'BiQui 100[ms]',\
+##      norma(biqui_18_22_0_x145_77ms) u 5:1 w l ls 5 lw 10 dt 2 t 'BiQui  77[ms]',\
+## 
+## set origin .2,.5
+## set size .45,.4
+## 
+## 
+## unset object 2
+## set xrange [1.8:2]
+## unset key
+## unset arrow
+## unset xlabel
+## unset ylabel
+## set grid front
+## set xtics 1.8,.1,2 font ',10'
+## set ytics font ',10'
+## #set ytics 0,0.04,0.2
+## set grid
+## set tics front
+## 
+## set arrow from first 1.85,6 to first 1.85,14 fill lw 2
+## set label '+8 CPU' at 1.86,10 rotate by 15 font ', 20'
+## 
+## 
+## 
+## plot norma(biqui_18_22_0_x145)      u 5:1 w l ls 6 t 'BiQui 100[ms]',\
+##      norma(biqui_18_22_0_x145_77ms) u 5:1 w l ls 5 lw 10 dt 2 t 'BiQui  77[ms]',\
+## 
+## 
+## unset multiplot
+
+
+
+
+
+# 18-49-0-x1.45
+biqui_18_49_0_x145='biqui-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690750906.csv'
+exhau_18_49_0_x145='exhaustive-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748917.csv'
+locAl_18_49_0_x145='edge_exhaust-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748928.csv'
+offAl_18_49_0_x145='cloud_exhaust-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748753-.csv'
+
+set term pdf
+set out '/tmp/cpusE-vs-lambda-15-49-0-x145.pdf'
+set xrange [:2.5]
+set key top left maxrows 3
+set style rectangle fc ls 5 fs transparent noborder
+set object 1 rectangle from first .75,0 to first 2.5,20
+
+set label "Edge cannot\nprocess more" center at first 1.625,10 font ',20'
+
+
+
+set ylabel "Edge CPUs" font ',30' offset -2,0
+set tics font ',20'
+set xlabel font ',30' offset 0,-2
+set lmargin 12
+set key top right font ',20'
+set ytics 0,5,20
+
+plot norma(offAl_18_49_0_x145)  u 5:1 w l ls 1  notitle,\
+     norma(locAl_18_49_0_x145)  u 5:1 w l ls 3  t 'LocAll',\
+     norma(biqui_18_49_0_x145)  u 5:1 w l ls 6  t 'BiQui',\
+     norma(exhau_18_49_0_x145)  u 5:1 w p ls 10 t 'OPT',\

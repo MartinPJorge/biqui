@@ -1,0 +1,51 @@
+set term pdf
+set out '/tmp/offload-vs-lambda-avg_delay.pdf'
+
+#set term tikz scale .5,.5
+#set out '/tmp/offload-vs-lambda-avg_delay.tex'
+
+set xlabel '$\lambda$ [pkt/ms]' enhanced
+set ylabel 'z'
+
+set key autotitle columnheader
+
+set key tmargin maxrows 2
+set tics out nomirror
+set grid lw .25
+
+#set xrange [1.5:]
+set ytics format '%.2f'
+
+
+
+load 'palette.pal'
+
+set linestyle  1 lw 5
+set linestyle  2 lw 5
+set linestyle  3 lw 5
+set linestyle  4 lw 5
+set linestyle  5 lw 5
+set linestyle  6 lw 5
+set linestyle  7 lw 5
+set linestyle  8 lw 5
+set linestyle  9 lw 2.5 pt 6
+set linestyle 10 lw 2.5 pt 6 
+
+
+
+
+
+# Results CSV for avg delay
+exhaus_avg_del='exhaustive-targetd_100-reliab_0.99999-mode_avg_delay-1690541150.csv'
+biqui_avg_del=''
+cloud_avg_del='cloud_exhaust-targetd_100-reliab_0.99999-mode_avg_delay-1690558565-.csv'
+edge_avg_del='edge_exhaust-targetd_100-reliab_0.99999-mode_avg_delay-1690548923.csv'
+
+
+
+
+plot edge_avg_del   u 5:3 w l ls 4  t 'LocAll ToD avg_del',\
+     exhaus_avg_del u 5:3 w p ls 10 t 'OPT ToD avg_del',\
+     cloud_avg_del  u 5:3 w l ls 2  t 'OffAll ToD avg_del',\
+     #biqui_dediN5p    u 5:3 w l ls 6  t 'BiQui ToD +34\% nE',\
+

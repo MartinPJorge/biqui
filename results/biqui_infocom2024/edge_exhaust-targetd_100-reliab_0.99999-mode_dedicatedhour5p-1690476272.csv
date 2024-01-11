@@ -1,0 +1,101 @@
+ce cc z cost lambda mu edge_d cloud_d target_d percentile cost_ratio
+3 0 0 0.13138125 0.0444444444 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+4 0 0 0.2627625 0.0888888888 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+5 0 0 0.39414375 0.1333333332 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+6 0 0 0.525525 0.1777777776 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+7 0 0 0.65690625 0.222222222 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+8 0 0 0.7882875 0.2666666664 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+10 0 0 0.91966875 0.3111111108 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+11 0 0 1.05105 0.3555555552 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+12 0 0 1.18243125 0.3999999996 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+13 0 0 1.3138125 0.444444444 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+14 0 0 1.4451937500000003 0.4888888884 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+15 0 0 1.576575 0.5333333328 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+16 0 0 1.70795625 0.5777777772 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+17 0 0 1.8393375 0.6222222216 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+18 0 0 1.9707187500000003 0.666666666 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+19 0 0 2.1021 0.7111111104 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+20 2 0.01 2.2324176875000004 0.7555555548 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+20 2 0.011111111111111294 2.36361125 0.7999999992 0.0444444444 18.1 22.8 100.0 0.99999 1.05
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined
+NameError: name 'perc_e' is not defined

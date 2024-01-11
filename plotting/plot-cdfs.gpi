@@ -1,0 +1,265 @@
+set term pdf
+set out '/tmp/cdf.pdf'
+
+#set term tikz scale .7,.5
+#set out '/tmp/cost-vs-lambda.tex'
+
+
+
+
+
+
+
+##############
+# C = 3 CPUs #
+##############
+
+load 'palette.pal'
+set linestyle  1 lw 8 pt 2 ps 2
+set linestyle  2 lw 8 pt 2 ps 2
+set linestyle  3 lw 8 pt 2 ps 2
+set linestyle  4 lw 8 pt 2 ps 2
+set linestyle  5 lw 8 pt 2 ps 2
+set linestyle  6 lw 8 pt 2 ps 2
+set linestyle  7 lw 8 pt 2 ps 2
+set linestyle  8 lw 8 pt 2 ps 2
+set linestyle  9 lw 8 pt 2 ps 2
+set linestyle 10 lw 8 pt 2 ps 2 
+set linestyle 11 lw 8 pt 2 ps 2 
+set linestyle 12 lw 8 pt 2 ps 2 
+
+ana_rho02c3='cdf-sweep/rho-0.20_c-3.csv'
+ana_rho04c3='cdf-sweep/rho-0.40_c-3.csv'
+ana_rho06c3='cdf-sweep/rho-0.60_c-3.csv'
+ana_rho08c3='cdf-sweep/rho-0.80_c-3.csv'
+
+sim_rho02c3='cdf-sweep-simu/rho-0.2_c-3.csv'
+sim_rho04c3='cdf-sweep-simu/rho-0.4_c-3.csv'
+sim_rho06c3='cdf-sweep-simu/rho-0.6_c-3.csv'
+sim_rho08c3='cdf-sweep-simu/rho-0.8_c-3.csv'
+
+set xrange [:200]
+
+set xlabel 'Sojourn time [ms]'
+set ylabel 'CDF with 3 CPUs'
+set key autotitle columnheader
+set key bottom right maxrows 2
+set tics out nomirror
+set grid front
+
+set xlabel font ',22'
+set ylabel font ',22'
+set tics font ',15'
+set xlabel offset 0,-1
+set ylabel offset -2,0
+set key font ',15'
+set lmargin 12
+
+set out '/tmp/cdf-c3.pdf'
+set datafile separator ','
+set multiplot
+plot ana_rho02c3 u 1:2 w l ls 2 t '{/Symbol r}=0.2',\
+     ana_rho04c3 u 1:2 w l ls 4 t '{/Symbol r}=0.4',\
+     ana_rho06c3 u 1:2 w l ls 6 t '{/Symbol r}=0.6',\
+     ana_rho08c3 u 1:2 w l ls 8 t '{/Symbol r}=0.8',\
+     sim_rho02c3 every 200 u 1:2 w p ls 2 notitle,\
+     sim_rho04c3 every 200 u 1:2 w p ls 4 notitle,\
+     sim_rho06c3 every 200 u 1:2 w p ls 6 notitle,\
+     sim_rho08c3 every 200 u 1:2 w p ls 8 notitle,\
+
+# Inset
+set size 0.5, 0.5       # set size of inset
+set origin 0.45, 0.35     # move bottom left corner of inset
+set object 2 rect from screen 0.45,0.35 to screen 0.95,0.85
+set object 2 rect fc rgb 'red' fillstyle solid 0.0 noborder
+set yrange [.99999:1]
+set xrange [50:250]
+unset xlabel
+unset ylabel
+unset key
+set ytics .999990,.000002,1 format '%.6f' font ',13'
+set xtics 50,50,250 font ',13'
+plot ana_rho02c3 u 1:2 w l ls 2 t '{/Symbol r}=0.2',\
+     ana_rho04c3 u 1:2 w l ls 4 t '{/Symbol r}=0.4',\
+     ana_rho06c3 u 1:2 w l ls 6 t '{/Symbol r}=0.6',\
+     ana_rho08c3 u 1:2 w l ls 8 t '{/Symbol r}=0.8',\
+     sim_rho02c3 every 100 u 1:2 w p ls 2 notitle,\
+     sim_rho04c3 every 106 u 1:2 w p ls 4 notitle,\
+     sim_rho06c3 every 100 u 1:2 w p ls 6 notitle,\
+     sim_rho08c3 every 100 u 1:2 w p ls 8 notitle,\
+
+unset multiplot
+
+
+
+
+
+
+
+
+##############
+# C = 5 CPUs #
+##############
+reset
+load 'palette.pal'
+set linestyle  1 lw 8 pt 2 ps 2
+set linestyle  2 lw 8 pt 2 ps 2
+set linestyle  3 lw 8 pt 2 ps 2
+set linestyle  4 lw 8 pt 2 ps 2
+set linestyle  5 lw 8 pt 2 ps 2
+set linestyle  6 lw 8 pt 2 ps 2
+set linestyle  7 lw 8 pt 2 ps 2
+set linestyle  8 lw 8 pt 2 ps 2
+set linestyle  9 lw 8 pt 2 ps 2
+set linestyle 10 lw 8 pt 2 ps 2 
+set linestyle 11 lw 8 pt 2 ps 2 
+set linestyle 12 lw 8 pt 2 ps 2 
+
+ana_rho02c5='cdf-sweep/rho-0.20_c-5.csv'
+ana_rho04c5='cdf-sweep/rho-0.40_c-5.csv'
+ana_rho06c5='cdf-sweep/rho-0.60_c-5.csv'
+ana_rho08c5='cdf-sweep/rho-0.80_c-5.csv'
+
+sim_rho02c5='cdf-sweep-simu/rho-0.2_c-5.csv'
+sim_rho04c5='cdf-sweep-simu/rho-0.4_c-5.csv'
+sim_rho06c5='cdf-sweep-simu/rho-0.6_c-5.csv'
+sim_rho08c5='cdf-sweep-simu/rho-0.8_c-5.csv'
+
+set xrange [:200]
+
+set xlabel 'Sojourn time [ms]'
+set ylabel 'CDF with 5 CPUs'
+set key autotitle columnheader
+set key bottom right maxrows 2
+set tics out nomirror
+set grid front
+
+
+set xlabel font ',22'
+set ylabel font ',22'
+set tics font ',15'
+set xlabel offset 0,-1
+set ylabel offset -2,0
+set key font ',15'
+set lmargin 12
+
+set out '/tmp/cdf-c5.pdf'
+set datafile separator ','
+set multiplot
+plot ana_rho02c5 u 1:2 w l ls 2 t '{/Symbol r}=0.2',\
+     ana_rho04c5 u 1:2 w l ls 4 t '{/Symbol r}=0.4',\
+     ana_rho06c5 u 1:2 w l ls 6 t '{/Symbol r}=0.6',\
+     ana_rho08c5 u 1:2 w l ls 8 t '{/Symbol r}=0.8',\
+     sim_rho02c5 every 200 u 1:2 w p ls 2 notitle,\
+     sim_rho04c5 every 200 u 1:2 w p ls 4 notitle,\
+     sim_rho06c5 every 200 u 1:2 w p ls 6 notitle,\
+     sim_rho08c5 every 200 u 1:2 w p ls 8 notitle,\
+
+# Inset
+set size 0.5, 0.5       # set size of inset
+set origin 0.45, 0.35     # move bottom left corner of inset
+set object 2 rect from screen 0.45,0.35 to screen 0.95,0.85
+set object 2 rect fc rgb 'red' fillstyle solid 0.0 noborder
+set yrange [.99999:1]
+set xrange [50:250]
+unset xlabel
+unset ylabel
+unset key
+set ytics .999990,.000002,1 format '%.6f' font ',13'
+set xtics 50,50,250 font ',13'
+
+
+plot ana_rho02c5 u 1:2 w l ls 2 t '{/Symbol r}=0.2',\
+     ana_rho04c5 u 1:2 w l ls 4 t '{/Symbol r}=0.4',\
+     ana_rho06c5 u 1:2 w l ls 6 t '{/Symbol r}=0.6',\
+     ana_rho08c5 u 1:2 w l ls 8 t '{/Symbol r}=0.8',\
+     sim_rho02c5 every 100 u 1:2 w p ls 2 notitle,\
+     sim_rho04c5 every 106 u 1:2 w p ls 4 notitle,\
+     sim_rho06c5 every 100 u 1:2 w p ls 6 notitle,\
+     sim_rho08c5 every 100 u 1:2 w p ls 8 notitle,\
+
+unset multiplot
+
+
+
+###############
+# C = 10 CPUs #
+###############
+reset
+load 'palette.pal'
+set linestyle  1 lw 8 pt 2 ps 2
+set linestyle  2 lw 8 pt 2 ps 2
+set linestyle  3 lw 8 pt 2 ps 2
+set linestyle  4 lw 8 pt 2 ps 2
+set linestyle  5 lw 8 pt 2 ps 2
+set linestyle  6 lw 8 pt 2 ps 2
+set linestyle  7 lw 8 pt 2 ps 2
+set linestyle  8 lw 8 pt 2 ps 2
+set linestyle  9 lw 8 pt 2 ps 2
+set linestyle 10 lw 8 pt 2 ps 2 
+set linestyle 11 lw 8 pt 2 ps 2 
+set linestyle 12 lw 8 pt 2 ps 2 
+
+ana_rho02c10='cdf-sweep/rho-0.20_c-10.csv'
+ana_rho04c10='cdf-sweep/rho-0.40_c-10.csv'
+ana_rho06c10='cdf-sweep/rho-0.60_c-10.csv'
+ana_rho08c10='cdf-sweep/rho-0.80_c-10.csv'
+
+sim_rho02c10='cdf-sweep-simu/rho-0.2_c-10.csv'
+sim_rho04c10='cdf-sweep-simu/rho-0.4_c-10.csv'
+sim_rho06c10='cdf-sweep-simu/rho-0.6_c-10.csv'
+sim_rho08c10='cdf-sweep-simu/rho-0.8_c-10.csv'
+
+set xrange [:200]
+
+set xlabel 'Sojourn time [ms]'
+set ylabel 'CDF with 10 CPUs'
+set key autotitle columnheader
+set key bottom right maxrows 2
+set tics out nomirror
+set grid front
+
+set xlabel font ',22'
+set ylabel font ',22'
+set tics font ',15'
+set xlabel offset 0,-1
+set ylabel offset -2,0
+set key font ',15'
+set lmargin 12
+
+set out '/tmp/cdf-c10.pdf'
+set datafile separator ','
+set multiplot
+plot ana_rho02c10 u 1:2 w l ls 2 t '{/Symbol r}=0.2',\
+     ana_rho04c10 u 1:2 w l ls 4 t '{/Symbol r}=0.4',\
+     ana_rho06c10 u 1:2 w l ls 6 t '{/Symbol r}=0.6',\
+     ana_rho08c10 u 1:2 w l ls 8 t '{/Symbol r}=0.8',\
+     sim_rho02c10 every 200 u 1:2 w p ls 2 notitle,\
+     sim_rho04c10 every 200 u 1:2 w p ls 4 notitle,\
+     sim_rho06c10 every 200 u 1:2 w p ls 6 notitle,\
+     sim_rho08c10 every 200 u 1:2 w p ls 8 notitle,\
+
+# Inset
+set size 0.5, 0.5       # set size of inset
+set origin 0.45, 0.35     # move bottom left corner of inset
+set object 2 rect from screen 0.45,0.35 to screen 0.95,0.85
+set object 2 rect fc rgb 'red' fillstyle solid 0.0 noborder
+set yrange [.99999:1]
+set xrange [50:250]
+unset xlabel
+unset ylabel
+unset key
+set ytics .999990,.000002,1 format '%.6f' font ',13'
+set xtics 50,50,250 font ',13'
+plot ana_rho02c10 u 1:2 w l ls 2 t '{/Symbol r}=0.2',\
+     ana_rho04c10 u 1:2 w l ls 4 t '{/Symbol r}=0.4',\
+     ana_rho06c10 u 1:2 w l ls 6 t '{/Symbol r}=0.6',\
+     ana_rho08c10 u 1:2 w l ls 8 t '{/Symbol r}=0.8',\
+     sim_rho02c10 every 100 u 1:2 w p ls 2 notitle,\
+     sim_rho04c10 every 106 u 1:2 w p ls 4 notitle,\
+     sim_rho06c10 every 100 u 1:2 w p ls 6 notitle,\
+     sim_rho08c10 every 100 u 1:2 w p ls 8 notitle,\
+
+unset multiplot
+
+

@@ -1,0 +1,29 @@
+ce cc z cost lambda mu edge_d cloud_d target_d percentile cost_ratio
+NameError: name 'args_cost_fn' is not defined
+NameError: name 'args_cost_fn' is not defined
+NameError: name 'args_cost_fn' is not defined
+NameError: name 'args_cost_fn' is not defined
+NameError: name 'args_cost_fn' is not defined
+NameError: name 'args_cost_fn' is not defined
+NameError: name 'args_cost_fn' is not defined
+NameError: name 'args_cost_fn' is not defined
+NameError: name 'args_cost_fn' is not defined
+NameError: name 'args_cost_fn' is not defined
+NameError: name 'args_cost_fn' is not defined
+NameError: name 'args_cost_fn' is not defined
+NameError: name 'args_cost_fn' is not defined
+NameError: name 'args_cost_fn' is not defined
+NameError: name 'args_cost_fn' is not defined
+NameError: name 'args_cost_fn' is not defined
+20 2 0.01 697.66 0.7555555548 0.0444444444 18.1 22.8 100.0 0.99999 2.0
+20 2 0.011111111111111294 701.6 0.7999999992 0.0444444444 18.1 22.8 100.0 0.99999 2.0
+20 3 0.06315789473684241 718.5999999999999 0.8444444436 0.0444444444 18.1 22.8 100.0 0.99999 2.0
+20 5 0.11000000000000021 750.6 0.888888888 0.0444444444 18.1 22.8 100.0 0.99999 2.0
+20 6 0.15238095238095262 767.6 0.9333333324 0.0444444444 18.1 22.8 100.0 0.99999 2.0
+20 7 0.19090909090909114 784.5999999999999 0.9777777768 0.0444444444 18.1 22.8 100.0 0.99999 2.0
+20 8 0.22608695652173938 801.6 1.0222222212 0.0444444444 18.1 22.8 100.0 0.99999 2.0
+20 9 0.2583333333333334 818.6 1.0666666656 0.0444444444 18.1 22.8 100.0 0.99999 2.0
+20 10 0.28800000000000014 835.6 1.11111111 0.0444444444 18.1 22.8 100.0 0.99999 2.0
+20 11 0.3153846153846156 852.5999999999999 1.1555555544 0.0444444444 18.1 22.8 100.0 0.99999 2.0
+20 12 0.3407407407407409 869.6 1.1999999988 0.0444444444 18.1 22.8 100.0 0.99999 2.0
+20 13 0.36428571428571443 886.6 1.2444444432 0.0444444444 18.1 22.8 100.0 0.99999 2.0
