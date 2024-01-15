@@ -1,16 +1,39 @@
 import os
 import pandas as pd
 import numpy as np
+import sys
 
-csv_files = [file for file in os.listdir('.') if file.endswith('.csv')]
+def avg_delay(df):
+    # df = cdfs[rho,c]
+    # https://stats.stackexchange.com/a/13377
+    # Riemman sum w/ dx=x[1]-x[0]
+    dx = df['sojourn_time'].values[1] - df['sojourn_time'].values[0]
+    return sum(1-df['percentile'].values) * dx
+
+
+src_folder = "../results/biqui_infocom2024"
+mgk_folder = "../results/cdf-simu"
+
+csv_files = [file for file in os.listdir(src_folder) if file.endswith('.csv')]
 previous_folder = "04.CDFS_SOJOURN"
 output_folder = "001.MGK_TOTAL_DELAY"
 
+previous_folder = "../results/biqui_infocom2024"
+#previous_folder = "../results/sigmetrics2024"
+output_folder = "../results/sigmetrics2024/mgk-ed"
+
+
+# List of considered percentiles
+percentiles = list(np.arange(0,.96, .05)) + [.99,.999,.9999,.99999]
+
+
+
+#sys.exit(1)
+
 
 # Read the original CSV file
-for csv_file in csv_files:
-    print(csv_file)
-    data = pd.read_csv(csv_file, sep=' ')
+for csv_file in filter(lambda f: '18-49-0-x1.45' in f or '18-22-0-x1.45' in f, csv_files):
+    data = pd.read_csv(src_folder + '/' + csv_file, sep=' ')
 
     # Convert relevant columns to numeric type, and filter out non-numeric rows
     numeric_columns = ['lambda', 'z', 'ce', 'cc', 'mu', 'edge_d', 'cloud_d']
@@ -29,8 +52,10 @@ for csv_file in csv_files:
     print(data)
 
     row_index = 0
-    total_del_edge = []
-    total_del_cloud = []
+    total_del_edge = {p: [] for p in percentiles}
+    total_del_cloud = {p: [] for p in percentiles}
+    avg_del_edge = []
+    avg_del_cloud = []
     lambdas_ = []
     zetas_ = []
     ces_ = []
@@ -50,36 +75,43 @@ for csv_file in csv_files:
         ccs_.append(cc_value)
 
         # Construct the corresponding CSV file name
-        if rho_e_value or rho_c_value in (0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90):
-            file_edge = f"rho-{rho_e_value:.1f}_c-{round(ce_value)}.csv"
-            file_cloud = f"rho-{rho_c_value:.1f}_c-{round(cc_value)}.csv"
-        else:
-            file_edge = f"rho-{rho_e_value:.2f}_c-{round(ce_value)}.csv"
-            file_cloud = f"rho-{rho_c_value:.2f}_c-{round(cc_value)}.csv"
+        file_edge  = mgk_folder + f"/rho-{rho_e_value:.2f}_c-{round(ce_value)}.csv"
+        file_cloud = mgk_folder + f"/rho-{rho_c_value:.2f}_c-{round(cc_value)}.csv"
 
-        current_directory = os.getcwd()
-
-        parent_directory = os.path.dirname(current_directory)
-        new_parent_directory = os.path.join(parent_directory, previous_folder)
-
-        rho_csv_file_edge = os.path.join(new_parent_directory, file_edge)
-        rho_csv_file_cloud = os.path.join(new_parent_directory, file_cloud)
 
 
         # # # Read the corresponding CSV file
-        rho_data_edge = pd.read_csv(rho_csv_file_edge,names=['sojourn_time', 'percentile'], header=None)
-        rho_data_cloud = pd.read_csv(rho_csv_file_cloud,names=['sojourn_time', 'percentile'], header=None)
+        rho_data_edge = pd.read_csv(file_edge,names=['sojourn_time', 'percentile'], header=None)
+        rho_data_cloud = pd.read_csv(file_cloud,names=['sojourn_time', 'percentile'], header=None)
 
         # # # # # Get the sojourn time for the desired percentile (e.g., 99.999)
-        percentile_value = 0.99999
-        delay_edge = rho_data_edge[rho_data_edge['percentile']<=percentile_value].tail(1)['sojourn_time'].values[0]
-        delay_cloud = rho_data_cloud[rho_data_cloud['percentile']<=percentile_value].tail(1)['sojourn_time'].values[0]
+        for percentile_value in percentiles:
+            delay_edge = rho_data_edge[rho_data_edge['percentile']<=percentile_value].tail(1)['sojourn_time'].values[0]
+            delay_cloud = rho_data_cloud[rho_data_cloud['percentile']<=percentile_value].tail(1)['sojourn_time'].values[0]
+            
+            # Store the percentile sojourn time (w/ propagation included)
+            total_del_edge[percentile_value].append(delay_edge + edge_d)
+            total_del_cloud[percentile_value].append(delay_cloud + cloud_d)
 
-        # # # # calculate total delay for edge and cloud
-        total_delay_edge = delay_edge + edge_d
-        total_del_edge.append(total_delay_edge)
-        total_delay_cloud = delay_edge + cloud_d
-        total_del_cloud.append(total_delay_cloud)
+        # Compute the average sojourn time (w/ propagation included)
+        avg_del_edge.append(avg_delay(rho_data_edge) + edge_d)
+        avg_del_cloud.append(avg_delay(rho_data_cloud) + cloud_d)
+
+
+        # Create the dictionary to store
+        store_dict = {
+            'lambda': lambdas_,
+            'z': zetas_,
+            'ce': ces_,
+            'cc': ccs_,
+            'edge_avg': avg_del_edge,
+            'cloud_avg': avg_del_cloud
+        }
+        for k,v in total_del_edge.items():
+            store_dict[f'edge_{k}'] = v
+        for k,v in total_del_cloud.items():
+            store_dict[f'cloud_{k}'] = v
+
 
         output_file = os.path.join(output_folder, f"mgk-total-delay-{csv_file}")
 
@@ -87,11 +119,5 @@ for csv_file in csv_files:
         os.makedirs(output_folder, exist_ok=True)
 
         #Save total_delay_edge and total_delay_cloud to separate CSV files
-        pd.DataFrame({
-                    'lambda': lambdas_,
-                    'z': zetas_,
-                    'ce': ces_,
-                    'cc': ccs_,
-                    'total_delay_edge': total_del_edge,
-                    'total_delay_cloud': total_del_cloud}).to_csv(output_file, index=False)
+        pd.DataFrame(store_dict).to_csv(output_file, index=False)
 
