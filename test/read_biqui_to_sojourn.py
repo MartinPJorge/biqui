@@ -12,13 +12,13 @@ def avg_delay(df):
 
 
 src_folder = "../results/biqui_infocom2024"
+src_folder = "../results/sigmetrics2024"
 mgk_folder = "../results/cdf-simu"
 
 csv_files = [file for file in os.listdir(src_folder) if file.endswith('.csv')]
 previous_folder = "04.CDFS_SOJOURN"
 output_folder = "001.MGK_TOTAL_DELAY"
 
-previous_folder = "../results/biqui_infocom2024"
 #previous_folder = "../results/sigmetrics2024"
 output_folder = "../results/sigmetrics2024/mgk-ed"
 
