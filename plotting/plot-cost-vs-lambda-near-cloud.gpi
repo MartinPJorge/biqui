@@ -39,18 +39,19 @@ set linestyle 10 lw 2.5 pt 6
 
 
 
-# 15-30-0-x145
-biqui_15_30_0_x145='../results/biqui_infocom2024/biqui-targetd_100-reliab_0.99999-mode_15-30-0-x1.45-1690738673.csv'
-exhau_15_30_0_x145='../results/biqui_infocom2024/exhaustive-targetd_100-reliab_0.99999-mode_15-30-0-x1.45-1690738590.csv'
-locAl_15_30_0_x145='../results/biqui_infocom2024/edge_exhaust-targetd_100-reliab_0.99999-mode_15-30-0-x1.45-1690740065.csv'
-offAl_15_30_0_x145='../results/biqui_infocom2024/cloud_exhaust-targetd_100-reliab_0.99999-mode_15-30-0-x1.45-1690739747-.csv'
 
 
+# 18-22-0-x1.45
+biqui_18_22_0_x145='../results/biqui_infocom2024/biqui-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690737649.csv'
+exhau_18_22_0_x145='../results/biqui_infocom2024/exhaustive-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690737537.csv'
+locAl_18_22_0_x145='../results/biqui_infocom2024/edge_exhaust-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690740013.csv'
+offAl_18_22_0_x145='../results/biqui_infocom2024/cloud_exhaust-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690739760-.csv'
+biquiAvg_18_22_0_x145='../results/sigmetrics2024/biqui-avg-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1705312605.csv'
 
 
 
 #set term pdf
-set out '/tmp/cost-vs-lambda-15-30-0-x1.45.pdf'
+set out '/tmp/cost-vs-lambda-18-22-0-x1.45.pdf'
 
 
 set tics font ',20'
@@ -61,9 +62,13 @@ set key top left maxrows 4 font ',20'
 set arrow from first 1.68,0 to first 1.68,8 nohead lw 2 front
 set label "Cloud\nExhausted" at 1.8,.25 rotate by 90 font ', 20' front
 set yrange [0:]
+set xrange [0:2.5]
 
-plot norma(offAl_15_30_0_x145)  u 5:4 w l ls 1  t 'OffAll',\
-     norma(locAl_15_30_0_x145)  u 5:4 w l ls 3  t 'LocAll',\
-     norma(biqui_15_30_0_x145)  u 5:4 w l ls 6  t 'BiQui',\
-     norma(exhau_15_30_0_x145)  u 5:4 w p ls 10 t 'OPT',\
+plot norma(offAl_18_22_0_x145)  u 5:4 w l ls 1  t 'OffAll',\
+     norma(locAl_18_22_0_x145)  u 5:4 w l ls 3  t 'LocAll',\
+     norma(biquiAvg_18_22_0_x145)  u 5:4 w l ls 8 t 'AVG',\
+     norma(biqui_18_22_0_x145)  u 5:4 w l ls 6  t 'BiQui',\
+     norma(exhau_18_22_0_x145)  u 5:4 w p ls 10 t 'OPT',\
+
+
 

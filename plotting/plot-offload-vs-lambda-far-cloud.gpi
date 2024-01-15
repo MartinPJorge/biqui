@@ -48,12 +48,13 @@ biqui_18_49_0_x145='../results/biqui_infocom2024/biqui-targetd_100-reliab_0.9999
 exhau_18_49_0_x145='../results/biqui_infocom2024/exhaustive-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748917.csv'
 locAl_18_49_0_x145='../results/biqui_infocom2024/edge_exhaust-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748928.csv'
 offAl_18_49_0_x145='../results/biqui_infocom2024/cloud_exhaust-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748753-.csv'
+biquiAvg_18_49_0_x145='../results/sigmetrics2024/biqui-avg-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1705312084.csv'
 
 set term pdf
-set out '/tmp/offload-vs-lambda-15-49-0-x145.pdf'
+set out '/tmp/offload-vs-lambda-18-49-0-x145.pdf'
 set xrange [:2.5]
-set yrange [0:.25]
-set key top left maxrows 3
+#set yrange [0:.25]
+set key center left maxrows 5
 set style rectangle fc ls 5 fs transparent noborder
 set object 1 rectangle from first .75,0 to first 2.5,8 
 
@@ -70,6 +71,7 @@ set key font ',20'
 
 plot norma(offAl_18_49_0_x145)  u 5:3 w l ls 1  notitle,\
      norma(locAl_18_49_0_x145)  u 5:3 w l ls 3  t 'LocAll',\
+     norma(biquiAvg_18_49_0_x145)  u 5:3 w l ls 8  t 'AVG',\
      norma(biqui_18_49_0_x145)  u 5:3 w l ls 6  t 'BiQui',\
      norma(exhau_18_49_0_x145)  u 5:3 w p ls 10 t 'OPT',\
 

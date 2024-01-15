@@ -185,7 +185,7 @@ LANG=C
 
 now=`date +%s`
 
-results="../results/biqui_sigmetrics2024/exhaustive-simuapp-targetd_$target_d-reliab_$reliab-mode_$mode-$now.csv"
+results="../results/sigmetrics2024/exhaustive-simuapp-targetd_$target_d-reliab_$reliab-mode_$mode-$now.csv"
 
 echo "ce cc z cost lambda mu edge_d cloud_d target_d percentile cost_ratio" > $results
 
@@ -194,7 +194,7 @@ echo "ce cc z cost lambda mu edge_d cloud_d target_d percentile cost_ratio" > $r
 
 
 for lam in `seq $lam_min $lam_step $lam_max`; do
-    log_f="../results/biqui_sigmetrics2024/logs/exhaustive-simuapp-reliab-$reliab-targetdel-$target_d-lambda-`printf '%.2f' $lam`-mu-`printf '%.2f' $mu`-mode_$mode.log"
+    log_f="logs/exhaustive-simuapp-reliab-$reliab-targetdel-$target_d-lambda-`printf '%.2f' $lam`-mu-`printf '%.2f' $mu`-mode_$mode.log"
     echo Working on $log_f
     python3 exhaustive_search_simuapp.py\
         --mu $mu --lambda_ $lam\

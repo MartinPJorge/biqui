@@ -35,7 +35,7 @@ def bin_search(c, lambda_, mu, percentile, tgt, delay, avg_d=False):
         avd = avg_del if avg_d else -1
         return 0, 1, avd if tgt<delay else 0
     if float(f'{rho:.2f}') <= 0.95:
-        f = f'cdf-sweep/rho-{rho:.2f}_c-{c}.csv'
+        f = f'../results/MGkapprox/avg-mock-cdf/rho-{rho:.2f}_c-{c}.csv'
         df = pd.read_csv(f, names=['x', 'cdf'], header=None)
         df = df.dropna()
         print(f'tgt-delay={tgt-delay}')
@@ -60,7 +60,7 @@ def bin_search(c, lambda_, mu, percentile, tgt, delay, avg_d=False):
             # Round 0.001 to 0.01
             if rho_next < 0.01:
                 rho_next = ceil( rho_next * 100 ) / 100
-            f = f'cdf-sweep/rho-{rho_next:.2f}_c-{c_next}.csv'
+            f = f'../results/MGkapprox/avg-mock-cdf/rho-{rho_next:.2f}_c-{c_next}.csv'
             df_next = pd.read_csv(f, names=['x', 'cdf'], header=None)
             df_next = df_next.dropna()
             print(f'tgt-delay={tgt-delay}')
@@ -254,7 +254,7 @@ if __name__ == '__main__':
             break
 
         # Read the edge CDF CSV file for new load
-        f = f'cdf-sweep/rho-{rho_e:.2f}_c-{ce}.csv'
+        f = f'../results/MGkapprox/avg-mock-cdf/rho-{rho_e:.2f}_c-{ce}.csv'
         print('  Loading', f)
         df_next = pd.read_csv(f, names=['x', 'cdf'], header=None)
         df_next = df_next.dropna()
@@ -273,7 +273,7 @@ if __name__ == '__main__':
 
             if rho_e>0 and float(f'{rho_e:.2f}')==0:
                 rho_e = ceil(0.001*100)/100
-            f = f'cdf-sweep/rho-{rho_e:.2f}_c-{ce}.csv'
+            f = f'../results/MGkapprox/avg-mock-cdf/rho-{rho_e:.2f}_c-{ce}.csv'
             print('  Loading', f)
             df_next = pd.read_csv(f, names=['x', 'cdf'], header=None)
             df_next = df_next.dropna()
@@ -315,7 +315,7 @@ if __name__ == '__main__':
                 continue
 
             # Read the cloud CDF CSV file for new load and -1 CPU
-            f = f'cdf-sweep/rho-{rho_c:.2f}_c-{cc}.csv'
+            f = f'../results/MGkapprox/avg-mock-cdf/rho-{rho_c:.2f}_c-{cc}.csv'
             print('  Loading', f)
             df_next = pd.read_csv(f, names=['x', 'cdf'], header=None)
             df_next = df_next.dropna()
@@ -384,7 +384,7 @@ if __name__ == '__main__':
     # 12 CPUs @Edge and z=0, when it needs 13
     if z == 0:
         rho_e = args.lambda_ * (1-z) / (ce*args.mu)
-        f = f'cdf-sweep/rho-{rho_e:.2f}_c-{ce}.csv'
+        f = f'../results/MGkapprox/avg-mock-cdf/rho-{rho_e:.2f}_c-{ce}.csv'
         df = pd.read_csv(f, names=['x', 'cdf'], header=None)
         df = df.dropna()
         perc_e = df[df['x']<=args.target_d-args.edge_d].tail(1)['cdf'].values[0]
