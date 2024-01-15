@@ -1,0 +1,62 @@
+set term pdf
+set out '/tmp/cost-vs-lambda.pdf'
+
+#set term tikz scale .7,.5
+#set out '/tmp/cost-vs-lambda.tex'
+
+set xlabel '{/Symbol l} [pkt/ms]' enhanced
+set ylabel 'Normalized Cost wrt. Cloud'
+
+load 'palette.pal'
+
+
+set key autotitle columnheader
+
+set key bottom right maxrows 2
+set tics out nomirror
+set grid 
+
+#set xrange [:4.4]
+#set xrange [2:2.5]
+
+# Normalization command
+norma(f)="<python3 ../test/normalize.py --csv ".f." --value 1.001"
+
+set linestyle  1 lw 25
+set linestyle  2 lw 10
+set linestyle  3 lw 25
+set linestyle  4 lw 10
+set linestyle  5 lw 25
+set linestyle  6 lw 10
+set linestyle  7 lw 25
+set linestyle  8 lw 10
+set linestyle  9 lw 2.5 pt 6
+set linestyle 10 lw 2.5 pt 6 
+
+
+# 18-49-0-x1.45
+biqui_18_49_0_x145='../results/biqui_infocom2024/biqui-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690750906.csv'
+exhau_18_49_0_x145='../results/biqui_infocom2024/exhaustive-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748917.csv'
+locAl_18_49_0_x145='../results/biqui_infocom2024/edge_exhaust-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748928.csv'
+offAl_18_49_0_x145='../results/biqui_infocom2024/cloud_exhaust-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748753-.csv'
+
+set tics font ',20'
+set xlabel font ',30' offset 0,-2
+set ylabel "Norm. Cost" font ',30' offset -2,0
+set lmargin 12
+set key top right maxrows 4 font ',20'
+set term pdf
+set out '/tmp/cost-vs-lambda-15-49-0-x145.pdf'
+set xrange [:2.5]
+#set yrange [:8]
+set key top right maxrows 3
+set style rectangle fc ls 5 fs transparent noborder
+set object 1 rectangle from first .75,0 to first 2.5,8 
+
+set label "Cannot offload\nto far cloud" center at first 1.625,1.5 font ',20'
+
+plot norma(offAl_18_49_0_x145)  u 5:4 w l ls 1  notitle,\
+     norma(locAl_18_49_0_x145)  u 5:4 w l ls 3  t 'LocAll',\
+     norma(biqui_18_49_0_x145)  u 5:4 w l ls 6  t 'BiQui',\
+     norma(exhau_18_49_0_x145)  u 5:4 w p ls 10 t 'OPT',\
+

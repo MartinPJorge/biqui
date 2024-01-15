@@ -1,0 +1,67 @@
+set term pdf
+set out '/tmp/offload-vs-lambda.pdf'
+
+#set term tikz scale .5,.5
+#set out '/tmp/offload-vs-lambda.tex'
+
+set xlabel '{/Symbol l} [pkt/ms]' enhanced
+set ylabel 'z'
+
+set key autotitle columnheader
+
+set key bottom right maxrows 2
+set tics out nomirror
+set grid lw .25
+
+#set xrange [1.5:]
+set ytics format '%.2f'
+
+
+
+load 'palette.pal'
+
+set linestyle  1 lw 25
+set linestyle  2 lw 10
+set linestyle  3 lw 25
+set linestyle  4 lw 10
+set linestyle  5 lw 25
+set linestyle  6 lw 10
+set linestyle  7 lw 25
+set linestyle  8 lw 10
+set linestyle  9 lw 2.5 pt 6
+set linestyle 10 lw 2.5 pt 6 
+
+
+
+
+# Normalization command
+norma(f)="<python3 ../test/normalize.py --csv ".f." --value 1.001"
+
+
+
+# 18-22-0-x1.45
+biqui_18_22_0_x145='../results/biqui_infocom2024/biqui-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690737649.csv'
+exhau_18_22_0_x145='../results/biqui_infocom2024/exhaustive-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690737537.csv'
+locAl_18_22_0_x145='../results/biqui_infocom2024/edge_exhaust-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690740013.csv'
+offAl_18_22_0_x145='../results/biqui_infocom2024/cloud_exhaust-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690739760-.csv'
+
+# set term pdf
+set out '/tmp/offload-vs-lambda-18-22-0-x1.45.pdf'
+unset arrow
+unset label
+set tics font ',20'
+set xlabel font ',30' offset 0,-2
+set ylabel "z" font ',30' offset -2,0
+set tics font ',20'
+set xlabel font ',30' offset 0,-2
+set lmargin 12
+set key font ',20'
+
+set arrow from first 1.68,0 to first 1.68,1 nohead lw 2 front
+set label "Cloud\nExhausted" at 1.8,.05 rotate by 90 font ', 20' front
+set key center left maxrows 4
+plot norma(offAl_18_22_0_x145)  u 5:3 w l ls 1  t 'OffAll',\
+     norma(locAl_18_22_0_x145)  u 5:3 w l ls 3  t 'LocAll',\
+     norma(biqui_18_22_0_x145)  u 5:3 w l ls 6  t 'BiQui',\
+     norma(exhau_18_22_0_x145)  u 5:3 w p ls 10 t 'OPT',\
+
