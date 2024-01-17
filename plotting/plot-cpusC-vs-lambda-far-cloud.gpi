@@ -43,6 +43,7 @@ exhau_18_49_0_x145='../results/biqui_infocom2024/exhaustive-targetd_100-reliab_0
 locAl_18_49_0_x145='../results/biqui_infocom2024/edge_exhaust-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748928.csv'
 offAl_18_49_0_x145='../results/biqui_infocom2024/cloud_exhaust-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748753-.csv'
 biquiAvg_18_49_0_x145='../results/sigmetrics2024/biqui-avg-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1705312084.csv'
+exhauSim_18_49_0_x145='../results/sigmetrics2024/exhaustive-simuapp-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1705322486.csv'
 
 
 unset arrow
@@ -69,4 +70,5 @@ plot norma(offAl_18_49_0_x145)  u 5:2 w l ls 1  notitle,\
      norma(locAl_18_49_0_x145)  u 5:2 w l ls 3  t 'LocAll',\
      norma(biquiAvg_18_49_0_x145)  u 5:2 w l ls 8  t 'AVG',\
      norma(biqui_18_49_0_x145)  u 5:2 w l ls 6  t 'BiQui',\
-     norma(exhau_18_49_0_x145)  u 5:2 w p ls 10 t 'OPT',\
+     norma(exhauSim_18_49_0_x145)  u 5:2 w p ls 10 t 'OPT',\
+     #norma(exhau_18_49_0_x145)  u 5:2 w p ls 10 t 'OPT',\
