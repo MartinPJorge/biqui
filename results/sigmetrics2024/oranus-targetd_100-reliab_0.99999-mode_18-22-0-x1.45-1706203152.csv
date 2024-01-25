@@ -1,0 +1,101 @@
+ce cc z cost lambda mu edge_d cloud_d target_d percentile cost_ratio
+0 4 1.0 0.11750000000000001 11.6713352007 11.6713352007 18.1 22.8 100.0 0.99999 0.0
+0 8 1.0 0.23500000000000001 23.3426704014 11.6713352007 18.1 22.8 100.0 0.99999 0.0
+0 11 1.0 0.3524999999999999 35.0140056021 11.6713352007 18.1 22.8 100.0 0.99999 0.0
+0 15 1.0 0.47000000000000003 46.6853408028 11.6713352007 18.1 22.8 100.0 0.99999 0.0
+0 18 1.0 0.5875 58.3566760035 11.6713352007 18.1 22.8 100.0 0.99999 0.0
+0 22 1.0 0.7049999999999998 70.0280112042 11.6713352007 18.1 22.8 100.0 0.99999 0.0
+0 25 1.0 0.8224999999999999 81.6993464049 11.6713352007 18.1 22.8 100.0 0.99999 0.0
+0 28 1.0 0.9400000000000001 93.3706816056 11.6713352007 18.1 22.8 100.0 0.99999 0.0
+0 31 1.0 1.0574999999999999 105.0420168063 11.6713352007 18.1 22.8 100.0 0.99999 0.0
+0 34 1.0 1.175 116.713352007 11.6713352007 18.1 22.8 100.0 0.99999 0.0
+0 38 1.0 1.2925 128.3846872077 11.6713352007 18.1 22.8 100.0 0.99999 0.0
+ZeroDivisionError: float division by zero
+5 40 0.8999999999999999 1.5962375000000002 151.7273576091 11.6713352007 18.1 22.8 100.0 0.99999 0.0
+9 40 0.8399999999999999 1.7634400000000001 163.3986928098 11.6713352007 18.1 22.8 100.0 0.99999 0.0
+12 40 0.7799999999999998 1.9369875000000003 175.0700280105 11.6713352007 18.1 22.8 100.0 0.99999 0.0
+16 40 0.7299999999999998 2.10842 186.7413632112 11.6713352007 18.1 22.8 100.0 0.99999 0.0
+19 40 0.6899999999999997 2.2761512500000003 198.4126984119 11.6713352007 18.1 22.8 100.0 0.99999 0.0
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution
+No feasible solution

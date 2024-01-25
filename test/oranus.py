@@ -50,9 +50,9 @@ eps=1e-6
 
 
 
-for c in range(1,40):
+for c in range(1,41):
     last_W=0
-    for rho in np.arange(.1,.96,.1):
+    for rho in np.arange(.01,.96,.01):
         lam = c*mu*rho
 
 
@@ -75,6 +75,11 @@ for c in range(1,40):
                     #print('found min', delay_min)
 
         last_W = delay_min
+        pd.DataFrame(data={
+            'delay': [0,delay_min],
+            'cdf': [0,1-eps],
+        }).to_csv(f'../results/cdf-oranus/rho-{rho:.2f}_c-{c}.csv',
+            header=None, index=False)
 
         print(f'c={c},rho={rho},W={delay_min}')
         

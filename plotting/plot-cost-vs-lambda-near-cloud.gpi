@@ -29,7 +29,7 @@ norma(f)="<python3 ../test/normalize.py --csv ".f." --value 1.001"
 set linestyle  1 lw 25
 set linestyle  2 lw 10
 set linestyle  3 lw 25
-set linestyle  4 lw 10
+set linestyle  4 lw 14
 set linestyle  5 lw 25
 set linestyle  6 lw 10
 set linestyle  7 lw 25
@@ -48,6 +48,8 @@ locAl_18_22_0_x145='../results/biqui_infocom2024/edge_exhaust-targetd_100-reliab
 offAl_18_22_0_x145='../results/biqui_infocom2024/cloud_exhaust-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690739760-.csv'
 biquiAvg_18_22_0_x145='../results/sigmetrics2024/biqui-avg-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1705312605.csv'
 exhauSim_18_22_0_x145='../results/sigmetrics2024/exhaustive-simuapp-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1705322392.csv'
+kingsman_18_22_0_x145='../results/sigmetrics2024/mgk-ed/mgk-kingman-total-delay-biqui-avg-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1705312605.csv'
+oranus_18_22_0_x145='../results/sigmetrics2024/oranus-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1706203152.csv'
 
 
 
@@ -67,7 +69,8 @@ set xrange [0:2.5]
 
 plot norma(offAl_18_22_0_x145)  u 5:4 w l ls 1  t 'OffAll',\
      norma(locAl_18_22_0_x145)  u 5:4 w l ls 3  t 'LocAll',\
-     norma(biquiAvg_18_22_0_x145)  u 5:4 w l ls 8 t 'AVG',\
+     NaN ls 8 t 'AVG',\
+     norma(oranus_18_22_0_x145) u ($5*21.42/22.5/250):4 w l ls 4 t 'SNC',\
      norma(biqui_18_22_0_x145)  u 5:4 w l ls 6  t 'BiQui',\
      norma(exhauSim_18_22_0_x145)  u 5:4 w p ls 10 t 'OPT',\
      #norma(exhau_18_22_0_x145)  u 5:4 w p ls 10 t 'OPT',\
