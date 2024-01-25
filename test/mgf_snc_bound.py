@@ -52,9 +52,9 @@ if __name__ == '__main__':
 
     for c in range(1, 41):
         for rho in np.arange(.01, 0.96, .01):
-            lambda_ = rho * mu * c
-            print( backlog_bound(t=T,x=0,lam=lambda_,alpha=alpha,
+            lambda_ = rho * mu_frame * c
+            print( backlog_bound(t=1,x=T,lam=lambda_,alpha=alpha,
                 beta=beta,mu=mu_frame*c,theta=0,inf=20) )
-            print( backlog_bound_all(t=T,x=0,lam=lambda_,alpha=alpha,
+            print( backlog_bound_all(t=1,x=T,lam=lambda_,alpha=alpha,
                 beta=beta,mu_ser=mu_frame*c,theta=0,inf=20) )
 
