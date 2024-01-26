@@ -60,11 +60,13 @@ for csv_file in filter(lambda f: '18-49-0-x1.45' in f or '18-22-0-x1.45' in f, c
     zetas_ = []
     ces_ = []
     ccs_ = []
+    costs_ = []
     for row_index in range(len(data)):
         rho_e_value = data.loc[row_index, 'rho_e']
         rho_c_value = data.loc[row_index, 'rho_c']
         ce_value = data.loc[row_index, 'ce']
         cc_value = data.loc[row_index, 'cc']
+        cost_value = data.loc[row_index, 'cost']
         edge_d = data.loc[row_index, 'edge_d']
         cloud_d = data.loc[row_index, 'cloud_d']
         lambda_ = data.loc[row_index, 'lambda']
@@ -73,6 +75,7 @@ for csv_file in filter(lambda f: '18-49-0-x1.45' in f or '18-22-0-x1.45' in f, c
         zetas_.append(z)
         ces_.append(ce_value)
         ccs_.append(cc_value)
+        costs_.append(cost_value)
 
         # Construct the corresponding CSV file name
         file_edge  = mgk_folder + f"/rho-{rho_e_value:.2f}_c-{round(ce_value)}.csv"
@@ -104,6 +107,7 @@ for csv_file in filter(lambda f: '18-49-0-x1.45' in f or '18-22-0-x1.45' in f, c
             'z': zetas_,
             'ce': ces_,
             'cc': ccs_,
+            'cost': costs_,
             'edge_avg': avg_del_edge,
             'cloud_avg': avg_del_cloud
         }
@@ -119,5 +123,6 @@ for csv_file in filter(lambda f: '18-49-0-x1.45' in f or '18-22-0-x1.45' in f, c
         os.makedirs(output_folder, exist_ok=True)
 
         #Save total_delay_edge and total_delay_cloud to separate CSV files
-        pd.DataFrame(store_dict).to_csv(output_file, index=False)
+        pd.DataFrame(store_dict).to_csv(output_file, index=False,
+                sep=' ')
 

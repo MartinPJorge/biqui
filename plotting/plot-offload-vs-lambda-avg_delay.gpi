@@ -20,16 +20,17 @@ set ytics format '%.2f'
 
 load 'palette.pal'
 
-set linestyle  1 lw 5
-set linestyle  2 lw 5
-set linestyle  3 lw 5
-set linestyle  4 lw 5
-set linestyle  5 lw 5
-set linestyle  6 lw 5
-set linestyle  7 lw 5
-set linestyle  8 lw 5
+set linestyle  1 lw 25
+set linestyle  2 lw 10
+set linestyle  3 lw 25
+set linestyle  4 lw 25
+set linestyle  5 lw 25
+set linestyle  6 lw 10
+set linestyle  7 lw 25
+set linestyle  8 lw 10
 set linestyle  9 lw 2.5 pt 6
 set linestyle 10 lw 2.5 pt 6 
+set linestyle 12 lw 15 pt 6 
 
 
 

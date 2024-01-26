@@ -1,4 +1,4 @@
-set term pdf
+set term pdf size 5,3.75
 set out '/tmp/offload-vs-lambda.pdf'
 
 #set term tikz scale .5,.5
@@ -23,19 +23,21 @@ load 'palette.pal'
 set linestyle  1 lw 25
 set linestyle  2 lw 10
 set linestyle  3 lw 25
-set linestyle  4 lw 10
+set linestyle  4 lw 25
 set linestyle  5 lw 25
 set linestyle  6 lw 10
 set linestyle  7 lw 25
 set linestyle  8 lw 10
 set linestyle  9 lw 2.5 pt 6
 set linestyle 10 lw 2.5 pt 6 
+set linestyle 12 lw 15 pt 6 
 
 
 
 
 # Normalization command
 norma(f)="<python3 ../test/normalize.py --csv ".f." --value 1.001"
+norm_filt_real(f)="<python3 ../test/normalize.py --csv ".f." --value 1.001 | awk 'NR==1{print $0} $31<=100 && $54<=100{print $0}'"
 
 
 
@@ -46,9 +48,13 @@ locAl_18_22_0_x145='../results/biqui_infocom2024/edge_exhaust-targetd_100-reliab
 offAl_18_22_0_x145='../results/biqui_infocom2024/cloud_exhaust-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690739760-.csv'
 biquiAvg_18_22_0_x145='../results/sigmetrics2024/biqui-avg-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1705312605.csv'
 exhauSim_18_22_0_x145='../results/sigmetrics2024/exhaustive-simuapp-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1705322392.csv'
+kingsman_18_22_0_x145='../results/sigmetrics2024/mgk-ed/mgk-total-delay-biqui-kingman-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1706194338.csv'
+oranus_18_22_0_x145='../results/sigmetrics2024/oranus-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1706203152.csv'
 
 # set term pdf
 set out '/tmp/offload-vs-lambda-18-22-0-x1.45.pdf'
+set out '/home/jorge/Documentos/biqui-sigmetrics/figures/offload-vs-lambda-18-22-0-x1.45.pdf'
+
 unset arrow
 unset label
 set tics font ',20'
@@ -58,15 +64,24 @@ set tics font ',20'
 set xlabel font ',30' offset 0,-2
 set lmargin 12
 set key font ',20'
+set key out tmargin left maxrows 3 font ',20'
 set xrange [0:2.5]
 
-set arrow from first 1.68,0 to first 1.68,1 nohead lw 2 front
+set arrow from first 1.68,0 to first 1.68,1 nohead lw 2 #front
 set label "Cloud\nExhausted" at 1.8,.05 rotate by 90 font ', 20' front
-set key center left maxrows 6
+#set key center left maxrows 6
+#plot norma(offAl_18_22_0_x145)  u 5:3 w l ls 1  t 'OffAll',\
+#     norma(locAl_18_22_0_x145)  u 5:3 w l ls 3  t 'LocAll',\
+#     norma(biquiAvg_18_22_0_x145)  u 5:3 w l ls 8 t 'AVG',\
+#     norma(biqui_18_22_0_x145)  u 5:3 w l ls 6  t 'BiQui',\
+#     norma(exhauSim_18_22_0_x145)  u 5:3 w p ls 10 t 'OPT',\
+#     #norma(exhau_18_22_0_x145)  u 5:3 w p ls 10 t 'OPT',\
+
 plot norma(offAl_18_22_0_x145)  u 5:3 w l ls 1  t 'OffAll',\
      norma(locAl_18_22_0_x145)  u 5:3 w l ls 3  t 'LocAll',\
-     norma(biquiAvg_18_22_0_x145)  u 5:3 w l ls 8 t 'AVG',\
+     NaN ls 8 t 'AVG',\
+     norma(oranus_18_22_0_x145) u ($5*21.42/22.5/250):3 w l ls 4 t 'SNC',\
+     norm_filt_real(kingsman_18_22_0_x145) u 1:2 w p ls 12 t 'KING',\
      norma(biqui_18_22_0_x145)  u 5:3 w l ls 6  t 'BiQui',\
      norma(exhauSim_18_22_0_x145)  u 5:3 w p ls 10 t 'OPT',\
      #norma(exhau_18_22_0_x145)  u 5:3 w p ls 10 t 'OPT',\
-

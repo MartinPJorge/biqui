@@ -1,5 +1,5 @@
-set term pdf
-set out '/tmp/offload-vs-lambda.pdf'
+set term pdf size 5,3.75
+#set out '/tmp/offload-vs-lambda.pdf'
 
 #set term tikz scale .5,.5
 #set out '/tmp/offload-vs-lambda.tex'
@@ -9,7 +9,7 @@ set ylabel 'z'
 
 set key autotitle columnheader
 
-set key bottom right maxrows 2
+#set key bottom right maxrows 2
 set tics out nomirror
 set grid lw .25
 
@@ -23,19 +23,21 @@ load 'palette.pal'
 set linestyle  1 lw 25
 set linestyle  2 lw 10
 set linestyle  3 lw 25
-set linestyle  4 lw 10
+set linestyle  4 lw 25
 set linestyle  5 lw 25
 set linestyle  6 lw 10
 set linestyle  7 lw 25
 set linestyle  8 lw 10
 set linestyle  9 lw 2.5 pt 6
 set linestyle 10 lw 2.5 pt 6 
+set linestyle 12 lw 15 pt 6 
 
 
 
 
 # Normalization command
 norma(f)="<python3 ../test/normalize.py --csv ".f." --value 1.001"
+norm_filt_real(f)="<python3 ../test/normalize.py --csv ".f." --value 1.001 | awk 'NR==1{print $0} $31<=100 && $54<=100{print $0}'"
 
 
 
@@ -50,34 +52,35 @@ locAl_18_49_0_x145='../results/biqui_infocom2024/edge_exhaust-targetd_100-reliab
 offAl_18_49_0_x145='../results/biqui_infocom2024/cloud_exhaust-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748753-.csv'
 biquiAvg_18_49_0_x145='../results/sigmetrics2024/biqui-avg-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1705312084.csv'
 exhauSim_18_49_0_x145='../results/sigmetrics2024/exhaustive-simuapp-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1705322486.csv'
+## kingsman_18_49_0_x145=''
+oranus_18_49_0_x145='../results/sigmetrics2024/oranus-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1706203090.csv'
 
-set term pdf
-set out '/tmp/offload-vs-lambda-18-49-0-x145.pdf'
+#set out '/tmp/offload-vs-lambda-18-49-0-x145.pdf'
+set out '/home/jorge/Documentos/biqui-sigmetrics/figures/offload-vs-lambda-18-49-0-x1.45.pdf'
 set xrange [:2.5]
-#set yrange [0:.25]
-set key center left maxrows 5
+set yrange [0:.25]
+#set key center left maxrows 5
 set style rectangle fc ls 5 fs transparent noborder
 set object 1 rectangle from first .75,0 to first 2.5,8 
 
 set label "Cannot offload\nto far cloud" center at first 1.625,.125 font ',20'
 
 
-set tics font ',20'
 set xlabel font ',30' offset 0,-2
 set ylabel "z" font ',30' offset -2,0
 set tics font ',20'
 set xlabel font ',30' offset 0,-2
 set lmargin 12
-set key font ',20'
 
-plot norma(offAl_18_49_0_x145)  u 5:3 w l ls 1  notitle,\
+set key out tmargin left maxrows 3 font ',20'
+
+plot NaN w l ls 1 t 'OffAll',\
      norma(locAl_18_49_0_x145)  u 5:3 w l ls 3  t 'LocAll',\
-     norma(biquiAvg_18_49_0_x145)  u 5:3 w l ls 8  t 'AVG',\
+     NaN  w l ls 8  t 'AVG',\
+     NaN w l ls 4 t 'SNC',\
+     NaN w p ls 12 t 'KING',\
      norma(biqui_18_49_0_x145)  u 5:3 w l ls 6  t 'BiQui',\
      norma(exhauSim_18_49_0_x145)  u 5:3 w p ls 10 t 'OPT',\
      #norma(exhau_18_49_0_x145)  u 5:3 w p ls 10 t 'OPT',\
-
-
-
 
 
