@@ -1,0 +1,190 @@
+set term pdf size 5,3.75
+set xlabel '{/Symbol l} [pkt/ms]' enhanced
+set ylabel 'Cloud 99.999 delay'
+
+load 'palette.pal'
+
+
+set key autotitle columnheader
+
+set key bottom right maxrows 2
+set tics out nomirror
+set grid 
+
+#set xrange [:4.4]
+#set xrange [2:2.5]
+
+# Normalization command
+norma(f)="<python3 ../test/normalize.py --csv ".f." --value 1.001"
+norm_filt_real(f)="<python3 ../test/normalize.py --csv ".f." --value 1.001 | awk 'NR==1{print $0} $31<=100 && $54<=100{print $0}'"
+
+
+
+set linestyle  1 lw 25
+set linestyle  2 lw 10
+set linestyle  3 lw 25
+set linestyle  4 lw 25
+set linestyle  5 lw 5
+set linestyle  6 lw 12
+set linestyle  7 lw 25
+set linestyle  8 lw 10
+set linestyle  9 lw 2.5 pt 6
+set linestyle 10 lw 2.5 pt 6 
+set linestyle 12 lw 15 pt 6 
+
+
+
+set linestyle 60 lc '#e31a1c' lw 7
+set linestyle 61 lc '#cc1719' lw 10
+set linestyle 62 lc '#b51416' lw 7
+set linestyle 63 lc '#9e1213' lw 8
+set linestyle 64 lc '#880f10' lw 7
+set linestyle 65 lc '#710d0e' lw 6
+set linestyle 66 lc '#5a0a0b' lw 7
+set linestyle 67 lc '#440708' lw 4
+set linestyle 68 lc '#2d0505' lw 7
+set linestyle 69 lc '#160202' lw 7
+set linestyle 70 lc '#000000' lw 7
+
+
+set linestyle 60 lc '#e31a1c' lw 7
+set linestyle 61 lc '#e53032' lw 10
+set linestyle 62 lc '#e84749' lw 7
+set linestyle 63 lc '#eb5e60' lw 8
+set linestyle 64 lc '#ee7576' lw 7
+set linestyle 65 lc '#f18c8d' lw 6
+set linestyle 66 lc '#f3a3a4' lw 7
+set linestyle 67 lc '#f6baba' lw 4
+set linestyle 68 lc '#f9d1d1' lw 7
+set linestyle 69 lc '#fce8e8' lw 7
+set linestyle 70 lc '#ffffff' lw 7
+
+
+
+
+
+
+
+# 18-22-0-x1.45
+biqui_z1per_18_22_0_x145='../results/sigmetrics2024/biqui-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690737649.csv'
+biqui_z5per_18_22_0_x145='../results/sigmetrics2024/biqui_z5per-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1706632349.csv'
+biqui_z10per_18_22_0_x145='../results/sigmetrics2024/biqui_z10per-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1706632412.csv'
+biqui_z20per_18_22_0_x145='../results/sigmetrics2024/biqui_z20per-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1706632479.csv'
+biqui_z30per_18_22_0_x145='../results/sigmetrics2024/biqui_z30per-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1706632553.csv'
+biqui_z40per_18_22_0_x145='../results/sigmetrics2024/biqui_z40per-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1706632626.csv'
+exhauSim_18_22_0_x145='../results/sigmetrics2024/mgk-ed/mgk-total-delay-exhaustive-simuapp-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1705322392.csv'
+#exhauSim_18_22_0_x145='../results/sigmetrics2024/exhaustive-simuapp-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1705322392.csv'
+
+
+
+#set term pdf
+#set out '/tmp/granularity-18-22-0-x1.45.pdf'
+#set out '/home/jorge/Documentos/biqui-sigmetrics/figures/cloud-delay-vs-lambda-18-22-0-x1.45.pdf'
+
+
+set tics font ',20'
+set xlabel font ',30' offset 0,-2
+set ylabel "Cost" font ',30' offset -2,0
+set lmargin 12
+#set key top left maxrows 4 font ',20'
+set key out tmargin left maxrows 3 font ',20'
+#set arrow from first 0,100 to first 2.5,100 nohead lw 3 front
+#set label "Target Delay" at 0.5,110 font ', 20' front
+#set yrange [0:]
+set xrange [0:2.5]
+
+
+set out '/tmp/z-vs-granularity-18-22-0-x1.45.pdf'
+set ylabel 'z'
+plot norma(biqui_z1per_18_22_0_x145)  u 5:3 w l ls 6   t 'z_{gran}=0.01',\
+     norma(biqui_z10per_18_22_0_x145) u 5:3 w l ls 61 t 'z_{gran}=0.1',\
+     norma(biqui_z20per_18_22_0_x145) u 5:3 w l ls 63 t 'z_{gran}=0.2',\
+     norma(biqui_z30per_18_22_0_x145) u 5:3 w l ls 65 t 'z_{gran}=0.3',\
+     norma(biqui_z40per_18_22_0_x145) u 5:3 w l ls 67 t 'z_{gran}=0.4',\
+     norma(exhauSim_18_22_0_x145) u 1:2 w p ls 10 t 'OPT',\
+
+
+set out '/tmp/cpusE-vs-granularity-18-22-0-x1.45.pdf'
+set ylabel 'Edge CPUs'
+plot norma(biqui_z1per_18_22_0_x145)  u 5:1 w l ls 6   t 'z_{gran}=0.01',\
+     norma(biqui_z10per_18_22_0_x145) u 5:1 w l ls 61 t 'z_{gran}=0.1',\
+     norma(biqui_z20per_18_22_0_x145) u 5:1 w l ls 63 t 'z_{gran}=0.2',\
+     norma(biqui_z30per_18_22_0_x145) u 5:1 w l ls 65 t 'z_{gran}=0.3',\
+     norma(biqui_z40per_18_22_0_x145) u 5:1 w l ls 67 t 'z_{gran}=0.4',\
+     norma(exhauSim_18_22_0_x145) u 1:3 w p ls 10 t 'OPT',\
+
+
+set out '/tmp/cpusC-vs-granularity-18-22-0-x1.45.pdf'
+set ylabel 'Cloud CPUs'
+plot norma(biqui_z1per_18_22_0_x145)  u 5:2 w l ls 6   t 'z_{gran}=0.01',\
+     norma(biqui_z10per_18_22_0_x145) u 5:2 w l ls 61 t 'z_{gran}=0.1',\
+     norma(biqui_z20per_18_22_0_x145) u 5:2 w l ls 63 t 'z_{gran}=0.2',\
+     norma(biqui_z30per_18_22_0_x145) u 5:2 w l ls 65 t 'z_{gran}=0.3',\
+     norma(biqui_z40per_18_22_0_x145) u 5:2 w l ls 67 t 'z_{gran}=0.4',\
+     norma(exhauSim_18_22_0_x145) u 1:4 w p ls 10 t 'OPT',\
+
+
+
+
+fpaste(x,y)=sprintf('<paste %s %s',x,y)
+
+set out '/tmp/cost-vs-granularity-18-22-0-x1.45.pdf'
+set multiplot
+set ylabel 'Norm. Cost'
+min_OPT=0.11750000000000001
+
+
+
+
+# Normalized plot prior to SIGMETRICS submission
+#####  z1norm='/tmp/z1norm.csv'
+#####  z10norm='/tmp/z10norm.csv'
+#####  z20norm='/tmp/z20norm.csv'
+#####  z30norm='/tmp/z30norm.csv'
+#####  z40norm='/tmp/z40norm.csv'
+#####  
+#####  normby(x,y)=sprintf("paste %s %s | awk 'NR==1{print $5,$4,$15} NR>1 && $14>0{print $5,$4,$15,($4/$15)}'",x,y)
+#####  system(sprintf('%s > %s', normby(biqui_z1per_18_22_0_x145,exhauSim_18_22_0_x145), z1norm))
+#####  system(sprintf('%s > %s', normby(biqui_z10per_18_22_0_x145,exhauSim_18_22_0_x145), z10norm))
+#####  system(sprintf('%s > %s', normby(biqui_z20per_18_22_0_x145,exhauSim_18_22_0_x145), z20norm))
+#####  system(sprintf('%s > %s', normby(biqui_z30per_18_22_0_x145,exhauSim_18_22_0_x145), z30norm))
+#####  system(sprintf('%s > %s', normby(biqui_z40per_18_22_0_x145,exhauSim_18_22_0_x145), z40norm))
+#####  
+#####  
+#####  
+#####  plot z1norm   u 1:4 w l ls 6  t 'z_{gran}=0.01',\
+#####       z10norm  u 1:4 w l ls 61 t 'z_{gran}=0.10',\
+#####       z20norm  u 1:4 w l ls 63 t 'z_{gran}=0.20',\
+#####       z30norm  u 1:4 w l ls 65 t 'z_{gran}=0.30',\
+#####       z40norm  u 1:4 w l ls 67 t 'z_{gran}=0.40',\
+#####       1    w p ls 10  t 'OPT',\
+
+
+plot norma(biqui_z1per_18_22_0_x145)  u 5:4 w l ls 6  t 'z_{gran}=0.01',\
+     norma(biqui_z10per_18_22_0_x145) u 5:4 w l ls 61 t 'z_{gran}=0.1',\
+     norma(biqui_z20per_18_22_0_x145) u 5:4 w l ls 63 t 'z_{gran}=0.2',\
+     norma(biqui_z30per_18_22_0_x145) u 5:4 w l ls 65 t 'z_{gran}=0.3',\
+     norma(biqui_z40per_18_22_0_x145) u 5:4 w l ls 67 t 'z_{gran}=0.4',\
+     norma(exhauSim_18_22_0_x145) u 1:5 w p ls 10 t 'OPT',\
+
+
+set size .5,.4
+set origin .1,.4
+unset grid
+unset xlabel
+unset ylabel
+set xrange [1.65:1.9]
+set xtics (1.65,1.8)
+set ytics (4.5,5.5)
+unset key
+plot norma(biqui_z1per_18_22_0_x145)  u 5:4 w l ls 6  t 'z_{gran}=0.01',\
+     norma(biqui_z10per_18_22_0_x145) u 5:4 w l ls 61 t 'z_{gran}=0.1',\
+     norma(biqui_z20per_18_22_0_x145) u 5:4 w l ls 63 t 'z_{gran}=0.2',\
+     norma(biqui_z30per_18_22_0_x145) u 5:4 w l ls 65 t 'z_{gran}=0.3',\
+     norma(biqui_z40per_18_22_0_x145) u 5:4 w l ls 67 t 'z_{gran}=0.4',\
+     norma(exhauSim_18_22_0_x145) u 1:5 w p ls 10 t 'OPT',\
+
+
+unset multiplot
+
+

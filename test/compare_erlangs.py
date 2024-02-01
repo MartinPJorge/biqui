@@ -26,11 +26,11 @@ def round_decimals_up(number:float, decimals:int=2):
 if __name__ == '__main__':
     loads = np.arange(.01,.96,.01)
 
-    T = 100
+    T = 100 - 22.1
     #T = 50
     reliab = .99999
-    # reliab = .999
-    # reliab = .99
+    #reliab = .999
+    #reliab = .99
 
     print(f'T={T}, reliability={reliab}')
 
@@ -42,7 +42,9 @@ if __name__ == '__main__':
             continue
 
         for c in list(range(1,41))[::-1]:
-            rho = max(min(round_decimals_up(I/c,2), .95), .01)
+            if round_decimals_up(I/c,2) > .95:
+                continue
+            rho = max(round_decimals_up(I/c,2), .01)
 
             # Exact M/G/k CDF
             f_sim = f'../results/cdf-simu/rho-{rho:.2f}_c-{c}.csv'

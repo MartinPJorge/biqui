@@ -33,6 +33,7 @@ percentiles = list(np.arange(0,.96, .05)) + [.99,.999,.9999,.99999]
 
 # Read the original CSV file
 for csv_file in filter(lambda f: '18-49-0-x1.45' in f or '18-22-0-x1.45' in f, csv_files):
+    print(csv_file)
     data = pd.read_csv(src_folder + '/' + csv_file, sep=' ')
 
     # Convert relevant columns to numeric type, and filter out non-numeric rows
@@ -40,15 +41,25 @@ for csv_file in filter(lambda f: '18-49-0-x1.45' in f or '18-22-0-x1.45' in f, c
     data[numeric_columns] = data[numeric_columns].apply(pd.to_numeric, errors='coerce')
     data = data.dropna()
 
-    data = data[(data['ce'] > 0) & (data['cc'] > 0) & (data['z'] > 0) & (data['z'] < 1)]
+    #data = data[(data['ce'] > 0) & (data['cc'] > 0) & (data['z'] > 0) & (data['z'] < 1)]
+
+
+    # print(csv_file)
+    # print(data.columns)
+    # print(data['lambda'])
+
 
     # # Calculate rho_e and rho_c for each row
+    # rho_es, rho_cs = [], []
+    # for i,row in data.iterrows():
+    #     pass
     data['rho_e'] = (data['lambda'] * (1 - data['z'])) / (data['mu'] * data['ce'])
     data['rho_c'] = (data['lambda'] * data['z']) / (data['mu'] * data['cc'])
 
-    data = data[data['rho_e'] <= 0.95]
-    data = data[data['rho_c'] <= 0.95]
+    #data = data[data['rho_e'] <= 0.95]
+    #data = data[data['rho_c'] <= 0.95]
     data.reset_index(drop=True, inplace=True)
+    print(len(data))
     print(data)
 
     row_index = 0
@@ -77,28 +88,67 @@ for csv_file in filter(lambda f: '18-49-0-x1.45' in f or '18-22-0-x1.45' in f, c
         ccs_.append(cc_value)
         costs_.append(cost_value)
 
-        # Construct the corresponding CSV file name
-        file_edge  = mgk_folder + f"/rho-{rho_e_value:.2f}_c-{round(ce_value)}.csv"
-        file_cloud = mgk_folder + f"/rho-{rho_c_value:.2f}_c-{round(cc_value)}.csv"
+
+        #################
+        ## Edge delays ##
+        #################
+        if (ce_value == 0 and z == 1)\
+            or (ce_value > 0 and rho_e_value == 0):
+            for percentile_value in percentiles:
+                total_del_edge[percentile_value].append(0)
+            avg_del_edge.append(0)
+        else:
+            # Construct the corresponding CSV file name
+            #print(rho_e_value,ce_value)
+            file_edge  = mgk_folder\
+                + f"/rho-{rho_e_value:.2f}_c-{round(ce_value)}.csv"
+            # # # Read the corresponding CSV file
+            rho_data_edge = pd.read_csv(file_edge,
+                names=['sojourn_time', 'percentile'], header=None)
+
+            # Store perc sojourn time (w/ propagation included)
+            for percentile_value in percentiles:
+                delay_edge = rho_data_edge[rho_data_edge['percentile']<=percentile_value].tail(1)['sojourn_time'].values[0] 
+                total_del_edge[percentile_value].append(delay_edge + edge_d)
+
+            avg_del_edge.append(avg_delay(rho_data_edge) + edge_d)
 
 
 
-        # # # Read the corresponding CSV file
-        rho_data_edge = pd.read_csv(file_edge,names=['sojourn_time', 'percentile'], header=None)
-        rho_data_cloud = pd.read_csv(file_cloud,names=['sojourn_time', 'percentile'], header=None)
+        ##################
+        ## Cloud delays ##
+        ##################
+        # print('cc_value', cc_value, 'z', z,
+        #         'mu', data['mu'].values[row_index],
+        #         'lambda', data['lambda'].values[row_index])
+        if (cc_value == 0 and z == 0)\
+            or (cc_value > 0 and rho_c_value == 0):
+            for percentile_value in percentiles:
+                total_del_cloud[percentile_value].append(0)
+            avg_del_cloud.append(0)
+        else:
+            # Construct the corresponding CSV file name
+            file_cloud  = mgk_folder\
+                + f"/rho-{rho_c_value:.2f}_c-{round(cc_value)}.csv"
+            # # # Read the corresponding CSV file
+            rho_data_cloud = pd.read_csv(file_cloud,
+                names=['sojourn_time', 'percentile'], header=None)
 
-        # # # # # Get the sojourn time for the desired percentile (e.g., 99.999)
-        for percentile_value in percentiles:
-            delay_edge = rho_data_edge[rho_data_edge['percentile']<=percentile_value].tail(1)['sojourn_time'].values[0]
-            delay_cloud = rho_data_cloud[rho_data_cloud['percentile']<=percentile_value].tail(1)['sojourn_time'].values[0]
-            
-            # Store the percentile sojourn time (w/ propagation included)
-            total_del_edge[percentile_value].append(delay_edge + edge_d)
-            total_del_cloud[percentile_value].append(delay_cloud + cloud_d)
+            # Store perc sojourn time (w/ propagation included)
+            for percentile_value in percentiles:
+                delay_cloud = rho_data_cloud[rho_data_cloud['percentile']<=percentile_value].tail(1)['sojourn_time'].values[0] 
+                total_del_cloud[percentile_value].append(delay_cloud + cloud_d)
 
-        # Compute the average sojourn time (w/ propagation included)
-        avg_del_edge.append(avg_delay(rho_data_edge) + edge_d)
-        avg_del_cloud.append(avg_delay(rho_data_cloud) + cloud_d)
+            avg_del_cloud.append(avg_delay(rho_data_cloud) + cloud_d)
+
+
+
+
+
+
+
+
+
 
 
         # Create the dictionary to store
@@ -111,6 +161,8 @@ for csv_file in filter(lambda f: '18-49-0-x1.45' in f or '18-22-0-x1.45' in f, c
             'edge_avg': avg_del_edge,
             'cloud_avg': avg_del_cloud
         }
+        #print('file:', csv_file)
+        #print('lambdas:', lambdas_)
         for k,v in total_del_edge.items():
             store_dict[f'edge_{k}'] = v
         for k,v in total_del_cloud.items():

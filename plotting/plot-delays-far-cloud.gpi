@@ -1,0 +1,100 @@
+set term pdf size 5,3.75
+set xlabel '{/Symbol l} [pkt/ms]' enhanced
+
+load 'palette.pal'
+
+
+set key autotitle columnheader
+
+#set key bottom right maxrows 2
+set tics out nomirror
+set grid 
+
+#set xrange [:4.4]
+#set xrange [2:2.5]
+
+# Normalization command
+norma(f)="<python3 ../test/normalize.py --csv ".f." --value 1.001"
+norm_filt_real(f)="<python3 ../test/normalize.py --csv ".f." --value 1.001 | awk 'NR==1{print $0} $31<=100 && $54<=100{print $0}'"
+
+
+
+set linestyle  1 lw 25
+set linestyle  2 lw 10
+set linestyle  3 lw 25
+set linestyle  4 lw 25
+set linestyle  5 lw 25
+set linestyle  6 lw 10
+set linestyle  7 lw 25
+set linestyle  8 lw 10
+set linestyle  9 lw 2.5 pt 6
+set linestyle 10 lw 2.5 pt 6 
+set linestyle 12 lw 15 pt 6 
+
+
+
+
+
+# 18-49-0-x1.45
+biqui_18_49_0_x145='../results/sigmetrics2024/mgk-ed/mgk-total-delay-biqui-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690750906.csv'
+locAl_18_49_0_x145='../results/sigmetrics2024/mgk-ed/mgk-total-delay-edge_exhaust-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748928.csv'
+offAl_18_49_0_x145='../results/sigmetrics2024/mgk-ed/mgk-total-delay-cloud_exhaust-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1690748753-.csv'
+biquiAvg_18_49_0_x145='../results/sigmetrics2024/mgk-ed/mgk-total-delay-biqui-avg-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1705312084.csv'
+exhauSim_18_49_0_x145='../results/sigmetrics2024/mgk-ed/mgk-total-delay-exhaustive-simuapp-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1705322486.csv'
+kingsman_18_49_0_x145='../results/sigmetrics2024/mgk-ed/mgk-total-delay-biqui-kingman-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1706263114.csv'
+oranus_18_49_0_x145='../results/sigmetrics2024/mgk-ed/mgk-total-delay-oranus-targetd_100-reliab_0.99999-mode_18-49-0-x1.45-1706203090.csv'
+
+
+
+#set term pdf
+set out '/tmp/edge-delay-vs-lambda-18-49-0-x1.45.pdf'
+#set out '/home/jorge/Documentos/biqui-sigmetrics/figures/cloud-delay-vs-lambda-18-22-0-x1.45.pdf'
+
+
+set tics font ',20'
+set xlabel font ',30' offset 0,-2
+set ylabel "Edge 99.999 Delay" font ',30' offset -2,0
+set lmargin 12
+#set key top left maxrows 4 font ',20'
+set key out tmargin left maxrows 3 font ',20'
+set arrow from first 0,100 to first 2.5,100 nohead lw 3 front
+set label "Target Delay" at 0.8,110 font ', 20' front
+#set yrange [0:]
+set xrange [0:2.5]
+
+
+
+
+#plot norma(offAl_18_49_0_x145)  u 1:31 w l ls 1  t 'OffAll',\
+
+plot NaN w l ls 1  t 'OffAll',\
+     norma(locAl_18_49_0_x145)  u 1:31 w l ls 3  t 'LocAll',\
+     norma(oranus_18_49_0_x145) u ($1*21.42/22.5/250):31 w l ls 4 t 'SNC',\
+     norma(kingsman_18_49_0_x145) u 1:31 w p ls 12 t 'KING',\
+     norma(biquiAvg_18_49_0_x145) u 1:31 w l ls 8 t 'AVG',\
+     norma(biqui_18_49_0_x145)  u 1:31 w l ls 6  t 'BiQui',\
+     norma(exhauSim_18_49_0_x145)  u 1:31 w p ls 10 t 'OPT'
+
+
+
+###################################
+### plot same for cloud delays
+###################################
+set out '/tmp/cloud-delay-vs-lambda-18-49-0-x1.45.pdf'
+set ylabel "Cloud 99.999 Delay" font ',30' offset -2,0
+unset label
+unset label
+set label "Target Delay" at 1.5,80 font ', 20' front
+#plot norma(offAl_18_49_0_x145)  u 1:55 w l ls 1  t 'OffAll',\
+
+plot NaN w l ls 1  t 'OffAll',\
+     norma(locAl_18_49_0_x145)  u 1:55 w l ls 3  t 'LocAll',\
+     norma(oranus_18_49_0_x145) u ($1*21.42/22.5/250):55 w l ls 4 t 'SNC',\
+     norma(kingsman_18_49_0_x145) u 1:55 w p ls 12 t 'KING',\
+     norma(biquiAvg_18_49_0_x145) u 1:55 w l ls 8 t 'AVG',\
+     norma(biqui_18_49_0_x145)  u 1:55 w l ls 6  t 'BiQui',\
+     norma(exhauSim_18_49_0_x145)  u 1:55 w p ls 10 t 'OPT',\
+
+
+
+

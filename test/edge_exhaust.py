@@ -85,7 +85,7 @@ if __name__ == '__main__':
             continue
 
         # Read the edge CDF CSV file for new load
-        f = f'cdf-sweep/rho-{rho_e:.2f}_c-{ce}.csv'
+        f = f'../results/MGkapprox/cdf-sweep/rho-{rho_e:.2f}_c-{ce}.csv'
         print('  Loading', f)
         df_next = pd.read_csv(f, names=['x', 'cdf'], header=None)
         df_next = df_next.dropna()
@@ -109,7 +109,7 @@ if __name__ == '__main__':
             rho_e -= rho_step
 
             # read the edge cdf csv file for new load
-            f = f'cdf-sweep/rho-{rho_e:.2f}_c-{ce}.csv'
+            f = f'../results/MGkapprox/cdf-sweep/rho-{rho_e:.2f}_c-{ce}.csv'
             print('  loading', f)
             df_next = pd.read_csv(f, names=['x', 'cdf'], header=None)
             df_next = df_next.dropna()
@@ -141,7 +141,7 @@ if __name__ == '__main__':
                 continue
 
             # Read the edge CDF CSV file for new load
-            f = f'cdf-sweep/rho-{rho_c:.2f}_c-{cc}.csv'
+            f = f'../results/MGkapprox/cdf-sweep/rho-{rho_c:.2f}_c-{cc}.csv'
             print('  Loading', f)
             df_next = pd.read_csv(f, names=['x', 'cdf'], header=None)
             df_next = df_next.dropna()

@@ -188,16 +188,17 @@ LANG=C
 
 now=`date +%s`
 
-results="biqui-targetd_$target_d-reliab_$reliab-mode_$mode-$now.csv"
+results="results/sigmetrics2024/biqui-targetd_$target_d-reliab_$reliab-mode_$mode-$now.csv"
 
 echo "ce cc z cost lambda mu edge_d cloud_d target_d percentile cost_ratio" > $results
 
 
 
 
-
+cd ..
+mkdir /tmp/logs
 for lam in `seq $lam_min $lam_step $lam_max`; do
-    log_f="logs/biqui-reliab-$reliab-targetdel-$target_d-lambda-`printf '%.2f' $lam`-mu-`printf '%.2f' $mu`-mode_$mode.log"
+    log_f="/tmp/logs/biqui-reliab-$reliab-targetdel-$target_d-lambda-`printf '%.2f' $lam`-mu-`printf '%.2f' $mu`-mode_$mode.log"
     echo Working on $log_f
     python3 biqui.py\
         --mu $mu --lambda_ $lam\

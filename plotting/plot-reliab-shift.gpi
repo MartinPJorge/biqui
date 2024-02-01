@@ -1,0 +1,217 @@
+set term pdf size 5,3.75
+set term pdf
+
+#set term tikz scale .5,.5
+#set out '/tmp/offload-vs-lambda.tex'
+
+set xlabel '{/Symbol l} [pkt/ms]' enhanced
+set ylabel 'z'
+
+set key autotitle columnheader
+
+set key bottom right maxrows 2
+set tics out nomirror
+set grid lw .25
+
+#set xrange [1.5:]
+set ytics format '%.2f'
+
+
+
+load 'palette.pal'
+
+set linestyle  1 lw 25
+set linestyle  2 lw 10
+set linestyle  3 lw 25
+set linestyle  4 lw 10
+set linestyle  5 lw 25
+set linestyle  6 lw 10
+set linestyle  7 lw 25
+set linestyle  8 lw 10
+set linestyle  9 lw 2.5 pt 6
+set linestyle 10 lw 2.5 pt 6 
+
+
+
+
+# Normalization command
+norma(f)="<python3 ../test/normalize.py --csv ".f." --value 1.001"
+norm_filt_real(f)="<python3 ../test/normalize.py --csv ".f." --value 1.001 | awk 'NR==1{print $0} $31<=100 && $54<=100{print $0}'"
+
+
+
+
+#####################
+# Plot stress shift #
+#####################
+biqui_18_22_0_x145_99999='../results/sigmetrics2024/biqui-targetd_100-reliab_0.99999-mode_18-22-0-x1.45-1690737649.csv'
+biqui_18_22_0_x145_9999='../results/sigmetrics2024/biqui-targetd_100-reliab_0.9999-mode_18-22-0-x1.45-1706689284.csv'
+biqui_18_22_0_x145_99='../results/sigmetrics2024/biqui-targetd_100-reliab_0.99-mode_18-22-0-x1.45-1706692804.csv'
+biqui_18_22_0_x145_9='../results/sigmetrics2024/biqui-targetd_100-reliab_0.9-mode_18-22-0-x1.45-1706695515.csv'
+
+#set key top left
+
+
+set term pdf
+
+
+set tics font ',20'
+set xlabel font ',30' offset 0,-2
+set ylabel "z" font ',30' offset -3,0
+set lmargin 12
+# set key font ',20' samplen 1
+set key outside tmargin maxrows 2 font ',20'
+
+
+
+# set arrow from first 2.08,.65 to first 2.08,1 nohead lc 'black' lw 2
+# set style rect fc ls 5 fs transparent noborder
+# set object 1 rectangle from first 2.08,0 to first 2.44,4.5
+# set arrow from first 1,.8 to first 1.4,.9 fill lw 2
+
+
+
+
+################
+## Offloading ##
+################
+set ylabel 'z'
+set out '/tmp/offload-reliab-shift.pdf'
+
+
+plot norma(biqui_18_22_0_x145_99999)  u 5:3 w l ls 6 t '99.999%',\
+     norma(biqui_18_22_0_x145_9999) u 5:3 w l ls 5 lw 10 dt 2 t '99.99%',\
+     norma(biqui_18_22_0_x145_99) u 5:3 w l ls 6 lw 2 dt 1 t '99%',\
+     norma(biqui_18_22_0_x145_9) u 5:3 w l ls 5 lw 2 dt 2 t '90%',\
+
+
+
+################
+## Edge CPUs ##
+################
+set ylabel 'Edge CPUs'
+set out '/tmp/cpusE-reliab-shift.pdf'
+
+
+set ytics format '%.0f'
+set multiplot
+plot norma(biqui_18_22_0_x145_99999)  u 5:1 w l ls 6 t '99.999%',\
+     norma(biqui_18_22_0_x145_9999) u 5:1 w l ls 5 lw 10 dt 2 t '99.99%',\
+     norma(biqui_18_22_0_x145_99) u 5:1 w l ls 6 lw 2 dt 1 t '99%',\
+     norma(biqui_18_22_0_x145_9) u 5:1 w l ls 5 lw 2 dt 2 t '90%',\
+
+set origin .1,.25
+set size .5,.55
+
+unset grid
+unset key
+set xrange [2:2.25]
+unset xlabel
+unset ylabel
+set xtics (2,2.125,2.25)
+plot norma(biqui_18_22_0_x145_99999)  u 5:1 w l ls 6 t '99.999%',\
+     norma(biqui_18_22_0_x145_9999) u 5:1 w l ls 5 lw 10 dt 2 t '99.99%',\
+     norma(biqui_18_22_0_x145_99) u 5:1 w l ls 6 lw 2 dt 1 t '99%',\
+     norma(biqui_18_22_0_x145_9) u 5:1 w l ls 5 lw 2 dt 2 t '90%',\
+
+unset multiplot
+
+
+
+
+################
+## Cloud CPUs ##
+################
+set xlabel '{/Symbol l} [pkt/ms]' enhanced
+set tics font ',20'
+set xlabel font ',30' offset 0,-2
+set ylabel 'Cloud CPUs' font ',30' offset -3,0
+set lmargin 12
+unset size
+unset origin
+unset xtics
+set xtics nomirror
+set xrange [0:2.5]
+set grid
+set key outside tmargin maxrows 2
+set tics font ',20'
+set out '/tmp/cpusC-reliab-shift.pdf'
+
+
+set multiplot
+plot norma(biqui_18_22_0_x145_99999)  u 5:2 w l ls 6 t '99.999%',\
+     norma(biqui_18_22_0_x145_9999) u 5:2 w l ls 5 lw 10 dt 2 t '99.99%',\
+     norma(biqui_18_22_0_x145_99) u 5:2 w l ls 6 lw 2 dt 1 t '99%',\
+     norma(biqui_18_22_0_x145_9) u 5:2 w l ls 5 lw 2 dt 2 t '90%',\
+
+set origin .45,.2
+set size .5,.45
+
+unset grid
+unset key
+set xrange [0:.4]
+unset xlabel
+unset ylabel
+set xtics (0,.2,.4)
+plot norma(biqui_18_22_0_x145_99999)  u 5:2 w l ls 6 t '99.999%',\
+     norma(biqui_18_22_0_x145_9999) u 5:2 w l ls 5 lw 10 dt 2 t '99.99%',\
+     norma(biqui_18_22_0_x145_99) u 5:2 w l ls 6 lw 2 dt 1 t '99%',\
+     norma(biqui_18_22_0_x145_9) u 5:2 w l ls 5 lw 2 dt 2 t '90%',\
+
+unset multiplot
+
+
+
+
+
+##########
+## Cost ##
+##########
+
+set xrange [0:2.5]
+
+
+
+
+set xlabel '{/Symbol l} [pkt/ms]' enhanced
+set tics font ',20'
+set xlabel font ',30' offset 0,-2
+set ylabel 'Norm. Cost' font ',30' offset -3,0
+set lmargin 12
+unset size
+unset origin
+unset xtics
+set xtics nomirror
+set xrange [0:2.5]
+set grid
+set key outside tmargin maxrows 2
+set tics font ',20'
+
+
+set out '/tmp/cost-reliab-shift.pdf'
+set multiplot
+plot norma(biqui_18_22_0_x145_99999)  u 5:($4+$1/60+$2/60-1) w l ls 6 t '99.999%',\
+     norma(biqui_18_22_0_x145_9999)   u 5:($4+$1/60+$2/60-1) w l ls 5 lw 10 dt 2 t '99.99%',\
+     norma(biqui_18_22_0_x145_99)     u 5:($4+$1/60+$2/60-1) w l ls 6 lw 2 dt 1 t '99%',\
+     norma(biqui_18_22_0_x145_9)      u 5:($4+$1/60+$2/60-1) w l ls 5 lw 2 dt 2 t '90%',\
+
+set origin .1,.42
+set size .5,.4
+
+unset grid
+unset key
+set xrange [2:2.06]
+set yrange [5.5:5.7]
+#set logscale y
+unset xlabel
+unset ylabel
+set xtics (2,2.03)
+set ytics (5.5,5.6,5.7) format '%.1f'
+plot norma(biqui_18_22_0_x145_99999)  u 5:($4+$1/60+$2/60-1) w l ls 6 t '99.999%',\
+     norma(biqui_18_22_0_x145_9999)   u 5:($4+$1/60+$2/60-1) w l ls 5 lw 10 dt 2 t '99.99%',\
+     norma(biqui_18_22_0_x145_99)     u 5:($4+$1/60+$2/60-1) w l ls 6 lw 2 dt 1 t '99%',\
+     norma(biqui_18_22_0_x145_9)      u 5:($4+$1/60+$2/60-1) w l ls 5 lw 2 dt 2 t '90%',\
+
+
+unset multiplot
+
