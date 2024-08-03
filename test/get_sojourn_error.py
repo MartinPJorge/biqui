@@ -17,7 +17,7 @@ def get_soj_vs_I(soj_dir):
         df.columns = ['delay', 'cdf']
         df = df[df['cdf'] >= perc]
         if len(df)>0:
-            soj_dict[rho,c] = df['delay'].values[0]
+            soj_dict[rho*c] = df['delay'].values[0]
 
     return soj_dict
 
@@ -29,9 +29,9 @@ simu_soj = get_soj_vs_I(simu_dir)
 
 approx_soj = dict(sorted(approx_soj.items()))
 
-for (rho,c),delay in approx_soj.items():
-    if (rho,c) in simu_soj:
-        print(rho,c,delay-simu_soj[rho,c])
+for (rhoc),delay in approx_soj.items():
+    if (rhoc) in simu_soj:
+        print(rhoc,delay-simu_soj[rhoc])
 
 # Compute the errors and store them
 soj_err = {I: approx_soj[I] - simu_soj[I]
