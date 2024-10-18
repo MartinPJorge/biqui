@@ -1,0 +1,13 @@
+set term pdf
+set out '/tmp/cpu-error.pdf'
+
+set key autotitle columnhead
+set datafile separator ","
+
+set logscale y
+set grid
+set xlabel 'CPU_{approx} - CPU_{M/G/k}'
+set ylabel 'CDF'
+cumulative_sum(x)=(a=a+x,a)
+plot "<awk -F, 'NR>0{print $2}' /tmp/cpu-err.csv" u 1:(1./3675) smooth cumulative lc 'blue' lw 4
+

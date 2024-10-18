@@ -1,0 +1,137 @@
+set term pdf
+set out '/tmp/new-cpusC-vs-lambda.pdf'
+
+# set term tikz scale .5,.5
+# set out '/tmp/cpusC-vs-lambda.tex'
+
+set xlabel '{/Symbol l}' enhanced
+set ylabel 'CPUs\@Cloud'
+
+#set key autotitle columnheader
+
+#set key bottom right maxrows 3
+set tics out nomirror
+set grid lw .25
+
+
+load 'palette.pal'
+
+
+# Get all results 
+ratios(De,ecr,subr,del,reliab)="<cat ../results/journal-extension/delay-change/biqui-targetd_".del."-reliab_".reliab."-use_subs_ratio_10p".subr."-edge_cloud_ratio_".ecr."-del_edge_".De."-del_cloud_22.8-*.csv"
+
+
+set linestyle  1 lw 25
+set linestyle  2 lw 10
+set linestyle  3 lw 25
+set linestyle  4 lw 10
+set linestyle  5 lw 25
+set linestyle  6 lw 10
+set linestyle  7 lw 25
+set linestyle  8 lw 10
+set linestyle  9 lw 2.5 pt 6
+set linestyle 10 lw 2.5 pt 6 
+
+
+
+
+#set key top left maxrows 3
+
+
+set ylabel "Cloud CPUs" font ',30' offset -2,0
+set tics font ',20'
+set xlabel font ',30' offset 0,-2
+set lmargin 12
+#set key top right font ',20'
+#set ytics 0
+
+#set xrange [0.1:]
+
+
+
+
+#print(ratios(40,1,0,100,".99999"))
+# ce/cc ratio
+ecr='3'
+ecr='.3333333333'
+ecr='.2500000000'
+ecr='1'
+subr=3
+subr=0
+
+set key bottom right
+set title 'Dc=22.8[ms], ce=cc·'.ecr.', c1/c0=10^'.subr
+
+array Des[10]
+Des[1]="2.2800000000"
+Des[2]="4.5600000000"
+Des[3]="6.8400000000"
+Des[4]="9.1200000000"
+Des[5]="11.4000000000"
+Des[6]="13.6800000000"
+Des[7]="15.9600000000"
+Des[8]="18.2400000000"
+Des[9]="20.5200000000"
+Des[10]="22.8000000000"
+
+
+print(ratios(Des[7],ecr,subr,100,".99999"))
+
+plot for [i=7:7] ratios(Des[i],ecr,subr,100,".99999") u 5:2 w l lw 4 t 'De='.Des[i]
+
+
+set out '/tmp/new-cpusE-vs-lambda.pdf'
+set ylabel 'Edge CPUs'
+plot for [i=7:7] ratios(Des[i],ecr,subr,100,".99999") u 5:1 w l lw 4 t 'De='.Des[i]
+
+###################
+# Cloud cheaper
+###################
+ecr='3'
+set title 'Dc=22.8[ms], ce=cc·'.ecr.', c1/c0=10^'.subr
+
+set out '/tmp/new-cpusC-vs-lambda-cheapCloud.pdf'
+plot for [i=1:10:3] ratios(Des[i],ecr,subr,100,".99999") u 5:2 w l lw 4 t 'De='.Des[i]
+
+
+set out '/tmp/new-cpusE-vs-lambda-cheapCloud.pdf'
+set ylabel 'Edge CPUs'
+plot for [i=1:10] ratios(Des[i],ecr,subr,100,".99999") u 5:1 w l lw 4 t 'De='.Des[i]
+
+
+###################
+# Edge cheaper
+###################
+ecr='.3333333333'
+set title 'Dc=22.8[ms], ce=cc·'.ecr.', c1/c0=10^'.subr
+
+set out '/tmp/new-cpusC-vs-lambda-cheapEdge.pdf'
+set ylabel 'Cloud CPUs'
+plot for [i=1:10:3] ratios(Des[i],ecr,subr,100,".99999") u 5:2 w l lw 4 t 'De='.Des[i]
+
+
+set out '/tmp/new-cpusE-vs-lambda-cheapEdge.pdf'
+set ylabel 'Edge CPUs'
+plot for [i=1:10] ratios(Des[i],ecr,subr,100,".99999") u 5:1 w l lw 4 t 'De='.Des[i]
+
+
+
+###################
+# Cost change
+###################
+array ecrs[3]
+ecrs[1]='.3333333333'
+ecrs[2]='1'
+ecrs[3]='3'
+set title 'Dc=22.8[ms], De='.Des[5].'[ms], c1/c0=10^'.subr
+
+set out '/tmp/new-cpusC-vs-lambda-ratioChange.pdf'
+set ylabel 'Cloud CPUs'
+plot for [i=1:3] ratios(Des[5],ecrs[i],subr,100,".99999") u 5:2 w l lw 4 t 'ce=cc·'.ecrs[i]
+
+
+set out '/tmp/new-cpusE-vs-lambda-ratioChange.pdf'
+set ylabel 'Edge CPUs'
+plot for [i=1:3] ratios(Des[5],ecrs[i],subr,100,".99999") u 5:1 w l lw 4 t 'ce=cc·'.ecrs[i]
+
+

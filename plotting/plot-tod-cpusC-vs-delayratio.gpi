@@ -1,0 +1,149 @@
+set term pdf
+set out '/tmp/cpusC-tod-vs-delayratio.pdf'
+
+# set term tikz scale .5,.5
+# set out '/tmp/cpusC-vs-lambda.tex'
+
+set xlabel 'D_e/D_c' enhanced
+set ylabel 'CPUs\@Cloud'
+
+#set key autotitle columnheader
+
+#set key bottom right maxrows 3
+set tics out nomirror
+set grid lw .25
+
+
+load 'palette.pal'
+
+dir="../results/journal-extension/delay-change/"
+
+# Get all results 
+ratios(ln,ecr,subr,del,reliab)="<awk 'FNR==".ln."{print $0}' ".dir."biqui-targetd_".del."-reliab_".reliab."-use_subs_ratio_10p".subr."-edge_cloud_ratio_".ecr."-del_edge_*-del_cloud_22.8-*.csv  | sort -t' ' -k7 -g"
+lam(ln,ecr,subr,del,reliab)=system("awk  'FNR==".ln."{print $5}' ".dir."biqui-targetd_".del."-reliab_".reliab."-use_subs_ratio_10p".subr."-edge_cloud_ratio_".ecr."-del_edge_*-del_cloud_22.8-*.csv | grep -oe '[0-9]\.[0-9][0-9]'  | head -n1")
+
+
+set linestyle  1 lw 25
+set linestyle  2 lw 10
+set linestyle  3 lw 25
+set linestyle  4 lw 10
+set linestyle  5 lw 25
+set linestyle  6 lw 10
+set linestyle  7 lw 25
+set linestyle  8 lw 10
+set linestyle  9 lw 2.5 pt 6
+set linestyle 10 lw 2.5 pt 6 
+
+
+
+
+#set key top left maxrows 3
+
+
+set ylabel "Cloud CPUs" font ',30' offset -2,0
+set tics font ',20'
+set xlabel font ',30' offset 0,-2
+set lmargin 12
+#set key top right font ',20'
+#set ytics 0
+
+set xrange [0.1:]
+
+
+
+
+print(ratios(40,1,0,100,".99999"))
+# ce/cc ratio
+ecr='3'
+ecr='.3333333333'
+ecr='.2500000000'
+ecr='1'
+subr=0
+
+#set key out rmargin
+set title 'Dc=22.8[ms], ce=cc·'.ecr.', c1/c0=10^'.subr
+
+
+plot for [i=15:57:4] ratios(i,ecr,subr,100,".99999") u ($7/$8):2 w l lw 4 t '{/Symbol l}='.lam(i,ecr,subr,100,".99999")
+
+
+set out '/tmp/cpusE-tod-vs-delayratio.pdf'
+set ylabel 'Edge CPUs'
+plot for [i=15:57:4] ratios(i,ecr,subr,100,".99999") u ($7/$8):1 w l lw 4 t '{/Symbol l}='.lam(i,ecr,subr,100,".99999")
+
+
+set out '/tmp/cpus-tod-vs-delayratio.pdf'
+set ylabel 'CPUs'
+plot for [i=15:57:4] ratios(i,ecr,subr,100,".99999") u ($7/$8):($1+$2) w l lw 2 t '{/Symbol l}='.lam(i,ecr,subr,100,".99999")
+
+
+set out '/tmp/z-tod-vs-delayratio.pdf'
+set ylabel 'z'
+plot for [i=15:57:4] ratios(i,ecr,subr,100,".99999") u ($7/$8):3 w l lw 2 t '{/Symbol l}='.lam(i,ecr,subr,100,".99999")
+
+
+
+
+
+
+
+exit
+
+########################
+# Change cost ratios
+########################
+lamline=45
+set title 'Dc=22.8 [ms], {/Symbol l}='.lam(lamline,1,subr,100,".99999").' [pkt/ms], c1/ce=10^'.subr
+
+array ecrs[5]
+ecrs[1]='.2500000000'
+ecrs[2]='.3333333333'
+ecrs[3]='1'
+ecrs[4]='2'
+ecrs[5]='3'
+set out '/tmp/cpusC-tod-vs-delayratio-costs.pdf'
+set ylabel 'Cloud CPUs'
+plot for [i=1:5] ratios(lamline,ecrs[i],subr,100,".99999") u ($7/$8):2 w l lw 4 t 'ce/cc='.ecrs[i]
+
+
+set out '/tmp/cpusE-tod-vs-delayratio-costs.pdf'
+set ylabel 'Edge CPUs'
+plot for [i=1:5] ratios(lamline,ecrs[i],subr,100,".99999") u ($7/$8):1 w l lw 4 t 'ce/cc='.ecrs[i]
+
+
+
+
+########################
+# Change the use case
+########################
+array delays[4]
+array reliabs[4]
+# vehicle decision assist 5.2.8
+delays[1]=100
+reliabs[1]=".999"
+# obstructed view assist 5.2.7
+delays[2]=50
+reliabs[2]=".99"
+# patient transport monitoring 5.7.2
+delays[3]=150
+reliabs[3]=".99"
+# remote driving
+delays[4]=100
+reliabs[4]=".99999"
+
+
+lamline=50
+subr=0
+ecr=1
+
+
+set out '/tmp/cpusC-tod-vs-delayratio-usecases.pdf'
+set ylabel 'Cloud CPUs'
+plot for [i=1:4] ratios(lamline,ecr,subr,delays[i],reliabs[i]) u ($7/$8):2 w l lw 4 t 'D='.delays[i].', PG='.reliabs[i]
+
+
+
+set out '/tmp/cpusE-tod-vs-delayratio-usecases.pdf'
+set ylabel 'Edge CPUs'
+plot for [i=1:4] ratios(lamline,ecr,subr,delays[i],reliabs[i]) u ($7/$8):1 w l lw 4 t 'D='.delays[i].', PG='.reliabs[i]
+

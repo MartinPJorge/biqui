@@ -1,0 +1,51 @@
+set term pdf
+set out '/tmp/cpusC-tod-vs-cost-ratio.pdf'
+
+# set term tikz scale .5,.5
+# set out '/tmp/cpusC-vs-lambda.tex'
+
+set xlabel 'C_e/C_c' enhanced
+set ylabel 'CPUs\@Cloud'
+
+#set key autotitle columnheader
+
+set key bottom right maxrows 3
+set tics out nomirror
+set grid lw .25
+
+
+load 'palette.pal'
+
+
+# Get all results 
+ratios(ln)="<awk 'FNR==".ln."{print $0}' ../results/journal-extension/biqui-targetd_100-reliab_.99999-use_subs_ratio_10p0-edge_cloud_ratio_*-del_edge_11.4000000000-del_cloud_22.8-*.csv  | sort -t' ' -k11"
+
+
+set linestyle  1 lw 25
+set linestyle  2 lw 10
+set linestyle  3 lw 25
+set linestyle  4 lw 10
+set linestyle  5 lw 25
+set linestyle  6 lw 10
+set linestyle  7 lw 25
+set linestyle  8 lw 10
+set linestyle  9 lw 2.5 pt 6
+set linestyle 10 lw 2.5 pt 6 
+
+
+
+
+set key top left maxrows 3
+
+
+set ylabel "Cloud CPUs" font ',30' offset -2,0
+set tics font ',20'
+set xlabel font ',30' offset 0,-2
+set lmargin 12
+set key top right font ',20'
+#set ytics 0
+
+
+
+
+plot ratios(40) u 11:2 w l ls 6

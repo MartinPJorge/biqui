@@ -1,0 +1,12 @@
+set term pdf
+set out '/tmp/cpu-error-vs-I.pdf'
+
+set key autotitle columnhead
+set datafile separator ","
+
+#set logscale y
+set grid
+set xlabel 'I [Erlangs]'
+set ylabel 'CPUs_{approx} - CPUs_{M/G/k}'
+plot "/tmp/cpu-err-vs-I.csv" u 1:2 w p lc 'blue' lw 4 notitle
+

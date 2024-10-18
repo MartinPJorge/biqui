@@ -9,5 +9,5 @@ set grid
 set xlabel 'sojourn time [ms]'
 set ylabel 'CDF for sojourn approx 99.999% error'
 cumulative_sum(x)=(a=a+x,a)
-plot "<awk -F, 'NR>0{print $3}' /tmp/soj-err.csv" u 1:(1./3675) smooth cumulative lc 'blue' lw 4
+plot "<awk -F, 'NR>0{print $2}' /tmp/soj-err.csv" u 1:(1./3675) smooth cumulative lc 'blue' lw 4
 

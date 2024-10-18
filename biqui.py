@@ -144,6 +144,9 @@ if __name__ == '__main__':
     parser.add_argument("--cost_fn", type=str, required=False,
                         help="money|avg_delay",
                         default='money') 
+    parser.add_argument("-cf", "--cloud_first", action='store_true') 
+    parser.add_argument("--exploration", type=str, required=False,
+            help='path to JSON where the exploration is stored') 
     args = parser.parse_args()
 
 
@@ -389,12 +392,37 @@ if __name__ == '__main__':
     #        min_ce, min_cc, min_z, min_cost = ce, cc, z, cost
     #ce, cc, z = min_ce, min_cc, min_z
 
-    explored = dict(sorted(explored.items(),
-        key=lambda kv: (round(kv[1],4), kv[0][2]))) # sort (value, z)
+    # In case of cost tie, decide whether cloud is preferred
+    if args.cloud_first:
+        explored = dict(sorted(explored.items(),
+            key=lambda kv: (round(kv[1],4), 1-kv[0][2]))) # sort (value, 1-z)
+    else:
+        explored = dict(sorted(explored.items(),
+            key=lambda kv: (round(kv[1],4), kv[0][2]))) # sort (value, z)
     # print('sorted costs', explored.items())
     (ce,cc,z), cost = list(explored.items())[0]
 
     z = 0 if cc==0 else z
+
+    # Print the exploration
+    print('--exploration--')
+    for (ce_,cc_,z_), cost_ in explored.items():
+        print(f'(ce={ce_},cc={cc_},z={z_}): cost={cost_}')
+    print('--===========--')
+
+    # Store the exploration
+    if args.exploration:
+        json_version = {
+            i: {
+                'cost': kv[1],
+                'ce': kv[0][0],
+                'cc': kv[0][1],
+                'z': kv[0][2]
+            }
+            for i,kv in enumerate(explored.items())
+        }
+        with open(args.exploration, 'w') as f:
+            json.dump(json_version, f, indent=4)
 
 
     # Last check
