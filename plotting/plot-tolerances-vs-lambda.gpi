@@ -1,0 +1,105 @@
+set term pdf
+set out '/tmp/edge-cpus-vs-lambda-diff-tolerance.pdf'
+
+# set term tikz scale .5,.5
+# set out '/tmp/cpusC-vs-lambda.tex'
+
+set xlabel '{/Symbol l}' enhanced
+set ylabel 'CPUs \@Edge'
+
+#set key autotitle columnheader
+
+set key bottom right maxrows 3
+set tics out nomirror
+set grid lw .25
+
+
+load 'palette.pal'
+
+
+# Get all results 
+experim(tol)="../results/journal-extension/tolerance-change/biqui-targetd_100-reliab_.99999-use_subs_ratio_10p0-edge_cloud_ratio_1-del_edge_18.2-del_cloud_22.8-tolerance_".tol."-1730111788.csv"
+
+
+set title 'D_e=18.2 [ms], D_c=22.8 [ms], c1=c0, ce=cc'
+set linestyle  1 lw 25
+set linestyle  2 lw 10
+set linestyle  3 lw 25
+set linestyle  4 lw 10
+set linestyle  5 lw 25
+set linestyle  6 lw 10
+set linestyle  7 lw 25
+set linestyle  8 lw 10
+set linestyle  9 lw 2.5 pt 6
+set linestyle 10 lw 2.5 pt 6 
+
+
+
+
+set key top left maxrows 3
+
+
+set ylabel "Edge CPUs" font ',30' offset -2,0
+set tics font ',20'
+set xlabel font ',30' offset 0,-2
+set lmargin 12
+set key top right font ',20'
+set key bottom left font ',20' maxrows 6 samplen 1
+#set ytics 0
+set yrange [:21]
+
+
+
+
+#############
+# Edge CPUs #
+#############
+plot experim("0.00") u 5:1 w l lw 3 t '{/Symbol t}=0',\
+     experim("0.01") u 5:1 w l lw 3 t '{/Symbol t}=0.01',\
+     experim("0.02") u 5:1 w l lw 3 t '{/Symbol t}=0.02',\
+     experim("0.03") u 5:1 w l lw 3 t '{/Symbol t}=0.03',\
+     experim("0.04") u 5:1 w l lw 3 t '{/Symbol t}=0.04',\
+     experim("0.05") u 5:1 w l lw 3 t '{/Symbol t}=0.05',\
+
+
+##############
+# Cloud CPUs #
+##############
+set out '/tmp/cloud-cpus-vs-lambda-diff-tolerance.pdf'
+set ylabel "Cloud CPUs"
+set yrange [:41]
+plot experim("0.00") u 5:2 w l lw 3 t '{/Symbol t}=0',\
+     experim("0.01") u 5:2 w l lw 3 t '{/Symbol t}=0.01',\
+     experim("0.02") u 5:2 w l lw 3 t '{/Symbol t}=0.02',\
+     experim("0.03") u 5:2 w l lw 3 t '{/Symbol t}=0.03',\
+     experim("0.04") u 5:2 w l lw 3 t '{/Symbol t}=0.04',\
+     experim("0.05") u 5:2 w l lw 3 t '{/Symbol t}=0.05',\
+
+
+##############
+# cost  #
+##############
+set out '/tmp/cost-vs-lambda-diff-tolerance.pdf'
+set ylabel "cost"
+unset yrange
+plot experim("0.00") u 5:4 w l lw 3 t '{/Symbol t}=0',\
+     experim("0.01") u 5:4 w l lw 3 t '{/Symbol t}=0.01',\
+     experim("0.02") u 5:4 w l lw 3 t '{/Symbol t}=0.02',\
+     experim("0.03") u 5:4 w l lw 3 t '{/Symbol t}=0.03',\
+     experim("0.04") u 5:4 w l lw 3 t '{/Symbol t}=0.04',\
+     experim("0.05") u 5:4 w l lw 3 t '{/Symbol t}=0.05',\
+
+
+
+################
+# Offloading z #
+################
+set out '/tmp/offload-vs-lambda-diff-tolerance.pdf'
+set ylabel "z"
+unset yrange
+plot experim("0.00") u 5:3 w l lw 3 t '{/Symbol t}=0',\
+     experim("0.01") u 5:3 w l lw 3 t '{/Symbol t}=0.01',\
+     experim("0.02") u 5:3 w l lw 3 t '{/Symbol t}=0.02',\
+     experim("0.03") u 5:3 w l lw 3 t '{/Symbol t}=0.03',\
+     experim("0.04") u 5:3 w l lw 3 t '{/Symbol t}=0.04',\
+     experim("0.05") u 5:3 w l lw 3 t '{/Symbol t}=0.05',\

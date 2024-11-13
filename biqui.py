@@ -147,6 +147,14 @@ if __name__ == '__main__':
     parser.add_argument("-cf", "--cloud_first", action='store_true') 
     parser.add_argument("--exploration", type=str, required=False,
             help='path to JSON where the exploration is stored') 
+    parser.add_argument("--ce_prev", type=int, required=False,
+            help='edge CPUs in the last invokation') 
+    parser.add_argument("--cc_prev", type=int, required=False,
+            help='cloud CPUs in the last invokation') 
+    parser.add_argument("--tolerance", type=float, required=False,
+            help='tolerated cost loss to mitigate CPU changes.'\
+                + ' It is a percentage as 0.05 and the --ce_prev'\
+                + ' and --cc_prev flags must be present') 
     args = parser.parse_args()
 
 
@@ -232,13 +240,13 @@ if __name__ == '__main__':
 
     # Check feasibility
     if z == 1 and perc_c < args.percentile:
-        # print('No feasible solution')
+        print('No feasible solution')
         sys.exit(1)
     if z == 0 and perc_e < args.percentile:
-        # print('No feasible solution')
+        print('No feasible solution')
         sys.exit(1)
     if 0<z<1 and (perc_e < args.percentile or perc_c < args.percentile):
-        # print('No feasible solution')
+        print('No feasible solution')
         sys.exit(1)
 
 
@@ -392,15 +400,38 @@ if __name__ == '__main__':
     #        min_ce, min_cc, min_z, min_cost = ce, cc, z, cost
     #ce, cc, z = min_ce, min_cc, min_z
 
-    # In case of cost tie, decide whether cloud is preferred
-    if args.cloud_first:
-        explored = dict(sorted(explored.items(),
-            key=lambda kv: (round(kv[1],4), 1-kv[0][2]))) # sort (value, 1-z)
+    # Get solution minimizing CPU change
+    if args.tolerance:
+        # Get the minimum cost
+        min_cost = min([cost for (ce,cc,z), cost in explored.items()])
+
+        # Filter the explored items with |cost-cost*|/cost <= tol
+        tolerated = {
+            (ce,cc,z): cost
+            for (ce,cc,z), cost in explored.items()
+            if abs(cost-min_cost)/cost <= args.tolerance
+        }
+
+        # Sort based on CPU minimization
+        tolerated = dict(sorted(tolerated.items(),
+            key=lambda kv:\
+                (abs(kv[0][0]-args.ce_prev)\
+                    + abs(kv[0][1]-args.cc_prev),
+                1-kv[0][2] if args.cloud_first\
+                        else kv[0][2]))) # sort (min_change,cloud/edge)
+        (ce,cc,z), cost = list(tolerated.items())[0]
+
+    # We don't check solution based on prev solution
     else:
-        explored = dict(sorted(explored.items(),
-            key=lambda kv: (round(kv[1],4), kv[0][2]))) # sort (value, z)
-    # print('sorted costs', explored.items())
-    (ce,cc,z), cost = list(explored.items())[0]
+        # In case of cost tie, decide whether cloud is preferred
+        if args.cloud_first:
+            explored = dict(sorted(explored.items(),
+                key=lambda kv: (round(kv[1],4), 1-kv[0][2]))) # sort (value, 1-z)
+        else:
+            explored = dict(sorted(explored.items(),
+                key=lambda kv: (round(kv[1],4), kv[0][2]))) # sort (value, z)
+        # print('sorted costs', explored.items())
+        (ce,cc,z), cost = list(explored.items())[0]
 
     z = 0 if cc==0 else z
 
