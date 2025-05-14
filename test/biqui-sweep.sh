@@ -3,14 +3,15 @@
 #
 #          FILE: biqui-sweep.sh
 # 
-#         USAGE: ./biqui-sweep.sh 
+#         USAGE: ./biqui-sweep.sh target_d reliab mode\
+#                   [results cloud_mu_mult cloudMHz]
 # 
 #   DESCRIPTION: 
 # 
 #       OPTIONS: ---
 #  REQUIREMENTS: ---
 #          BUGS: ---
-#         NOTES: ---
+#         NOTES: results and mu_mult must be given together
 #        AUTHOR: YOUR NAME (), 
 #  ORGANIZATION: 
 #       CREATED: 25/07/23 16:11
@@ -22,6 +23,10 @@ set -o nounset                              # Treat unset variables as an error
 target_d=$1
 reliab=$2
 mode=$3
+# results=$4 # optional
+# cloud_mu_mult=$5 # optional
+# cloudMHz=$6 # optional
+
 
 #
 # AWS prices for EC2 w/ calculator 26/07/2023 @18:02
@@ -127,6 +132,39 @@ elif [[ "$mode" == "18-22-x1-x1.45" ]]; then
     c1c=$shared_cloud
     ecratio=1
     subsratio=1.45
+# Divide by 2 the edge costs in the 18-22-x1-x1.45 scenario
+elif [[ "$mode" == "18-22-x1-x1.45-div2" ]]; then
+    del_edge=18.1
+    del_cloud=22.8
+    c0c=`echo "scale=10; $dedica_cloud-$shared_cloud" | bc`    
+    c1c=$shared_cloud
+    ecratio=`echo "scale=10; 1 / 2" | bc`
+    subsratio=`echo "scale=10; 1.45 / 2" | bc`
+# Divide by 4 the edge costs in the 18-22-x1-x1.45 scenario
+elif [[ "$mode" == "18-22-x1-x1.45-div4" ]]; then
+    del_edge=18.1
+    del_cloud=22.8
+    c0c=`echo "scale=10; $dedica_cloud-$shared_cloud" | bc`    
+    c1c=$shared_cloud
+    ecratio=`echo "scale=10; 1 / 4" | bc`
+    subsratio=`echo "scale=10; 1.45 / 4" | bc`
+# Divide by 8 the edge costs in the 18-22-x1-x1.45 scenario
+elif [[ "$mode" == "18-22-x1-x1.45-div8" ]]; then
+    del_edge=18.1
+    del_cloud=22.8
+    c0c=`echo "scale=10; $dedica_cloud-$shared_cloud" | bc`    
+    c1c=$shared_cloud
+    ecratio=`echo "scale=10; 1 / 8" | bc`
+    subsratio=`echo "scale=10; 1.45 / 8" | bc`
+# Divide by 16 the edge costs in the 18-22-x1-x1.45 scenario
+elif [[ "$mode" == "18-22-x1-x1.45-div16" ]]; then
+    del_edge=18.1
+    del_cloud=22.8
+    c0c=`echo "scale=10; $dedica_cloud-$shared_cloud" | bc`    
+    c1c=$shared_cloud
+    ecratio=`echo "scale=10; 1 / 16" | bc`
+    subsratio=`echo "scale=10; 1.45 / 16" | bc`
+#
 elif [[ "$mode" == "15-30-x2-0" ]]; then
     del_edge=15
     del_cloud=30
@@ -188,7 +226,35 @@ LANG=C
 
 now=`date +%s`
 
-results="results/sigmetrics2024/biqui-targetd_$target_d-reliab_$reliab-mode_$mode-$now.csv"
+# Set results path
+if [ -z "$4" ]; then
+    results="results/sigmetrics2024/biqui-targetd_$target_d-reliab_$reliab-mode_$mode-$now.csv"
+else
+    results=$4
+fi
+
+
+# Specify the mu multiplier for the cloud
+cloud_mu_flag=""
+cloud_mu_mult="1"
+if [ -z "$5" ]; then
+    echo '' > /dev/null
+else
+    cloud_mu=`echo "scale=10; $mu * $5" | bc`
+    cloud_mu_mult=$5
+    cloud_mu_flag="--cloudmu $cloud_mu"
+fi
+
+
+# Specify the cloud speed in MHz
+cloudMHz=""
+if [ -z "$6" ]; then
+    echo '' > /dev/null
+else
+    cloudMHz=$6
+fi
+
+
 
 echo "ce cc z cost lambda mu edge_d cloud_d target_d percentile cost_ratio" > $results
 
@@ -198,7 +264,7 @@ echo "ce cc z cost lambda mu edge_d cloud_d target_d percentile cost_ratio" > $r
 cd ..
 mkdir /tmp/logs
 for lam in `seq $lam_min $lam_step $lam_max`; do
-    log_f="/tmp/logs/biqui-reliab-$reliab-targetdel-$target_d-lambda-`printf '%.2f' $lam`-mu-`printf '%.2f' $mu`-mode_$mode.log"
+    log_f="/tmp/logs/biqui-reliab-$reliab-targetdel-$target_d-lambda-`printf '%.2f' $lam`-mu-`printf '%.2f' $mu`-mode_$mode-cloud_mu_mult_$cloud_mu_mult-cloudMHz_$cloudMHz.log"
     echo Working on $log_f
     python3 biqui.py\
         --mu $mu --lambda_ $lam\
@@ -206,7 +272,9 @@ for lam in `seq $lam_min $lam_step $lam_max`; do
         --c0c $c0c --c1c $c1c --cost_ratio $ecratio\
         --edge_d $del_edge --cost_fn $cost_fn\
         --cloud_d $del_cloud\
-        --subs_ratio $subsratio &> $log_f
+        --subs_ratio $subsratio\
+        $cloud_mu_flag\
+        --cloudMHz $cloudMHz &> $log_f
     tail -n1 $log_f >> $results
 done
 

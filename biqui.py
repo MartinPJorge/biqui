@@ -9,8 +9,10 @@ import matplotlib as mpl
 from math import ceil
 import json
 
-def cost(x, y, z, lam, mu, c0e=10, c0c=5, c1e=4, c1c=2):
-    return c0e*x + c0c*y + c1e*lam/mu*(1-z) + c1c*lam/mu*z
+def cost(x, y, z, lam, mu, c0e=10, c0c=5, c1e=4, c1c=2, muc=None):
+    return c0e*x + c0c*y + c1e*lam/mu*(1-z) + c1c*lam/mu*z\
+        if muc==None\
+        else c0e*x + c0c*y + c1e*lam/mu*(1-z) + c1c*lam/muc*z
 
 
 def avg_delay(cdfs, rho, c):
@@ -24,7 +26,7 @@ def avg_delay_cost(z, avg_del_c, avg_del_e):
     return z*avg_del_c + (1-z)*avg_del_e
 
 
-def bin_search(c, lambda_, mu, percentile, tgt, delay, avg_d=False):
+def bin_search(c, lambda_, mu, percentile, tgt, delay, avg_d=False, MHz=None):
     percentiles = {}
     avg_del = -1 # in case latter no solution found
 
@@ -38,7 +40,10 @@ def bin_search(c, lambda_, mu, percentile, tgt, delay, avg_d=False):
         avd = avg_del if avg_d else -1
         return 0, 1, avd, lost_df if tgt<delay else 0
     if float(f'{rho:.2f}') <= 0.95:
-        f = f'results/MGkapprox/cdf-sweep/rho-{rho:.2f}_c-{c}.csv'
+        if MHz != None:
+            f = f'results/MGkapprox/cdf-sweep-{MHz}MHz/rho-{rho:.2f}_c-{c}.csv'
+        else:
+            f = f'results/MGkapprox/cdf-sweep/rho-{rho:.2f}_c-{c}.csv'
         tic_h = time.time()
         df = pd.read_csv(f, names=['x', 'cdf'], header=None)
         df = df.dropna()
@@ -65,7 +70,10 @@ def bin_search(c, lambda_, mu, percentile, tgt, delay, avg_d=False):
             # Round 0.001 to 0.01
             if rho_next < 0.01:
                 rho_next = ceil( rho_next * 100 ) / 100
-            f = f'results/MGkapprox/cdf-sweep/rho-{rho_next:.2f}_c-{c_next}.csv'
+            if MHz != None:
+                f = f'results/MGkapprox/cdf-sweep-{MHz}MHz/rho-{rho_next:.2f}_c-{c_next}.csv'
+            else:
+                f = f'results/MGkapprox/cdf-sweep/rho-{rho_next:.2f}_c-{c_next}.csv'
             tic_h = time.time()
             df_next = pd.read_csv(f, names=['x', 'cdf'], header=None)
             df_next = df_next.dropna()
@@ -155,6 +163,12 @@ if __name__ == '__main__':
             help='tolerated cost loss to mitigate CPU changes.'\
                 + ' It is a percentage as 0.05 and the --ce_prev'\
                 + ' and --cc_prev flags must be present') 
+    parser.add_argument("--cloudMHz", type=str, required=False,
+            default=None,
+            help='CPU freq in MHz at the cloud')
+    parser.add_argument("--cloudmu", type=float, required=False,
+            default=None,
+            help='service rate at the cloud, i.e. \mu')
     args = parser.parse_args()
 
 
@@ -167,11 +181,12 @@ if __name__ == '__main__':
 
     # First check the minimum offloading required
     # rho = lambda / (c·mu); max_rho=0.95
-    rho = args.lambda_ / (args.cloud_max*args.mu)
+    cloudmu = args.mu if args.cloudmu == None else args.cloudmu
+    rho = args.lambda_ / (args.cloud_max*cloudmu)
     if rho <= 0.95:
         z = 1
     else:
-        z = 0.95 * args.cloud_max * args.mu / args.lambda_
+        z = 0.95 * args.cloud_max * cloudmu / args.lambda_
     z = round(z, 2)
 
     # Binary search @Cloud
@@ -185,7 +200,7 @@ if __name__ == '__main__':
         # print(f'== ENTERING CLOUD BINARY SEARCH @z={z}')
         cc_min, perc_c, avg_del_c, lost_df = bin_search(c=args.cloud_max,
                                         lambda_=z*args.lambda_,
-                                        mu=args.mu,
+                                        mu=cloudmu,
                                         percentile=args.percentile,
                                         tgt=args.target_d,
                                         delay=args.cloud_d,
@@ -224,7 +239,8 @@ if __name__ == '__main__':
                         c0e=args.cost_ratio*args.c0c,
                         c0c=args.c0c,
                         c1e=args.subs_ratio*args.c1c,
-                        c1c=args.c1c)
+                        c1c=args.c1c,
+                        muc=args.cloudmu)
     else:
         avg_del_c = 0 if z==0 else avg_del_c
         avg_del_e = 0 if z==1 else avg_del_e
@@ -263,7 +279,7 @@ if __name__ == '__main__':
         # print(f'Iter climb @z={z}')
 
         rho_e = (1-z) * args.lambda_ / (ce*args.mu) if ce>0 else 10000
-        rho_c =    z  * args.lambda_ / (cc*args.mu) if cc>0 else 10000
+        rho_c =    z  * args.lambda_ / (cc*cloudmu) if cc>0 else 10000
     
         # Overloaded Edge, increase +1 CPU
         while rho_e > 0.95:
@@ -328,7 +344,7 @@ if __name__ == '__main__':
             # print(f'cc={cc}, z={z}')
 
             # Comute new rho with -1 CPU@Cloud
-            rho_c = z  * args.lambda_ / (cc*args.mu)
+            rho_c = z  * args.lambda_ / (cc*cloudmu)
 
             # If rho>0.95 accuracy low, skip
             if rho_c > 0.95:
@@ -342,7 +358,10 @@ if __name__ == '__main__':
                 continue
 
             # Read the cloud CDF CSV file for new load and -1 CPU
-            f = f'results/MGkapprox/cdf-sweep/rho-{rho_c:.2f}_c-{cc}.csv'
+            if args.cloudMHz != None:
+                f = f'results/MGkapprox/cdf-sweep/rho-{rho_c:.2f}_c-{cc}.csv'
+            else:
+                f = f'results/MGkapprox/cdf-sweep-{args.cloudMHz}MHz/rho-{rho_c:.2f}_c-{cc}.csv'
             # print('  Loading', f)
             tic_h = time.time()
             df_next = pd.read_csv(f, names=['x', 'cdf'], header=None)
@@ -374,7 +393,8 @@ if __name__ == '__main__':
                                     c0e=args.cost_ratio*args.c0c,
                                     c0c=args.c0c,
                                     c1e=args.subs_ratio*args.c1c,
-                                    c1c=args.c1c)
+                                    c1c=args.c1c,
+                                    muc=args.cloudmu)
         else:
             avg_del_c = 0 if z==0 else avg_del_c
             avg_del_e = 0 if z==1 else avg_del_e
@@ -459,7 +479,7 @@ if __name__ == '__main__':
     # Last check
     # In some cases the rounding thinks it works with, e.g
     # 12 CPUs @Edge and z=0, when it needs 13
-    if z == 0:
+    if z == 0 and ce != 0:
         rho_e = args.lambda_ * (1-z) / (ce*args.mu)
         f = f'results/MGkapprox/cdf-sweep/rho-{rho_e:.2f}_c-{ce}.csv'
         tic_h = time.time()
