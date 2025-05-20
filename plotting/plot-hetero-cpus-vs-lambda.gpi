@@ -1,0 +1,172 @@
+set term pdf
+load 'palette.pal'
+
+set linestyle  1 lw 25
+set linestyle  2 lw 10
+set linestyle  3 lw 25
+set linestyle  4 lw 10
+set linestyle  5 lw 10
+set linestyle  6 lw 10
+set linestyle  7 lw 5 pt 7 ps 1.5
+set linestyle  8 lw 5 pt 7 ps 1.5
+set linestyle  9 lw 10 pt 6 ps 1
+set linestyle 10 lw 1 pt 6 ps 2
+
+# Different reds
+set linestyle 60 lc '#e31a1c' lw 16
+set linestyle 61 lc '#e53032' lw 14
+set linestyle 62 lc '#e84749' lw 12
+set linestyle 63 lc '#eb5e60' lw 10
+set linestyle 64 lc '#ee7576' lw 8
+set linestyle 65 lc '#f18c8d' lw 6
+set linestyle 66 lc '#f3a3a4' lw 4
+set linestyle 67 lc '#f6baba' lw 4
+set linestyle 68 lc '#f9d1d1' lw 7
+set linestyle 69 lc '#fce8e8' lw 7
+set linestyle 70 lc '#ffffff' lw 7
+
+
+
+set datafile separator ' '
+
+
+# Files of results with different CPU speeds @MHz and multiplier
+cloud16x='../results/tnsm-major-review/T100_reliab0.99999_18-22-x1-x1.45_cloudMuMult16_cloudMHz4000.csv'
+cloud2x='../results/tnsm-major-review/T100_reliab0.99999_18-22-x1-x1.45_cloudMuMult2_cloudMHz500.csv'
+cloud4x='../results/tnsm-major-review/T100_reliab0.99999_18-22-x1-x1.45_cloudMuMult4_cloudMHz1000.csv'
+cloud8x='../results/tnsm-major-review/T100_reliab0.99999_18-22-x1-x1.45_cloudMuMult8_cloudMHz2000.csv'
+cloud16xdiv16='../results/tnsm-major-review/T100_reliab0.99999_18-22-x1-x1.45-div16_cloudMuMult16_cloudMHz4000.csv'
+cloud2xdiv2='../results/tnsm-major-review/T100_reliab0.99999_18-22-x1-x1.45-div2_cloudMuMult2_cloudMHz500.csv'
+cloud4xdiv4='../results/tnsm-major-review/T100_reliab0.99999_18-22-x1-x1.45-div4_cloudMuMult4_cloudMHz1000.csv'
+cloud8xdiv8='../results/tnsm-major-review/T100_reliab0.99999_18-22-x1-x1.45-div8_cloudMuMult8_cloudMHz2000.csv'
+
+
+
+##################
+# General setups #
+##################
+set key autotitle columnheader
+set key top left maxrows 4 font ',20'
+set tics out nomirror
+set grid 
+
+
+set tics font ',20'
+set xlabel '{/Symbol l} [pkt/ms]' enhanced font ',30' offset 0,-2
+set ylabel "Edge CPUs" font ',30' offset -2,0
+set lmargin 12
+
+
+#############
+# Edge CPUs #
+#############
+set out '/tmp/hetero-cloud-edge-vs-lambda.pdf'
+plot cloud2x  u 5:1 w l ls 60 t '2x',\
+     cloud4x  u 5:1 w l ls 62 t '4x',\
+     cloud8x  u 5:1 w l ls 64 t '8x',\
+     cloud16x u 5:1 w l ls 66 t '16x'
+
+
+###############################
+# Edge CPUs proportional cost #
+###############################
+set out '/tmp/hetero-cloud-prop-cost-edge-vs-lambda.pdf'
+plot cloud2xdiv2   u 5:1 w l ls 60 t '2x',\
+     cloud4xdiv4   u 5:1 w l ls 62 t '4x',\
+     cloud8xdiv8   u 5:1 w l ls 64 t '8x',\
+     cloud16xdiv16 u 5:1 w l ls 66 t '16x'
+
+
+##############
+# Cloud CPUs #
+##############
+set ylabel "Cloud CPUs"
+set out '/tmp/hetero-cloud-cloud-vs-lambda.pdf'
+plot cloud2x  u 5:2 w l ls 60 t '2x',\
+     cloud4x  u 5:2 w l ls 62 t '4x',\
+     cloud8x  u 5:2 w l ls 64 t '8x',\
+     cloud16x u 5:2 w l ls 66 t '16x'
+
+
+
+################################
+# Cloud CPUs proportional cost #
+################################
+set out '/tmp/hetero-cloud-prop-cost-cloud-vs-lambda.pdf'
+plot cloud2xdiv2   u 5:2 w l ls 60 t '2x',\
+     cloud4xdiv4   u 5:2 w l ls 62 t '4x',\
+     cloud8xdiv8   u 5:2 w l ls 64 t '8x',\
+     cloud16xdiv16 u 5:2 w l ls 66 t '16x'
+
+
+
+
+##############
+# Offloading #
+##############
+set ylabel "z"
+set yrange [.6:]
+set out '/tmp/hetero-cloud-offload-vs-lambda.pdf'
+plot cloud2x  u 5:3 w l ls 60 t '2x',\
+     cloud4x  u 5:3 w l ls 62 t '4x',\
+     cloud8x  u 5:3 w l ls 64 t '8x',\
+     cloud16x u 5:3 w l ls 66 t '16x'
+
+
+
+################################
+# Offloading proportional cost #
+################################
+set out '/tmp/hetero-cloud-prop-cost-offload-vs-lambda.pdf'
+set yrange [.8:]
+set key bottom center
+plot cloud2xdiv2   u 5:3 w l ls 60 t '2x',\
+     cloud4xdiv4   u 5:3 w l ls 62 t '4x',\
+     cloud8xdiv8   u 5:3 w l ls 64 t '8x',\
+     cloud16xdiv16 u 5:3 w l ls 66 t '16x'
+
+
+
+########
+# Cost #
+########
+set ylabel "Norm. cost"
+set out '/tmp/hetero-cloud-cost-vs-lambda.pdf'
+plot cloud2x  u 5:($4*2)  w l ls 60 t '2x',\
+     cloud4x  u 5:($4*4)  w l ls 62 t '4x',\
+     cloud8x  u 5:($4*8)  w l ls 64 t '8x',\
+     cloud16x u 5:($4*16) w l ls 66 t '16x'
+
+
+
+############################
+# Cost - proportional cost #
+############################
+set out '/tmp/hetero-cloud-prop-cost-cost-vs-lambda.pdf'
+set key bottom right
+set multiplot
+plot cloud2xdiv2   u 5:($4*2)  w l ls 60 t '2x',\
+     cloud4xdiv4   u 5:($4*4)  w l ls 62 t '4x',\
+     cloud8xdiv8   u 5:($4*8)  w l ls 64 t '8x',\
+     cloud16xdiv16 u 5:($4*16) w l ls 66 t '16x'
+
+set origin .1,.5
+set size .5,.4
+set xrange [3.8:]
+set yrange [11:]
+set xtics (3.8, 4, 4.2)
+set ytics (11, 12, 13)
+unset key
+unset xlabel
+unset ylabel
+plot cloud2xdiv2   u 5:($4*2)  w l ls 60 t '2x',\
+     cloud4xdiv4   u 5:($4*4)  w l ls 62 t '4x',\
+     cloud8xdiv8   u 5:($4*8)  w l ls 64 t '8x',\
+     cloud16xdiv16 u 5:($4*16) w l ls 66 t '16'
+
+unset multiplot
+
+
+
+
+
