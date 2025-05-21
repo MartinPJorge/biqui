@@ -17,6 +17,7 @@ set linestyle 10 lw 1 pt 6 ps 2
 set out '/tmp/trace-lambda.pdf'
 
 trace_results='BiQui-aggregated_traffic-torino_v08.csv'
+trace_results='../results/biqui_infocom2024/BiQui-aggregated_traffic-torino_v08.csv'
 set datafile separator ','
 
 set ylabel 'Torino Jan 1^{st} 2022 - {/Symbol l} [pkt/ms]' font ',30' offset -3,0
@@ -139,8 +140,91 @@ set out '/tmp/trace-cpus.pdf'
 
 set key top left nobox noopaque
 
+unset arrow
+unset label
+set ylabel 'CPUs'
+unset arrow
+
 plot trace_results u 0:3 w l ls 6 t 'Cloud',\
      trace_results u 0:2 w l ls 5 t 'Edge',\
+
+
+
+###################
+# PLOT CLOUD CPUs #
+###################
+
+set out '/tmp/trace-cloud-cpus.pdf'
+set ylabel 'Cloud CPUs'
+
+set multiplot
+set arrow from first 175,37 to first 175,19 front lw 2 fill
+set label 'load' at 190,30 font ",18"
+set label 'adaption' at 179,27 font ",18"
+set object 1 rectangle from first 110,8 to 210,22 fc rgb 'white' fillstyle solid 0.0 noborder
+plot trace_results u 0:3 w l ls 6 notitle
+
+
+unset label
+unset arrow
+set origin .3,.15
+set size .5,.5
+unset xlabel
+unset ylabel
+
+set xrange [163:180]
+set yrange [33:]
+set xtics ("14:00" 163, "15:00" 175) font ",10" offset 0,.5
+set ytics 2 font ",10" offset .5,0
+plot trace_results u 0:3 w lp ls 6 pt 7 lw 4 ps .5 notitle
+
+
+unset multiplot
+
+
+
+
+##################
+# PLOT EDGE CPUs #
+##################
+
+set out '/tmp/trace-edge-cpus.pdf'
+set ylabel 'Edge CPUs'
+
+unset origin
+unset size
+set ylabel 'Edge CPUs' font ',30' offset -3,0
+set xlabel 'time [hour]' font ',30' offset 0,-1
+set xtics ("03:00" 35, "09:00" 105, "15:00" 175, "21:00" 245)
+
+set multiplot
+set arrow from first 196,8 to first 160,8 nohead front lw 2 fill
+set arrow from first 160,8 to first 160,14 front lw 2 fill
+set label 'load' at 145,7 font ",18"
+set label 'adaption' at 135,5.5 font ",18"
+set object 1 rectangle from first 110,12 to 192,18.75 fc rgb 'white' fillstyle solid 0.0 noborder
+set yrange [0:20]
+set xrange [0:284]
+set tics out nomirror font ',20'
+set xtics offset 0,0
+plot trace_results u 0:2 w l ls 6 notitle
+
+
+unset label
+unset arrow
+set origin .3,.45
+set size .45,.5
+unset xlabel
+unset ylabel
+
+set xrange [190:207]
+set yrange [:20]
+set xtics ("16:30" 193, "17:30" 205) font ",10" offset 0,.5
+set ytics 5 font ",10" offset .5,0
+plot trace_results u 0:2 w lp ls 6 pt 7 lw 4 ps .5 notitle
+
+
+unset multiplot
 
 
 

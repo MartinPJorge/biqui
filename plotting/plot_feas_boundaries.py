@@ -36,14 +36,24 @@ lambdas = dict(sorted(lambdas.items()))
 # Mark the best solution
 bests = {}
 
-for lambda_ in list(lambdas.keys())[10:20]:
+for lambda_ in list(lambdas.keys())[10:]:
+    print('lambda', lambda_, 'sols', lambdas[lambda_])
     # min cost setups for such lambda
     min_cost = min([c for (ce,cc,z),c in lambdas[lambda_].items()])
+    max_cost = max([c for (ce,cc,z),c in lambdas[lambda_].items()])
+
+    # Obtain the configuration with min cost
+    min_confs = [(ce,cc,z) for (ce,cc,z),c in lambdas[lambda_].items()\
+            if c==min_cost]
+
+
 
     #print(f'costs lam={lambda_}: ', list(lambdas[lambda_].values()))
     #print('lambda[lam]=', lambdas[lambda_])
 
     print(f'lam={lambda_} min cost: {min_cost}')
+    print(f'   min confs: {min_confs}')
+    print(f'   ratio={abs(min_cost-max_cost)/max_cost}')
     bests[lambda_] = {cc:ce
         for (ce,cc,z),cost in lambdas[lambda_].items()
         if cost==min_cost}

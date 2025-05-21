@@ -17,8 +17,26 @@ set grid lw .25
 load 'palette.pal'
 
 
+# Different reds
+set linestyle 60 lc '#e31a1c' lw 16
+set linestyle 61 lc '#e53032' lw 14
+set linestyle 62 lc '#e84749' lw 12
+set linestyle 63 lc '#eb5e60' lw 10
+set linestyle 64 lc '#ee7576' lw 8
+set linestyle 65 lc '#f18c8d' lw 6
+set linestyle 66 lc '#f3a3a4' lw 4
+set linestyle 67 lc '#f6baba' lw 4
+set linestyle 68 lc '#f9d1d1' lw 7
+set linestyle 69 lc '#fce8e8' lw 7
+set linestyle 70 lc '#ffffff' lw 7
+
+
+
 # Get all results 
 experim(tol)="../results/journal-extension/tolerance-change-torino/cloud_first-biqui-targetd_100-reliab_.99999-use_subs_ratio_10p0-edge_cloud_ratio_1-del_edge_18.2-del_cloud_22.8-tolerance_".tol."-1730224659.csv"
+
+# Compute the relative error for cost wrt. tol=0
+relerrcost(tol)="<paste -d ' ' ".experim(tol)." ".experim("0.00")." | awk 'BEGIN{ct=0;c=0} NR>1{ct=$4; c=$15; print $5,(ct-c)/c}' "
 
 # Compute the cummulative cost
 cumcost(tol)="<awk 'BEGIN{c=0} NR>1{c=c+$4; print c}' ".experim(tol)
@@ -39,7 +57,7 @@ cumcpuvar(tol)="<paste -d ' ' ".experim(tol)." ".experim("0.00")." | awk 'functi
 
 
 
-set title 'D_e=18.2 [ms], D_c=22.8 [ms], c1=c0, ce=cc'
+#set title 'D_e=18.2 [ms], D_c=22.8 [ms], c1=c0, ce=cc'
 set linestyle  1 lw 25
 set linestyle  2 lw 10
 set linestyle  3 lw 25
@@ -59,6 +77,7 @@ set key top left maxrows 3
 
 set ylabel "Edge CPUs" font ',30' offset -2,0
 set tics font ',20'
+set xtics ("03:00" 35, "09:00" 105, "15:00" 175, "21:00" 245)
 set xlabel font ',30' offset 0,-2
 set lmargin 12
 set key top right font ',20'
@@ -72,12 +91,17 @@ set yrange [:21]
 #############
 # Edge CPUs #
 #############
-plot experim("0.00") u 0:1 w l lw 3 t '{/Symbol t}=0',\
-     experim("0.01") u 0:1 w l lw 3 t '{/Symbol t}=0.01',\
-     experim("0.02") u 0:1 w l lw 3 t '{/Symbol t}=0.02',\
-     experim("0.03") u 0:1 w l lw 3 t '{/Symbol t}=0.03',\
-     experim("0.04") u 0:1 w l lw 3 t '{/Symbol t}=0.04',\
-     experim("0.05") u 0:1 w l lw 3 t '{/Symbol t}=0.05',\
+#plot experim("0.05") u 0:1 w l ls 60 t '{/Symbol t}=0.05',\
+#     experim("0.04") u 0:1 w l ls 61 t '{/Symbol t}=0.04',\
+#     experim("0.03") u 0:1 w l ls 62 t '{/Symbol t}=0.03',\
+#     experim("0.02") u 0:1 w l ls 63 t '{/Symbol t}=0.02',\
+#     experim("0.01") u 0:1 w l ls 64 t '{/Symbol t}=0.01',\
+#     experim("0.00") u 0:1 w l ls 65 t '{/Symbol t}=0',\
+print(experim("0.00"))
+print('trial'.experim("0.00"))
+set key top center
+plot experim("0.05") u 0:1 w l ls 60 t '{/Symbol t}=0.05',\
+     experim("0.00") u 0:1 w l ls 65 t '{/Symbol t}=0',\
 
 
 ##############
@@ -86,12 +110,16 @@ plot experim("0.00") u 0:1 w l lw 3 t '{/Symbol t}=0',\
 set out '/tmp/torino-cloud-cpus-vs-lambda-diff-tolerance.pdf'
 set ylabel "Cloud CPUs"
 set yrange [:41]
-plot experim("0.00") u 0:2 w l lw 3 t '{/Symbol t}=0',\
-     experim("0.01") u 0:2 w l lw 3 t '{/Symbol t}=0.01',\
-     experim("0.02") u 0:2 w l lw 3 t '{/Symbol t}=0.02',\
-     experim("0.03") u 0:2 w l lw 3 t '{/Symbol t}=0.03',\
-     experim("0.04") u 0:2 w l lw 3 t '{/Symbol t}=0.04',\
-     experim("0.05") u 0:2 w l lw 3 t '{/Symbol t}=0.05',\
+#plot experim("0.05") u 0:2 w l ls 60 t '{/Symbol t}=0.05',\
+#     experim("0.04") u 0:2 w l ls 61 t '{/Symbol t}=0.04',\
+#     experim("0.03") u 0:2 w l ls 62 t '{/Symbol t}=0.03',\
+#     experim("0.02") u 0:2 w l ls 63 t '{/Symbol t}=0.02',\
+#     experim("0.01") u 0:2 w l ls 64 t '{/Symbol t}=0.01',\
+#     experim("0.00") u 0:2 w l ls 65 t '{/Symbol t}=0',\
+
+set key center bottom
+plot experim("0.05") u 0:2 w l ls 60 t '{/Symbol t}=0.05',\
+     experim("0.00") u 0:2 w l ls 65 t '{/Symbol t}=0',\
 
 
 ##############
@@ -100,12 +128,15 @@ plot experim("0.00") u 0:2 w l lw 3 t '{/Symbol t}=0',\
 set out '/tmp/torino-cost-vs-lambda-diff-tolerance.pdf'
 set ylabel "cost"
 unset yrange
-plot experim("0.00") u 0:4 w l lw 3 t '{/Symbol t}=0',\
-     experim("0.01") u 0:4 w l lw 3 t '{/Symbol t}=0.01',\
-     experim("0.02") u 0:4 w l lw 3 t '{/Symbol t}=0.02',\
-     experim("0.03") u 0:4 w l lw 3 t '{/Symbol t}=0.03',\
-     experim("0.04") u 0:4 w l lw 3 t '{/Symbol t}=0.04',\
-     experim("0.05") u 0:4 w l lw 3 t '{/Symbol t}=0.05',\
+#plot experim("0.05") u 0:4 w l ls 60 t '{/Symbol t}=0.05',\
+#     experim("0.04") u 0:4 w l ls 61 t '{/Symbol t}=0.04',\
+#     experim("0.03") u 0:4 w l ls 62 t '{/Symbol t}=0.03',\
+#     experim("0.02") u 0:4 w l ls 63 t '{/Symbol t}=0.02',\
+#     experim("0.01") u 0:4 w l ls 64 t '{/Symbol t}=0.01',\
+#     experim("0.00") u 0:4 w l ls 65 t '{/Symbol t}=0',\
+
+plot experim("0.05") u 0:4 w l ls 60 t '{/Symbol t}=0.05',\
+     experim("0.00") u 0:4 w l ls 65 t '{/Symbol t}=0',\
 
 
 
@@ -115,13 +146,35 @@ plot experim("0.00") u 0:4 w l lw 3 t '{/Symbol t}=0',\
 set out '/tmp/torino-offload-vs-lambda-diff-tolerance.pdf'
 set ylabel "z"
 unset yrange
-plot experim("0.00") u 0:3 w l lw 3 t '{/Symbol t}=0',\
-     experim("0.01") u 0:3 w l lw 3 t '{/Symbol t}=0.01',\
-     experim("0.02") u 0:3 w l lw 3 t '{/Symbol t}=0.02',\
-     experim("0.03") u 0:3 w l lw 3 t '{/Symbol t}=0.03',\
-     experim("0.04") u 0:3 w l lw 3 t '{/Symbol t}=0.04',\
-     experim("0.05") u 0:3 w l lw 3 t '{/Symbol t}=0.05',\
+# plot experim("0.05") u 0:3 w l ls 60 t '{/Symbol t}=0.05',\
+#      experim("0.04") u 0:3 w l ls 61 t '{/Symbol t}=0.04',\
+#      experim("0.03") u 0:3 w l ls 62 t '{/Symbol t}=0.03',\
+#      experim("0.02") u 0:3 w l ls 63 t '{/Symbol t}=0.02',\
+#      experim("0.01") u 0:3 w l ls 64 t '{/Symbol t}=0.01',\
+#      experim("0.00") u 0:3 w l ls 65 t '{/Symbol t}=0',\
 
+plot experim("0.05") u 0:3 w l ls 60 t '{/Symbol t}=0.05',\
+     experim("0.00") u 0:3 w l ls 65 t '{/Symbol t}=0',\
+
+
+##################
+# Relative error #
+##################
+set out '/tmp/torino-relative-cost-vs-lambda-diff-tolerance.pdf'
+set ylabel "Relative Cost Err"
+unset yrange
+set key top center
+#set logscale y
+set lmargin 15
+
+#set xrange [200:]
+plot relerrcost("0.05") u 0:2 w l ls 60 lw 4 t '{/Symbol t}=0.05',\
+#     relerrcost("0.01") u 0:2 w l ls 65 t '{/Symbol t}=0.01',\
+#     relerrcost("0.04") u 0:2 w l ls 61 t '{/Symbol t}=0.04',\
+#     relerrcost("0.03") u 0:2 w l ls 62 t '{/Symbol t}=0.03',\
+#     relerrcost("0.02") u 0:2 w l ls 63 t '{/Symbol t}=0.02',\
+#     relerrcost("0.01") u 0:2 w l ls 65 t '{/Symbol t}=0.01',\
+#    relerrcost("0.00") u 0:2 w l ls 60 t '{/Symbol t}=0.00',\
 
 
 
@@ -141,7 +194,6 @@ plot cumcost("0.00") u 0:1 w l lw 3 t '{/Symbol t}=0.00',\
      cumcost("0.03") u 0:1 w l lw 3 t '{/Symbol t}=0.03',\
      cumcost("0.04") u 0:1 w l lw 3 t '{/Symbol t}=0.04',\
      cumcost("0.05") u 0:1 w l lw 3 t '{/Symbol t}=0.05'
-
 
 
 
@@ -176,13 +228,13 @@ set key bottom right
 #set logscale y
 
 #set xrange [200:]
-set ylabel 'Relative cumm. cost'
-set key top left
-plot relerrcumcost("0.01") u 0:1 w l lw 3 t '{/Symbol t}=0.01',\
-     relerrcumcost("0.02") u 0:1 w l lw 3 t '{/Symbol t}=0.02',\
-     relerrcumcost("0.03") u 0:1 w l lw 3 t '{/Symbol t}=0.03',\
-     relerrcumcost("0.04") u 0:1 w l lw 3 t '{/Symbol t}=0.04',\
-     relerrcumcost("0.05") u 0:1 w l lw 3 t '{/Symbol t}=0.05'
+set ylabel 'Cost Cumul. Diff.'
+set key at screen 0.97,0.4 maxrows 3
+plot relerrcumcost("0.05") u 0:1 w l ls 60 t '{/Symbol t}=0.05',\
+     relerrcumcost("0.04") u 0:1 w l ls 61 t '{/Symbol t}=0.04',\
+     relerrcumcost("0.03") u 0:1 w l ls 62 t '{/Symbol t}=0.03',\
+     relerrcumcost("0.02") u 0:1 w l ls 63 t '{/Symbol t}=0.02',\
+     relerrcumcost("0.01") u 0:1 w l ls 64 t '{/Symbol t}=0.01',\
 
 
 
@@ -195,11 +247,12 @@ plot relerrcumcost("0.01") u 0:1 w l lw 3 t '{/Symbol t}=0.01',\
 set out '/tmp/torino-diff-cum-cost-vs-lambda-diff-tolerance.pdf'
 set ylabel "cummulative cost"
 unset yrange
-set key bottom right
+set key top right
 #set logscale y
 
-set ylabel 'Cumm. cost difference'
+set ylabel 'Cumul cost difference'
 set key top left
+set key top right
 plot diffcumcost("0.01") u 0:1 w l lw 3 t '{/Symbol t}=0.01',\
      diffcumcost("0.02") u 0:1 w l lw 3 t '{/Symbol t}=0.02',\
      diffcumcost("0.03") u 0:1 w l lw 3 t '{/Symbol t}=0.03',\
@@ -220,11 +273,12 @@ set key bottom right
 #set logscale y
 
 set key top left
-plot cumcpuvar("0.01") u 0:($2-$1) w l lw 3 t '{/Symbol t}=0.01',\
-     cumcpuvar("0.02") u 0:($2-$1) w l lw 3 t '{/Symbol t}=0.02',\
-     cumcpuvar("0.03") u 0:($2-$1) w l lw 3 t '{/Symbol t}=0.03',\
-     cumcpuvar("0.04") u 0:($2-$1) w l lw 3 t '{/Symbol t}=0.04',\
-     cumcpuvar("0.05") u 0:($2-$1) w l lw 3 t '{/Symbol t}=0.05'
+set key top right
+plot cumcpuvar("0.05") u 0:($2-$1) w l ls 60 t '{/Symbol t}=0.05',\
+     cumcpuvar("0.04") u 0:($2-$1) w l ls 61 t '{/Symbol t}=0.04',\
+     cumcpuvar("0.03") u 0:($2-$1) w l ls 62 t '{/Symbol t}=0.03',\
+     cumcpuvar("0.02") u 0:($2-$1) w l ls 63 t '{/Symbol t}=0.02',\
+     cumcpuvar("0.01") u 0:($2-$1) w l ls 65 t '{/Symbol t}=0.01',\
 
 
 
@@ -234,20 +288,19 @@ plot cumcpuvar("0.01") u 0:($2-$1) w l lw 3 t '{/Symbol t}=0.01',\
 # Cummulative relative CPU variation #
 ######################################
 set out '/tmp/torino-cpu-rel-cum-diff-vs-lambda-diff-tolerance.pdf'
-set ylabel "CPU rel cum. diff"
+set ylabel "CPU Cumul Diff."
 unset yrange
-set key top right
 
 set logscale y
 
 set yrange [0.07:]
 
-plot cumcpuvar("0.01") u 0:($1/$2) w l lw 3 t '{/Symbol t}=0.01',\
-     cumcpuvar("0.02") u 0:($1/$2) w l lw 3 t '{/Symbol t}=0.02',\
-     cumcpuvar("0.03") u 0:($1/$2) w l lw 3 t '{/Symbol t}=0.03',\
-     cumcpuvar("0.04") u 0:($1/$2) w l lw 3 t '{/Symbol t}=0.04',\
-     cumcpuvar("0.05") u 0:($1/$2) w l lw 3 t '{/Symbol t}=0.05'
-
-
+unset key
+set key at screen .9,.8
+plot cumcpuvar("0.05") u 0:($1/$2) w l ls 60 lw 10 t '{/Symbol t}=0.05',\
+     cumcpuvar("0.04") u 0:($1/$2) w l ls 61 lw 8 t '{/Symbol t}=0.04',\
+     cumcpuvar("0.03") u 0:($1/$2) w l ls 62 lw 6 t '{/Symbol t}=0.03',\
+     cumcpuvar("0.02") u 0:($1/$2) w l ls 63 lw 4 t '{/Symbol t}=0.02',\
+     cumcpuvar("0.01") u 0:($1/$2) w l ls 65 lw 2 t '{/Symbol t}=0.01',\
 
 
