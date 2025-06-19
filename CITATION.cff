@@ -12,10 +12,9 @@ authors:
 title: BiQui
 type: repository
 date-released: 2024-10-01
-license: CC4.0
 repository-code: "https://github.com/MartinPJorge/biqui"
 preferred-citation:
-  type: article
+  type: conference-paper
   authors:
   - family-names: Chatzieleftheriou
     given-names: Livia Elena
@@ -27,6 +26,5 @@ preferred-citation:
     given-names: Pablo
   title: Sustainable Provision of URLLC Services for V2N: Analysis and Optimal Configuration
   conference: Proceedings of the Twenty-fifth International Symposium on Theory, Algorithmic Foundations, and Protocol Design for Mobile Networks and Mobile Computing
-  start: 1
   month: 10
   year: 2024
