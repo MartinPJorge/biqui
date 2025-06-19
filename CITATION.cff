@@ -1,32 +1,31 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 authors:
-- family-names: "Lisa"
-  given-names: "Mona"
-  orcid: "https://orcid.org/0000-0000-0000-0000"
-- family-names: "Bot"
-  given-names: "Hew"
-  orcid: "https://orcid.org/0000-0000-0000-0000"
-title: "My Research Software"
-version: 2.0.4
-doi: 10.5281/zenodo.1234
-date-released: 2017-12-18
-url: "https://github.com/github-linguist/linguist"
+- family-names: Chatzieleftheriou
+  given-names: Livia Elena
+- family-names: Pérez-Valero
+  given-names: Jesús
+- family-names: Martín-Pérez
+  given-names: Jorge
+- family-names: Serrano
+  given-names: Pablo
+title: "BiQui"
+url: "https://github.com/MartinPJorge/biqui"
 preferred-citation:
-  type: article
+  type: conference
   authors:
-  - family-names: "Lisa"
-    given-names: "Mona"
-    orcid: "https://orcid.org/0000-0000-0000-0000"
-  - family-names: "Bot"
-    given-names: "Hew"
-    orcid: "https://orcid.org/0000-0000-0000-0000"
-  doi: "10.0000/00000"
-  journal: "Journal Title"
-  month: 9
-  start: 1 # First page number
-  end: 10 # Last page number
-  title: "My awesome research software"
-  issue: 1
-  volume: 1
-  year: 2021
+  - family-names: Chatzieleftheriou
+    given-names: Livia Elena
+  - family-names: Pérez-Valero
+    given-names: Jesús
+  - family-names: Martín-Pérez
+    given-names: Jorge
+  - family-names: Serrano
+    given-names: Pablo
+  doi: "10.1145/3641512.3686363"
+  conference-paper: "Proceedings of the Twenty-fifth International Symposium on Theory, Algorithmic Foundations, and Protocol Design for Mobile Networks and Mobile Computing"
+  month: 10
+  start: 161 # First page number
+  end: 170 # Last page number
+  title: "Sustainable Provision of URLLC Services for V2N: Analysis and Optimal Configuration"
+  year: 2024
