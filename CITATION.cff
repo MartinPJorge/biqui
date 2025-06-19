@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: If you use this software, please cite the following paper.
+authors:
+  - family-names: Chatzieleftheriou
+    given-names: Livia Elena
+  - family-names: Pérez-Valero
+    given-names: Jesús
+  - family-names: Martín-Pérez
+    given-names: Jorge
+  - family-names: Serrano
+    given-names: Pablo
+title: BiQui
+type: repository
+date-released: 2024-10-01
+license: CC4.0
+repository-code: "https://github.com/MartinPJorge/biqui"
+preferred-citation:
+  type: article
+  authors:
+  - family-names: Chatzieleftheriou
+    given-names: Livia Elena
+  - family-names: Pérez-Valero
+    given-names: Jesús
+  - family-names: Martín-Pérez
+    given-names: Jorge
+  - family-names: Serrano
+    given-names: Pablo
+  title: Sustainable Provision of URLLC Services for V2N: Analysis and Optimal Configuration
+  conference: Proceedings of the Twenty-fifth International Symposium on Theory, Algorithmic Foundations, and Protocol Design for Mobile Networks and Mobile Computing
+  start: 1
+  month: 10
+  year: 2024
